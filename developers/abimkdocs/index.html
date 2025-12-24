@@ -1,0 +1,4668 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="Abinit documentation">
+      
+      
+        <link rel="canonical" href="https://docs.abinit.org/developers/abimkdocs/">
+      
+      
+        <meta name="author" content="The Abinit group">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../images/favicon.ico">
+      <meta name="generator" content="mkdocs-0.17.5, mkdocs-material-2.6.6">
+    
+    
+      
+        <title>Abimkdocs - abinit</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application.78aab2dc.css">
+      
+        <link rel="stylesheet" href="../../assets/stylesheets/application-palette.6079476c.css">
+      
+    
+    
+    
+      <script src="../../assets/javascripts/modernizr.1aa3b519.js"></script>
+    
+
+    <!-- Jquery from Google CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Load Jquery UI -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <!-- Handle jQuery plugin naming conflict between jQuery UI and Bootstrap 
+    https://stackoverflow.com/questions/13731400/jqueryui-tooltips-are-competing-with-twitter-bootstrap
+    -->
+    <script>
+      $.widget.bridge('uibutton', $.ui.button);
+      $.widget.bridge('uitooltip', $.ui.tooltip);
+    </script>
+
+    <!--
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/pepper-grinder/jquery-ui.css">
+    -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <!-- Bootstrap theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.0/build/css/themes/bootstrap.min.css"/>
+
+    <!-- Bootstrap http://getbootstrap.com/getting-started/ -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" 
+    integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
+    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous">
+    </script>
+
+    <!-- font-awesome -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    
+
+    <!--Pace support. http://github.hubspot.com/pace/ -->
+    <script>
+        paceOptions = {
+            ajax: true,      // disabled
+            document: true,  // activated
+            eventLag: false  // disabled
+            //target: 'article'
+            //elements: {selectors: ['.my-page']}
+        };
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/white/pace-theme-big-counter.min.css" />
+    <!--
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/white/pace-theme-bounce.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-corner-indicator.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-flat-top.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-loading-bar.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-center-atom.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-flash.min.css" />
+    -->
+
+    <!-- MathJax support
+    <script type="text/javascript" async 
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script> 
+    -->
+    <!--
+    This is compatible with plotly.
+    -->
+    <script type="text/javascript" async 
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_SVG">
+    </script> 
+
+    <!--
+    Configure MathJax to produce automatic equation numbers http://docs.mathjax.org/en/latest/tex.html
+    -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        //jax: ["input/TeX","output/HTML-CSS"],
+        //tex2jax: {inlineMath: [['$','$']]},
+        //displayAlign: "center",
+        TeX: {
+            equationNumbers: { autoNumber: "AMS" },
+            extensions: ["AMSmath.js", "boldsymbol.js"],
+            Macros: {
+                "*": "{\\dagger}",
+                "ra": "{\\rangle}",
+                "la": "{\\langle}",
+                // Workaround for bm package. See https://github.com/mathjax/MathJax/issues/1219
+                bm: ["{\\boldsymbol #1}",1],
+                // Mathcal symbols
+                mcL: "{\\mathcal{L}}",
+                mcG: "{\\mathcal{G}}",
+                mcR: "{\\mathcal{R}}",
+                mcS: "{\\mathcal{S}}",
+                mcC: "{\\mathcal{C}}",
+                mcO: "{\\mathcal{O}}",
+                // Acronyms
+                KS: "{\\text{KS}}",
+                eph: "{\\text{e-ph}}",
+                ee: "{\\text{e-e}}",
+                phph: "{\\text{ph-ph}}",
+                FM: "{\\text{FM}}",
+                DW: "{\\text{DW}}",
+                QP: "{\\text{QP}}",
+                BZ: "{\\text{BZ}}",
+                sign: "{\\text{sign}}",
+                xc: "{\\text{xc}}",
+                tchi: "{\\tilde\\chi}",
+                // Symbols commonly used (k-points, eigenvalues ...)
+                rr: "{\\bf r}",
+                RR: "{\\bf R}",
+                tt: "{\\bf t}",
+                GG: "{\\bf G}",
+                kk: "{\\bf k}",
+                qq: "{\\bf q}",
+                kq: "{\\kk + \\qq}",
+                qG: "{\\bf q + G}",
+                kG: "{\\bf k + G}",
+                kmq: "{\\kk - \\qq}",
+                kpq: "{\\kk + \\qq}",
+                kpG: "{\\kk + \\GG}",
+                qpG: "{\\qq + \\GG}",
+                nk: "{n \\kk}",
+                enk: "{\\varepsilon_\\nk}",
+                emkq: "{\\varepsilon_{m\\kk+\\qq}}",
+                qnu: "{\\qq \\nu}",
+                wqnu: "{\\omega_{\\qnu}}",
+                vnk: "{\\mathbf{v}_{n\\kk}}",
+                vmkq: "{\\mathbf{v}_{m\\kk+\\qq}}",
+                vnka: "{\\mathrm{v}_{n\\kk,\\alpha}}",
+                vnkb: "{\\mathrm{v}_{n\\kk,\\beta}}",
+                ef: "{\\varepsilon_F}",
+                // EPH quantities
+                gkkp: "{g_{mn\\nu}(\\kk,\\qq)}",
+                gkq: "{g_{mn\\nu}(\\kk,\\qq)}",
+                //\newcommand{\gkkpL}{g_{mn\nu}^\Lc(\kb,\qb)}
+                // Many-body theory
+                Go: "{G_0}",
+                Wo: "{W_0}",
+                Ueff: "{U_{\\text{eff}}}",
+                // Greek symbols + tilde version
+                ee: "{\\epsilon}",
+                tee: "{\\tilde{\\epsilon}}",
+                ww: "{\\omega}",
+                tww: "{\\tilde\\omega}",
+                dd: "{\\,\\text{d}}",
+                vxc: "{v_\\xc}",
+                // symrel
+                Ri: "{\\mcR^{-1}}",
+                Rit: "{\\mcR^{-1\\tau}}",
+                // symrec
+                Si: "{\\mcS^{-1}}}",
+                Sit: "{\\Si^\\tau}}",
+                // partial and functional derivative.
+                PDER: ["{\\dfrac{\\partial #1}{\\partial #2}}", 2],
+                FDER: ["{\\dfrac{\\delta #1}{\\delta #2}}", 2],
+                // PAW
+                tPsi: "{\\tilde\\Psi}",
+                tpsi: "{\\tilde\\psi}",
+                tPhi: "{\\tilde\\Phi}",
+                tphi: "{\\tilde\\phi}",
+                tprj: "{\\tilde p}"
+            }
+          }
+      });
+    </script>
+
+    <!-- See http://docs.mathjax.org/en/latest/start.html 
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js", "MathMenu.js", "MathZoom.js"],
+        jax: ["input/TeX", "output/HTML-CSS", "output/NativeMML],
+        tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+            processEscapes: true
+        },
+        "HTML-CSS": { availableFonts: ["TeX"] }
+      });
+    </script>
+    -->
+
+    
+    
+    
+
+    <!-- Introjs for Guided Tour -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.7.0/intro.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.7.0/introjs.min.css" />
+
+    <!-- Load fonts used for input variables -->
+    <!--
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu+Mono" rel="stylesheet">
+    -->
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+
+    
+      <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+      
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    
+    
+      <link rel="stylesheet" href="../../css/extra.css">
+    
+      <link rel="stylesheet" href="../../css/gallery.css">
+    
+      <link rel="stylesheet" href="../../css/my_codehilite.css">
+    
+    
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="deep-orange" data-md-color-accent="deep-orange">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="drawer">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
+    <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
+    
+      <a href="#getting-started" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="https://www.abinit.org" title="abinit" class="md-header-nav__button md-logo">
+          
+            <img src="../../images/logo-abinit-2015.png" width="48" height="48">
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <span class="md-flex__ellipsis md-header-nav__title">
+          
+            
+              
+                <span class="md-header-nav__parent">
+                  Developers
+                </span>
+              
+            
+            Abimkdocs
+          
+        </span>
+      </div>
+      <!-- Guided Tour with introjs. Add glow effect to button only if homepage -->
+      <div class="md-flex__cell md-flex__cell--shrink">
+           
+          
+          <a href="#" class="btn btn-xs btn-default  " id="guided-tour-button" title="Guided Tour" 
+              onclick="abidocs_guidedtour()">
+           <span class="fa fa-info-circle"></span></a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.com/abinit/abinit/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      github-abinit
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+      <div class="md-flex__cell md-flex__cell--shrink" id="previous_published_versions">
+        <div class="dropdown">
+          <button class="btn btn-basic btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
+            9.4.0
+          <span class="caret"></span></button>
+          <ul class="dropdown-menu">
+            
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+        
+
+  
+
+<nav class="md-tabs md-tabs--active" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../.." title="User Guide" class="md-tabs__link">
+          User Guide
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../topics/features/" title="Topics" class="md-tabs__link">
+          Topics
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../variables/" title="Variables" class="md-tabs__link">
+          Variables
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../tutorial/" title="Tutorial" class="md-tabs__link">
+          Tutorial
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../theory/geometry/" title="Theory" class="md-tabs__link">
+          Theory
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../git_and_gitlab/" title="Developers" class="md-tabs__link md-tabs__link--active">
+          Developers
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../about/release-notes/" title="About" class="md-tabs__link">
+          About
+        </a>
+      
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="drawer">
+    <span class="md-nav__button md-logo">
+      
+        <img src="../../images/logo-abinit-2015.png" width="24" height="24">
+      
+    </span>
+    abinit
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/abinit/abinit/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      github-abinit
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1">
+    
+    <label class="md-nav__link" for="nav-1">
+      User Guide
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-1">
+        User Guide
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="NewUser" class="md-nav__link">
+      NewUser
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/abinit/" title="Abinit" class="md-nav__link">
+      Abinit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/aim/" title="Aim" class="md-nav__link">
+      Aim
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/anaddb/" title="Anaddb" class="md-nav__link">
+      Anaddb
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/cut3d/" title="Cut3d" class="md-nav__link">
+      Cut3d
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/fold2bloch/" title="Fold2Bloch" class="md-nav__link">
+      Fold2Bloch
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/mrgddb/" title="Mrgddb" class="md-nav__link">
+      Mrgddb
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/mrgscr/" title="Mrgscr" class="md-nav__link">
+      Mrgscr
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/multibinit/" title="Multibinit" class="md-nav__link">
+      Multibinit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/optic/" title="Optic" class="md-nav__link">
+      Optic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/respfn/" title="Respfn" class="md-nav__link">
+      Respfn
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/spacegroup/" title="Spacegroup" class="md-nav__link">
+      Spacegroup
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/a-TDEP/" title="a-TDEP" class="md-nav__link">
+      a-TDEP
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1-14" type="checkbox" id="nav-1-14">
+    
+    <label class="md-nav__link" for="nav-1-14">
+      Installation
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-1-14">
+        Installation
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../installation/" title="HowTo" class="md-nav__link">
+      HowTo
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../INSTALL_MacOS/" title="MacOS" class="md-nav__link">
+      MacOS
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../INSTALL_Ubuntu/" title="Ubuntu" class="md-nav__link">
+      Ubuntu
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../INSTALL_CentOS/" title="CentOS" class="md-nav__link">
+      CentOS
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../INSTALL_EasyBuild/" title="EasyBuild" class="md-nav__link">
+      EasyBuild
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../INSTALL_gpu/" title="GPUs" class="md-nav__link">
+      GPUs
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Topics
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Topics
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/features/" title="Features" class="md-nav__link">
+      Features
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/" title="Topic List" class="md-nav__link">
+      Topic List
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Abipy/" title="Abipy" class="md-nav__link">
+      Abipy
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/APPA/" title="APPA" class="md-nav__link">
+      APPA
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Artificial/" title="Artificial" class="md-nav__link">
+      Artificial
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/AtomManipulator/" title="AtomManipulator" class="md-nav__link">
+      AtomManipulator
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/AtomTypes/" title="AtomTypes" class="md-nav__link">
+      AtomTypes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Bader/" title="Bader" class="md-nav__link">
+      Bader
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Band2eps/" title="Band2eps" class="md-nav__link">
+      Band2eps
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Berry/" title="Berry" class="md-nav__link">
+      Berry
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/BandOcc/" title="BandOcc" class="md-nav__link">
+      BandOcc
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/BSE/" title="BSE" class="md-nav__link">
+      BSE
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/BoundingProcess/" title="BoundingProcess" class="md-nav__link">
+      BoundingProcess
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ConstrainedDFT/" title="ConstrainedDFT" class="md-nav__link">
+      ConstrainedDFT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ConstrainedPol/" title="ConstrainedPol" class="md-nav__link">
+      ConstrainedPol
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Control/" title="Control" class="md-nav__link">
+      Control
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Coulomb/" title="Coulomb" class="md-nav__link">
+      Coulomb
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/CrossingBarriers/" title="CrossingBarriers" class="md-nav__link">
+      CrossingBarriers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/CRPA/" title="CRPA" class="md-nav__link">
+      CRPA
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/crystal/" title="Crystal" class="md-nav__link">
+      Crystal
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/DFT+U/" title="DFT+U" class="md-nav__link">
+      DFT+U
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/DeltaSCF/" title="DeltaSCF" class="md-nav__link">
+      DeltaSCF
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/DensityPotential/" title="DensityPotential" class="md-nav__link">
+      DensityPotential
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Dev/" title="Dev" class="md-nav__link">
+      Dev
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/DFPT/" title="DFPT" class="md-nav__link">
+      DFPT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/DMFT/" title="DMFT" class="md-nav__link">
+      DMFT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/DynamicsMultibinit/" title="DynamicsMultibinit" class="md-nav__link">
+      DynamicsMultibinit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/EffectiveMass/" title="EffectiveMass" class="md-nav__link">
+      EffectiveMass
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/EFG/" title="EFG" class="md-nav__link">
+      EFG
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Elastic/" title="Elastic" class="md-nav__link">
+      Elastic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ElPhonInt/" title="ElPhonInt" class="md-nav__link">
+      ElPhonInt
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ElPhonTransport/" title="ElPhonTransport" class="md-nav__link">
+      ElPhonTransport
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ElecDOS/" title="ElecDOS" class="md-nav__link">
+      ElecDOS
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ElecBandStructure/" title="ElecBandStructure" class="md-nav__link">
+      ElecBandStructure
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/FileFormats/" title="FileFormats" class="md-nav__link">
+      FileFormats
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/FitProcess/" title="FitProcess" class="md-nav__link">
+      FitProcess
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ForcesStresses/" title="ForcesStresses" class="md-nav__link">
+      ForcesStresses
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/FrequencyMeshMBPT/" title="FrequencyMeshMBPT" class="md-nav__link">
+      FrequencyMeshMBPT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/GeoConstraints/" title="GeoConstraints" class="md-nav__link">
+      GeoConstraints
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/GeoOpt/" title="GeoOpt" class="md-nav__link">
+      GeoOpt
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Git/" title="Git" class="md-nav__link">
+      Git
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/GSintroduction/" title="GSintroduction" class="md-nav__link">
+      GSintroduction
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/GW/" title="GW" class="md-nav__link">
+      GW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/GWls/" title="GWls" class="md-nav__link">
+      GWls
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Hybrids/" title="Hybrids" class="md-nav__link">
+      Hybrids
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/k-points/" title="K points" class="md-nav__link">
+      K points
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/LatticeModel/" title="LatticeModel" class="md-nav__link">
+      LatticeModel
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/LDAminushalf/" title="LDAminushalf" class="md-nav__link">
+      LDAminushalf
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/LOTF/" title="LOTF" class="md-nav__link">
+      LOTF
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/longwave/" title="Longwave" class="md-nav__link">
+      Longwave
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Macroave/" title="Macroave" class="md-nav__link">
+      Macroave
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/MagField/" title="MagField" class="md-nav__link">
+      MagField
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/MagMom/" title="MagMom" class="md-nav__link">
+      MagMom
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/MolecularDynamics/" title="MolecularDynamics" class="md-nav__link">
+      MolecularDynamics
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/multidtset/" title="Multidtset" class="md-nav__link">
+      Multidtset
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/nonlinear/" title="Nonlinear" class="md-nav__link">
+      Nonlinear
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Optic/" title="Optic" class="md-nav__link">
+      Optic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Output/" title="Output" class="md-nav__link">
+      Output
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/parallelism/" title="Parallelism" class="md-nav__link">
+      Parallelism
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/PAW/" title="PAW" class="md-nav__link">
+      PAW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/PIMD/" title="PIMD" class="md-nav__link">
+      PIMD
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Planewaves/" title="Planewaves" class="md-nav__link">
+      Planewaves
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Phonons/" title="Phonons" class="md-nav__link">
+      Phonons
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/PhononBands/" title="PhononBands" class="md-nav__link">
+      PhononBands
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/PhononWidth/" title="PhononWidth" class="md-nav__link">
+      PhononWidth
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/PortabilityNonRegression/" title="PortabilityNonRegression" class="md-nav__link">
+      PortabilityNonRegression
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/positron/" title="Positron" class="md-nav__link">
+      Positron
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/printing/" title="Printing" class="md-nav__link">
+      Printing
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/PseudosPAW/" title="PseudosPAW" class="md-nav__link">
+      PseudosPAW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/q-points/" title="Q points" class="md-nav__link">
+      Q points
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/RandStopPow/" title="RandStopPow" class="md-nav__link">
+      RandStopPow
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Recursion/" title="Recursion" class="md-nav__link">
+      Recursion
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/RPACorrEn/" title="RPACorrEn" class="md-nav__link">
+      RPACorrEn
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/SCFControl/" title="SCFControl" class="md-nav__link">
+      SCFControl
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/SCFAlgorithms/" title="SCFAlgorithms" class="md-nav__link">
+      SCFAlgorithms
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/SelfEnergy/" title="SelfEnergy" class="md-nav__link">
+      SelfEnergy
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/SmartSymm/" title="SmartSymm" class="md-nav__link">
+      SmartSymm
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/spinpolarisation/" title="Spinpolarisation" class="md-nav__link">
+      Spinpolarisation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/SpinDynamicsMultibinit/" title="SpinDynamicsMultibinit" class="md-nav__link">
+      SpinDynamicsMultibinit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/STM/" title="STM" class="md-nav__link">
+      STM
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Susceptibility/" title="Susceptibility" class="md-nav__link">
+      Susceptibility
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/TDDFT/" title="TDDFT" class="md-nav__link">
+      TDDFT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/a-TDEP/" title="a TDEP" class="md-nav__link">
+      a TDEP
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/TDepES/" title="TDepES" class="md-nav__link">
+      TDepES
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Temperature/" title="Temperature" class="md-nav__link">
+      Temperature
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/TransPath/" title="TransPath" class="md-nav__link">
+      TransPath
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/TuningSpeedMem/" title="TuningSpeedMem" class="md-nav__link">
+      TuningSpeedMem
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Unfolding/" title="Unfolding" class="md-nav__link">
+      Unfolding
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/UnitCell/" title="UnitCell" class="md-nav__link">
+      UnitCell
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/vdw/" title="Vdw" class="md-nav__link">
+      Vdw
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Verification/" title="Verification" class="md-nav__link">
+      Verification
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Wannier/" title="Wannier" class="md-nav__link">
+      Wannier
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Wavelets/" title="Wavelets" class="md-nav__link">
+      Wavelets
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/xc/" title="Xc" class="md-nav__link">
+      Xc
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/external_resources/" title="External Resources" class="md-nav__link">
+      External Resources
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Variables
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Variables
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/" title="All Variables" class="md-nav__link">
+      All Variables
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-2" type="checkbox" id="nav-3-2">
+    
+    <label class="md-nav__link" for="nav-3-2">
+      Abinit
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-2">
+        Abinit
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/basic/" title="Basic" class="md-nav__link">
+      Basic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/bse/" title="Bethe-Salpeter" class="md-nav__link">
+      Bethe-Salpeter
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/dev/" title="Developers" class="md-nav__link">
+      Developers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/dmft/" title="DMFT" class="md-nav__link">
+      DMFT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/eph/" title="Electron-Phonon" class="md-nav__link">
+      Electron-Phonon
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/ffield/" title="Varff" class="md-nav__link">
+      Varff
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/files/" title="File-handling" class="md-nav__link">
+      File-handling
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/geo/" title="Geometry" class="md-nav__link">
+      Geometry
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/gstate/" title="Ground-State" class="md-nav__link">
+      Ground-State
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/gw/" title="GW" class="md-nav__link">
+      GW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/internal/" title="Internal" class="md-nav__link">
+      Internal
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/paral/" title="Parallelism" class="md-nav__link">
+      Parallelism
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/paw/" title="PAW" class="md-nav__link">
+      PAW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/dfpt/" title="DFPT" class="md-nav__link">
+      DFPT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/rlx/" title="Relaxation" class="md-nav__link">
+      Relaxation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/vdw/" title="VdW" class="md-nav__link">
+      VdW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/w90/" title="Wannier90" class="md-nav__link">
+      Wannier90
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/anaddb/" title="Anaddb" class="md-nav__link">
+      Anaddb
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/multibinit/" title="Multibinit" class="md-nav__link">
+      Multibinit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/optic/" title="Optic" class="md-nav__link">
+      Optic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/atdep/" title="a-TDEP" class="md-nav__link">
+      a-TDEP
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/aim/" title="Aim" class="md-nav__link">
+      Aim
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/external_parameters/" title="External Parameters" class="md-nav__link">
+      External Parameters
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/varset_stats/" title="Statistics" class="md-nav__link">
+      Statistics
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      Tutorial
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        Tutorial
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/compilation/" title="Building Abinit" class="md-nav__link">
+      Building Abinit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-3" type="checkbox" id="nav-4-3">
+    
+    <label class="md-nav__link" for="nav-4-3">
+      Base Tutorials
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-3">
+        Base Tutorials
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/base1/" title="Base1" class="md-nav__link">
+      Base1
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/base2/" title="Base2" class="md-nav__link">
+      Base2
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/base3/" title="Base3" class="md-nav__link">
+      Base3
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/base4/" title="Base4" class="md-nav__link">
+      Base4
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/spin/" title="Spin" class="md-nav__link">
+      Spin
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-4" type="checkbox" id="nav-4-4">
+    
+    <label class="md-nav__link" for="nav-4-4">
+      PAW
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-4">
+        PAW
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/paw1/" title="PAW1" class="md-nav__link">
+      PAW1
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/paw2/" title="PAW2" class="md-nav__link">
+      PAW2
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/paw3/" title="PAW3" class="md-nav__link">
+      PAW3
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-5" type="checkbox" id="nav-4-5">
+    
+    <label class="md-nav__link" for="nav-4-5">
+      DFT_PLUS_U
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-5">
+        DFT_PLUS_U
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/dftu/" title="Dftu" class="md-nav__link">
+      Dftu
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/udet/" title="Udet" class="md-nav__link">
+      Udet
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/ucalc_crpa/" title="Ucalc crpa" class="md-nav__link">
+      Ucalc crpa
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-6" type="checkbox" id="nav-4-6">
+    
+    <label class="md-nav__link" for="nav-4-6">
+      DFPT
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-6">
+        DFPT
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/rf1/" title="RF1" class="md-nav__link">
+      RF1
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/rf2/" title="RF2" class="md-nav__link">
+      RF2
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/elastic/" title="Elastic" class="md-nav__link">
+      Elastic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/ffield/" title="Ffield" class="md-nav__link">
+      Ffield
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/nlo/" title="Nlo" class="md-nav__link">
+      Nlo
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/dmft/" title="DMFT" class="md-nav__link">
+      DMFT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-8" type="checkbox" id="nav-4-8">
+    
+    <label class="md-nav__link" for="nav-4-8">
+      EPH
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-8">
+        EPH
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/eph_intro/" title="Eph intro" class="md-nav__link">
+      Eph intro
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/eph4mob/" title="Eph4mob" class="md-nav__link">
+      Eph4mob
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/eph4zpr/" title="Eph4zpr" class="md-nav__link">
+      Eph4zpr
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-9" type="checkbox" id="nav-4-9">
+    
+    <label class="md-nav__link" for="nav-4-9">
+      EPH-legacy
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-9">
+        EPH-legacy
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/eph/" title="Eph" class="md-nav__link">
+      Eph
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/tdepes/" title="Tdepes" class="md-nav__link">
+      Tdepes
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-10" type="checkbox" id="nav-4-10">
+    
+    <label class="md-nav__link" for="nav-4-10">
+      Many-Body
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-10">
+        Many-Body
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/gw1/" title="GW1" class="md-nav__link">
+      GW1
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/gw2/" title="GW2" class="md-nav__link">
+      GW2
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/bse/" title="Bethe-Salpeter" class="md-nav__link">
+      Bethe-Salpeter
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-11" type="checkbox" id="nav-4-11">
+    
+    <label class="md-nav__link" for="nav-4-11">
+      Parallelism
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-11">
+        Parallelism
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/basepar/" title="Base" class="md-nav__link">
+      Base
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/paral_gspw/" title="GSPW" class="md-nav__link">
+      GSPW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/paral_gswvl/" title="GSWVL" class="md-nav__link">
+      GSWVL
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/paral_dfpt/" title="DFPT" class="md-nav__link">
+      DFPT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/paral_images/" title="Images" class="md-nav__link">
+      Images
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/paral_mbt/" title="Many-Body" class="md-nav__link">
+      Many-Body
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/paral_moldyn/" title="Moldyn" class="md-nav__link">
+      Moldyn
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-12" type="checkbox" id="nav-4-12">
+    
+    <label class="md-nav__link" for="nav-4-12">
+      Multibinit
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-12">
+        Multibinit
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/lattice_model/" title="Lattice Model" class="md-nav__link">
+      Lattice Model
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/spin_model/" title="Spin Model" class="md-nav__link">
+      Spin Model
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/cut3d/" title="Cut3d" class="md-nav__link">
+      Cut3d
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/fold2bloch/" title="Fold2bloch" class="md-nav__link">
+      Fold2bloch
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/nuc/" title="Nuc" class="md-nav__link">
+      Nuc
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/optic/" title="Optic" class="md-nav__link">
+      Optic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/positron/" title="Positron" class="md-nav__link">
+      Positron
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/tddft/" title="Tddft" class="md-nav__link">
+      Tddft
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/wannier90/" title="Wannier90" class="md-nav__link">
+      Wannier90
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      Theory
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        Theory
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/geometry/" title="Geometry" class="md-nav__link">
+      Geometry
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/spherical_harmonics/" title="Spherical Harmonics" class="md-nav__link">
+      Spherical Harmonics
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/wavefunctions/" title="Wavefunctions" class="md-nav__link">
+      Wavefunctions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/noncollinear/" title="Noncollinear" class="md-nav__link">
+      Noncollinear
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/pseudopotentials/" title="Pseudopotentials" class="md-nav__link">
+      Pseudopotentials
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/mbt/" title="Many-Body Perturbation Theory" class="md-nav__link">
+      Many-Body Perturbation Theory
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/bse/" title="Bethe-Salpeter" class="md-nav__link">
+      Bethe-Salpeter
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/documents/" title="Documents" class="md-nav__link">
+      Documents
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/acknowledgments/" title="Acknowledgments" class="md-nav__link">
+      Acknowledgments
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/bibliography/" title="Bibliography" class="md-nav__link">
+      Bibliography
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6" checked>
+    
+    <label class="md-nav__link" for="nav-6">
+      Developers
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        Developers
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../git_and_gitlab/" title="Git and Gitlab" class="md-nav__link">
+      Git and Gitlab
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../developers_howto/" title="HowTo for developers" class="md-nav__link">
+      HowTo for developers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="toc">
+        Abimkdocs
+      </label>
+    
+    <a href="./" title="Abimkdocs" class="md-nav__link md-nav__link--active">
+      Abimkdocs
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" title="Getting started" class="md-nav__link">
+    Getting started
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#writing-docs" title="Writing docs" class="md-nav__link">
+    Writing docs
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#front-matter" title="Front matter" class="md-nav__link">
+    Front matter
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#documentation-guide-lines" title="Documentation Guide lines" class="md-nav__link">
+    Documentation Guide lines
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-addmodify-an-input-variable" title="How to add/modify an input variable" class="md-nav__link">
+    How to add/modify an input variable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-add-a-bibliographic-reference" title="How to add a bibliographic reference" class="md-nav__link">
+    How to add a bibliographic reference
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#topics" title="Topics" class="md-nav__link">
+    Topics
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-a-add-a-new-document" title="How to a add a new document" class="md-nav__link">
+    How to a add a new document
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#topics-and-relevances" title="Topics and relevances" class="md-nav__link">
+    Topics and relevances
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#release-notes" title="Release Notes" class="md-nav__link">
+    Release Notes
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#variable-object" title="Variable object" class="md-nav__link">
+    Variable object
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#multiplevalue-object" title="MultipleValue object" class="md-nav__link">
+    MultipleValue object
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#range-object" title="Range object" class="md-nav__link">
+    Range object
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#valuewithconditions-object" title="ValueWithConditions object" class="md-nav__link">
+    ValueWithConditions object
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#valuewithunit-object" title="ValueWithUnit object" class="md-nav__link">
+    ValueWithUnit object
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#constraints-between-variables" title="Constraints between variables" class="md-nav__link">
+    Constraints between variables
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../markdown/" title="Markdown" class="md-nav__link">
+      Markdown
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6-5" type="checkbox" id="nav-6-5">
+    
+    <label class="md-nav__link" for="nav-6-5">
+      Test Suite
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-6-5">
+        Test Suite
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../testsuite/" title="Test list" class="md-nav__link">
+      Test list
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../testsuite_howto/" title="Test Suite Howto" class="md-nav__link">
+      Test Suite Howto
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../new_testsuite/" title="YAML-based test suite Howto" class="md-nav__link">
+      YAML-based test suite Howto
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../yaml_tools_api/" title="YAML-based test suite Python tools and API" class="md-nav__link">
+      YAML-based test suite Python tools and API
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../XgType/" title="XgType" class="md-nav__link">
+      XgType
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6-7" type="checkbox" id="nav-6-7">
+    
+    <label class="md-nav__link" for="nav-6-7">
+      Pseudos
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-6-7">
+        Pseudos
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../psp1_info/" title="psp1" class="md-nav__link">
+      psp1
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../psp3_info/" title="psp3" class="md-nav__link">
+      psp3
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../psp45_info/" title="psp45" class="md-nav__link">
+      psp45
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../psp5spinorbit_info/" title="psp5" class="md-nav__link">
+      psp5
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../psp6_info/" title="psp6" class="md-nav__link">
+      psp6
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../psp8_info/" title="psp8" class="md-nav__link">
+      psp8
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../codestats/" title="Code stats" class="md-nav__link">
+      Code stats
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../autoconf_examples/" title="Autoconf_examples" class="md-nav__link">
+      Autoconf_examples
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../testlink/" title="Test Page for linkcheck" class="md-nav__link">
+      Test Page for linkcheck
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+    
+    <label class="md-nav__link" for="nav-7">
+      About
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        About
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../about/release-notes/" title="Release Notes" class="md-nav__link">
+      Release Notes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../about/contributing/" title="Contributing" class="md-nav__link">
+      Contributing
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../about/history/" title="History" class="md-nav__link">
+      History
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../about/license/" title="License" class="md-nav__link">
+      License
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" title="Getting started" class="md-nav__link">
+    Getting started
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#writing-docs" title="Writing docs" class="md-nav__link">
+    Writing docs
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#front-matter" title="Front matter" class="md-nav__link">
+    Front matter
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#documentation-guide-lines" title="Documentation Guide lines" class="md-nav__link">
+    Documentation Guide lines
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-addmodify-an-input-variable" title="How to add/modify an input variable" class="md-nav__link">
+    How to add/modify an input variable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-add-a-bibliographic-reference" title="How to add a bibliographic reference" class="md-nav__link">
+    How to add a bibliographic reference
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#topics" title="Topics" class="md-nav__link">
+    Topics
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-a-add-a-new-document" title="How to a add a new document" class="md-nav__link">
+    How to a add a new document
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#topics-and-relevances" title="Topics and relevances" class="md-nav__link">
+    Topics and relevances
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#release-notes" title="Release Notes" class="md-nav__link">
+    Release Notes
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#variable-object" title="Variable object" class="md-nav__link">
+    Variable object
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#multiplevalue-object" title="MultipleValue object" class="md-nav__link">
+    MultipleValue object
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#range-object" title="Range object" class="md-nav__link">
+    Range object
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#valuewithconditions-object" title="ValueWithConditions object" class="md-nav__link">
+    ValueWithConditions object
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#valuewithunit-object" title="ValueWithUnit object" class="md-nav__link">
+    ValueWithUnit object
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#constraints-between-variables" title="Constraints between variables" class="md-nav__link">
+    Constraints between variables
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+
+                
+                  <a href="https://github.com/abinit/abinit/edit/master/doc/developers/abimkdocs.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                  <h1>Abimkdocs</h1>
+                
+                <p>This page describes the details of the documentation system of Abinit and how to contribute to it. </p>
+<p>Most of the documentation is written in <a href="https://en.wikipedia.org/wiki/Markdown">Markdown</a>
+a lightweight markup language with plain text 
+<a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">formatting syntax</a>.
+The documentation includes the User Guide, the Abinit tutorial, the topics, the release notes
+as well as the pages with the <a href="../../variables/">input variables</a> and the <a href="../../theory/bibliography/">bibliographic references</a>
+that are generated <em>automatically</em> in python from the information reported in 
+<code>~abinit/mkdocs/variables_abinit.py</code> (and similar files in the same directory for other main executables) and the bibtex 
+entries given in the <code>~abinit/doc/abiref.bib</code> file.</p>
+<p>The website is automatically generated with <a href="http://www.mkdocs.org/">MkDocs</a>
+a static site generator geared towards project documentation.
+MkDocs employs <a href="https://pypi.python.org/pypi/Markdown">Python-Markdown</a> to parse the Markdown documentation
+and use a single <a href="http://en.wikipedia.org/wiki/YAML">YAML</a> configuration file (<code>mkdocs.yml</code>) 
+defining the organization of the pages on the website.
+Navigation bars, header and footer are generated <em>automatically</em> by the framework
+using the <a href="http://jinja.pocoo.org/">jinja template engine</a>.
+Previous versions of the documentation can be consulted using the drop down menu 
+at the top-right corner. (<mark>not yet operational</mark>)</p>
+<p>MkDocs includes a couple built-in themes as well as various third party themes,
+all of which can easily be customized with extra CSS or JavaScript or overridden from the theme directory. 
+The Abinit website uses <a href="http://squidfunk.github.io/mkdocs-material/">Mkdocs-Material</a>, a theme
+built using Google&rsquo;s <a href="https://www.google.com/design/spec/material-design">Material Design</a> guidelines.
+We also use <a href="https://fontawesome.com/">fontawesome icons</a> and
+<a href="http://getbootstrap.com/">Bootstrap</a> a popular HTML, CSS, and Javascript framework 
+for developing responsive, mobile first projects on the web 
+(shrink the browser window to see how the menu and the navigation bars react).</p>
+<p>Note that the majority of the Abinit developers do not need to know how to use these technologies
+since they will mainly interact with markdown files (plain text files that can be easily modified in the editor)
+while Mkdocs will handle the HTML/CSS/Javascript part.</p>
+<p>In addition to the basic markdown syntax, the Abinit documentation supports extensions and shortcuts
+to ease the writing of hyperlinks and the inclusion of bibliographic citations.
+A detailed description of <em>our markdown dialect</em> is given in <a href="../markdown">our markdown page</a>.
+Also <a href="https://www.mathjax.org/">MathJax</a> for equations in LaTeX is activated, 
+and the (few) specificities of its usage in the Abinit docs are explained <a href="../markdown/#mathjax">in this section</a>.</p>
+<p>As a net result, Abinit developers can write nice-looking documentation and release notes without having to use 
+HTML explicitly while working in an environment that is well-integrated with the Abinit ecosystem 
+(the yaml database of input variables, the test suite, bibtex citations).
+Adding new content is straightforward: write a new page in Markdown, add the new entry to <code>mkdocs.yml</code> 
+and finally regenerate the website with MkDocs.</p>
+<h2 id="getting-started">Getting started<a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h2>
+<p>Make sure you are in the top ABINIT directory.
+Install the python packages required to build the website with:</p>
+<div class="highlight"><pre><span></span><code>pip install -r requirements.txt --user
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Python 3.6 is strongly recommended although the code works with python2.7 as well.
+The entire documentation supports Unicode so feel free to use unicode symbols in the docs.</p>
+</div>
+<p>MkDocs comes with a built-in dev-server that lets you preview your documentation as you work on it. 
+First issue <em>/</em>/makemake (actually config/scripts/makemake). Then start <em>our customized</em> server 
+by running the <code>./mksite.py serve</code> command:</p>
+<div class="highlight"><pre><span></span><code>./mksite.py serve
+
+Regenerating database...
+Saving database to /Users/gmatteo/git_repos/abidocs/doc/tests/test_suite.cpkl
+Initial website generation completed <span class="k">in</span> <span class="m">9</span>.17 <span class="o">[</span>s<span class="o">]</span>
+Generating markdown files with input variables of code: <span class="sb">`</span>abinit<span class="sb">`</span>...
+...
+...
+INFO    -  Building documentation...
+INFO    -  Cleaning site directory
+<span class="o">[</span>I <span class="m">170826</span> <span class="m">03</span>:37:05 server:283<span class="o">]</span> Serving on http://127.0.0.1:8000
+<span class="o">[</span>I <span class="m">170826</span> <span class="m">03</span>:37:05 handlers:60<span class="o">]</span> Start watching changes
+<span class="o">[</span>I <span class="m">170826</span> <span class="m">03</span>:37:05 handlers:62<span class="o">]</span> Start detecting changes
+</code></pre></div>
+<p>Open up <code>http://127.0.0.1:8000/</code> in your browser, and you&rsquo;ll see the default home page being displayed.
+Note that the generation of the website takes 1-2 minutes but this is a price that must be paid only once.
+The web server, indeed, reloads automatically the source files that are modified by the user
+so that one can easily change the documentation and inspect the changes in the corresponding HTML files.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Use <code>./mksite.py serve --dirtyreload</code> to enable the live reloading in the development server, 
+but only re-build files that have changed. 
+This option is designed for site development purposes and is <strong>much faster</strong> than the default live reloading.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The server re-builds automatically the pages generated from changed <code>.md</code> files, 
+but not the ones from changed <code>~abinit/doc/abiref.bib</code>
+neither from changed <code>~abinit/abimkdocs/\*.py</code> . This means that the upgrade of the description of an input variable 
+or a bibtex reference is done by closing the server and reissue the adequate <code>./mksite.py</code> command.
+Also, the case of the <code>.md</code> files in the <code>~abinit/doc/topics</code> directory is similar, as the <code>.md</code> source files, 
+prepended with an underscore, must be preprocessed by <code>./mksite.py</code> to deliver the <code>.md</code> files, without underscore, 
+that are live reloaded.</p>
+</div>
+<p><code>./mksite serve</code> builds the website in a temporary directory. If you need to inspect the HTML files produced 
+by the script, use:</p>
+<div class="codehilite"><pre><span></span><code>./mksite.py build
+</code></pre></div>
+
+<p>The HTML pages will be available in the <code>site</code> directory.
+It&rsquo;s also possible to validate all the HTML documents in <code>site</code> by using:</p>
+<div class="codehilite"><pre><span></span><code>./mksite.py validate
+</code></pre></div>
+
+<p>This command will connect to the <a href="https://validator.w3.org/">W3C validator service</a> and possible 
+errors are printed to the terminal.
+To validate a given list of HTML files use:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">./</span><span class="n">mksite</span><span class="o">.</span><span class="n">py</span> <span class="n">validate</span> <span class="n">site</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">html</span> <span class="n">site</span><span class="o">/</span><span class="n">variables</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">html</span>
+</code></pre></div>
+
+<p>At present (v8.7.7), many html files are not compliant with the strict html syntax, so this procedure is <mark>not yet operational</mark>.</p>
+<p>Note that the HTML files are produced in a temporary directory, thus they <strong>are not under revision control</strong>.
+The real source is represented by the <code>.md</code> files and the other <code>.yml</code> files. These are the files that can be 
+changed by the developers and are therefore under revision control.
+The Markdown pages generated by <code>./mksite.py</code> are automatically listed in <code>~abinit/doc/.gitignore</code> 
+and are thus ignored by git.</p>
+<p>The <code>~abinit/doc/mksite.py</code> script generates the website by converting markdown files into HTML.
+The script:</p>
+<ul>
+<li>Starts by creating python objects using the information reported in <ul>
+<li>the python files in abimkdocs with the input variables,</li>
+<li>the <code>~abinit/doc/abiref.bib</code> for the list of Bibliographic references,</li>
+<li>the input files contained in <code>~abinit/tests/*/Input</code>. </li>
+</ul>
+</li>
+<li>Performs initial consistency checks.</li>
+<li>Generate the markdown files for variables, citations, etc.  </li>
+<li>Invoke <code>mkdocs</code> to parse the markdown files declared in <code>mkdocs.yml</code></li>
+<li>Expands special strings, of the form <span style="background-color: #E0E0E0;font-size:90%;"> &#91; [namespace:name#section|text] &#93; </span> to create HTML links.</li>
+<li>Creates the needed HMTL files </li>
+</ul>
+<p>The expansion of special strings is documented in the <a href="../markdown/#links">links section</a>. 
+It can be used in all the YAML files mentioned below. 
+For equations/formulas, <a href="http://docs.mathjax.org/en/latest/mathjax.html">Mathjax</a> is activated, and allows
+to process and visualize LaTeX formulas, see also <a href="../markdown/#MathJax">this section</a> for further details.</p>
+<h2 id="writing-docs">Writing docs<a class="headerlink" href="#writing-docs" title="Permanent link">&para;</a></h2>
+<p>The markdown files are stored inside the <code>doc</code> directory according to the following structure:</p>
+<div class="highlight"><pre><span></span><code><span class="go">├── doc</span>
+<span class="go">│   ├── about</span>
+<span class="go">│   ├── css</span>
+<span class="go">│   ├── developers</span>
+<span class="go">│   ├── extra_javascript</span>
+<span class="go">│   ├── images</span>
+<span class="go">│   ├── variables</span>
+<span class="go">│   ├── tests</span>
+<span class="go">│   ├── theory</span>
+<span class="go">│   ├── topics</span>
+<span class="go">│   ├── tutorial</span>
+<span class="go">│   └── guide</span>
+</code></pre></div>
+<ul>
+<li>about: Files with release notes, license</li>
+<li><em>css</em>: Extra CSS files used by the website</li>
+<li>developers: Documentation for developers (documentation howtos, git, coding rules&hellip;)</li>
+<li><em>extra_javascript</em>: Extra javascript code used by the website</li>
+<li><em>images</em>: logos and favicon</li>
+<li>variables: files with input variables (automatically generated).</li>
+<li><em>tests</em>: symbolic links to the <code>~abinit/tests</code> directory.</li>
+<li>theory: files with theoretical notes</li>
+<li>topics: files with Abinit topics</li>
+<li>tutorial: official Abinit tutorials</li>
+<li>guide: help files for main executables</li>
+</ul>
+<p>The directory in <em>italic</em> are mainly used to build the website and are not visible outside.
+The other directories contain markdown files, each directory is associated to an 
+entry in the website menu (see <code>pages</code> in <code>mkdocs.yml</code>).
+The <a href="http://www.mkdocs.org/user-guide/writing-your-docs/">pages configuration</a> in <code>mkdocs.yml</code> 
+defines which pages are built by MkDocs and how they appear in the documentation navigation. </p>
+<p>Each directory contains an <code>index.md</code> file that is supposed to be a &ldquo;general&rdquo; page with an overview 
+of the topics treated in that directory.
+Some of these <code>index.md</code> files are automatically generated by python (e.g. <code>variables/index.md</code>)
+but others such as <code>tutorial/index.md</code> are not. 
+So make sure that new documentation pages are properly mentioned and linked in the corresponding 
+<code>index.md</code> file when a new page is added.</p>
+<p>Images and additional material (e.g. scripts) associated to a markdown page are stored 
+in the corresponding &ldquo;assets&rdquo; directory whose name is constructed from the base name of the markdown page.
+For instance the figures used in <code>tutorial/bse.md</code> are stored in <code>tutorial/bse_assets</code></p>
+<!--
+!!! note
+    If `True`, use `<page_name>/index.html` style files with hyperlinks to
+    the directory. If `False`, use `<page_name>.html` style file with hyperlinks to the file.
+    True generates nicer URLs, but False is useful if browsing the output on a filesystem.
+-->
+
+<h3 id="front-matter">Front matter<a class="headerlink" href="#front-matter" title="Permanent link">&para;</a></h3>
+<p>Front matter is the first section of the markdown file and must take the form of valid YAML 
+document enclosed between triple-dashed lines. Here is a basic example:</p>
+<div class="highlight"><pre><span></span><code><span class="nn">---</span>
+<span class="nt">title</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Documenting Code Like a Hacker</span>
+<span class="nt">authors</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">MG</span>
+<span class="nn">---</span>
+</code></pre></div>
+<p>Between these triple-dashed lines, you can set predefined variables (see below for a reference) 
+or even create custom ones of your own. 
+These variables will then be available to the framework.
+For instance, the list of authors is reported in the HTML page footer while <code>title</code> is added to 
+to the HTML meta section.</p>
+<h2 id="documentation-guide-lines">Documentation Guide lines<a class="headerlink" href="#documentation-guide-lines" title="Permanent link">&para;</a></h2>
+<ul>
+<li>
+<p>Each paragraph name should be short enough to fit nicely in the menu, but also long enough to stand 
+  on its own to a reasonable extent. 
+  The titles set here are used in the navigation menu and the page title that displays in the browser tab. </p>
+</li>
+<li>
+<p>Each page should start with a paragraph that explains what will be covered.
+  The first heading in a page should be Heading1 (<code>#</code> in Markdown). 
+  All others should be in H2  (<code>##</code>) and H3 (<code>###</code>), only where necessary. 
+  If you find yourself wanting to use H4, consider if it&rsquo;s truly necessary.</p>
+</li>
+<li>
+<p>Don&rsquo;t use terms like &ldquo;previous page&rdquo;, etc. because we may add or re-arrange pages in the future. 
+  Instead, use a hyperlink to the chapter.
+  Also avoid sentences like <em>If you follow the tutorial, you should go back to the tutorial window now.</em></p>
+</li>
+<li>
+<p>Number the paragraphs only if really needed: the links in the navigation bar are not readable and besides
+  the number will appear in the <a href="../markdown/#permalinks">permalink</a>.
+  This means that you may need to change several links if you decide to add a new section to the page later on.
+  Users may want to share or bookmarks links to the Abinit documentation so broken links should be avoided 
+  as much as possible.</p>
+</li>
+<li>
+<p>The fact the <a href="../markdown/#wikilinks">wikilink syntax</a> facilitates the inclusion of hyperlinks does not 
+  mean that we have to add links <em>everywhere</em>. 
+  This is especially true in the documentation of the input variables in which it does not make sense to
+  put links to the same variable we are describing or the same link over and over again in the same paragraph.</p>
+</li>
+<li>
+<p>Text in all uppercase is significantly more difficult to read than lower and mixed case text.
+  Writing in all caps is like shouting so use all caps sparingly.</p>
+</li>
+</ul>
+<h2 id="how-to-addmodify-an-input-variable">How to add/modify an input variable<a class="headerlink" href="#how-to-addmodify-an-input-variable" title="Permanent link">&para;</a></h2>
+<p>The yaml database has been replaced by python modules.
+The variables are now declared in <code>~abinit/abimkdocs/variables_CODENAME.py</code>.</p>
+<p>This file consists of a list of dictionaries, each dictionary
+contains the declaration of a single variable and the associated documentation in markdown format.
+Wikilinks, latex and markdown extensions can be used inside <code>text</code>.
+Adding a new variable is easy. Edit the python module and add a new item at the end of the list. 
+A template is provided.</p>
+<p>Remember that <code>\</code> is an escaping character in python so the interpreter may 
+raise an Exception if you start to add Latex equations in the documentation e.g.</p>
+<div class="highlight"><pre><span></span><code><span class="n">Error</span><span class="p">:</span> <span class="s1">&#39;</span><span class="se">\a</span><span class="s1">lpha&#39;</span> <span class="ow">is</span> <span class="n">an</span> <span class="n">unrecognized</span> <span class="n">escape</span> <span class="ow">in</span> <span class="n">character</span> <span class="n">string</span> <span class="n">starting</span> <span class="s2">&quot;&quot;</span><span class="o">^</span>\<span class="n">alpha</span><span class="s2">&quot;</span>
+</code></pre></div>
+<p>The solution is simple, declare the string as <code>raw string</code> by prepending <code>r</code> e.g.:</p>
+<div class="highlight"><pre><span></span><code>    <span class="n">text</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">The [[spmeth]] input variable defines the method used to calculate the</span>
+<span class="s2">irreducible polarizability $\chi^{(0)}_</span><span class="si">{KS}</span><span class="s2">$.&quot;&quot;&quot;</span>
+</code></pre></div>
+<p>Note that input variables for the executables other than the main abinit (e.g. anaddb, aim, optic) are 
+denoted <code>input_variable_name@executable</code>, e.g. <code>dipdip@anaddb</code>
+(this allows to waive the ambiguity with the dipdip input variable used in the main abinit).</p>
+<p>After having edited the python modules you <strong>must rerun</strong> <code>./mksite serve</code> to see the changes.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Use <code>pytest abimkdocs_tests/test_variables.py</code> to validate your changes
+before rebuilding the documentation.</p>
+<p>Well, at present (v8.7.7) this script detect too many problems for this procedure to be useful. So this is (<mark>not yet operational</mark>).</p>
+</div>
+<h2 id="how-to-add-a-bibliographic-reference">How to add a bibliographic reference<a class="headerlink" href="#how-to-add-a-bibliographic-reference" title="Permanent link">&para;</a></h2>
+<p>Bibliographic references must be in bibtex format and should provide enough information so that the python code
+can generate appropriate links in the website.
+The central bibliography database is presently located in <code>~abinit/doc/abiref.bib</code>.</p>
+<p>For published work with a DOI, we strongly recommend <em>avoiding</em> a <em>cut&amp;paste</em> from your own bibtex file
+to the central bibliography database. 
+Indeed, there are units tests to enforce the presence of particular entries in the bibtex document and
+your bibtex may not fulfill these requirements.</p>
+<p>Providing bibtex data from the publisher site is a better method.
+If you know the DOI of the article, it is also possible to use <a href="https://github.com/nschloe/betterbib">BetterBib</a>
+to fetch data from <a href="http://www.crossref.org/">Crossref</a> and produce the bibtex entry.
+BetterBib is available from the Python Package Index, so simply type:</p>
+<div class="codehilite"><pre><span></span><code>pip install betterbib
+</code></pre></div>
+
+<p>and then use <code>doi2bibtex</code> from the command line:</p>
+<div class="highlight"><pre><span></span><code>betterbib-doi2bibtex 10.1103/PhysRevLett.96.066402
+
+@article{bibtex,
+  author = {Amadon, B. and Biermann, S. and Georges, A. and Aryasetiawan, F.},
+  doi = {10.1103/physrevlett.96.066402},
+  issn = {0031-9007, 1079-7114},
+  journal = {Physical Review Letters},
+  month = feb,
+  number = {6},
+  publisher = {American Physical Society (APS)},
+  source = {Crossref},
+  title = {{The α−γ Transition} of Cerium Is Entropy Driven},
+  url = {http://dx.doi.org/10.1103/physrevlett.96.066402},
+  volume = {96},
+  year = {2006}
+}
+</code></pre></div>
+<p>Add the entry to the bibtex file and use the <code>FirstAuthorYear</code> convention for the key
+(make sure it&rsquo;s not a duplicated entry).
+Note that the bibtex ID must be of the form &ldquo;FirstauthornameYEAR&rdquo;, e.g. &ldquo;Amadon2008&rdquo;
+(start with an uppercase letter, then lower case, then four-digit year).
+Possibly, a letter might be added in case of ambiguity: e.g. there exists also <code>Amadon2008a</code>
+Then, build the HTML pages using <code>./mksite.py serve</code>.</p>
+<p>Run the tests with:</p>
+<div class="codehilite"><pre><span></span><code>pytest abimkdocs_tests/test_bibtex.py
+</code></pre></div>
+
+<p>with pytest to validate your changes.</p>
+<p>In order to refer to a bibliography entry, use the <a href="../markdown#wikilinks">Wikilink syntax</a> with the &ldquo;cite&rdquo; namespace.</p>
+<h2 id="topics">Topics<a class="headerlink" href="#topics" title="Permanent link">&para;</a></h2>
+<p>The topic files are written in Markdown and can be found in ~abinit/doc/topics.
+The source files start with an underscore e.g. <code>_AbiPy.md</code>.
+These are <strong>template files</strong> containing the text and two variables:</p>
+<div class="highlight"><pre><span></span><code>## Related Input Variables
+
+{{ related_variables }}
+
+## Selected Input Files
+
+{{ selected_input_files }}
+</code></pre></div>
+<p>that will be filled by <code>./mksite.py</code> by inspecting the database of variables and the tests of the test suite..
+A new Markdown file <strong>without underscore</strong> will be generated and included in <code>mkdocs.yml</code>.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Developers are supposed to edit the version with the underscore and provide enough
+information in the declaration of the variable and in the <code>TEST_INFO</code> section
+so that <code>./mksite.py</code> can fill the template.
+Remember to restart <code>./mksite.py</code> to see the changes.</p>
+</div>
+<h2 id="how-to-a-add-a-new-document">How to a add a new document<a class="headerlink" href="#how-to-a-add-a-new-document" title="Permanent link">&para;</a></h2>
+<p>In order to add a new tutorial, create a new Markdown file in doc/tutorial and 
+register it in <code>mkdocs.yml</code> 
+Then, build the HTML using <code>./mksite.py serve</code> and start to enjoy the Markdown syntax.</p>
+<p>The organization of help files and theory documents is very similar to the one for the other tutorials.</p>
+<h3 id="topics-and-relevances">Topics and relevances<a class="headerlink" href="#topics-and-relevances" title="Permanent link">&para;</a></h3>
+<p>Since the beginning of the ABINIT HTML documentation, every input variable 
+has been required to belong to a <strong>varset</strong> (set of variables, e.g. <code>varbas</code>, <code>varfil</code>).
+However, starting in Summer 2017, we require every input variable to be also mentioned in at least one of the
+documentation <strong>topics</strong> and, for such topic, to be characterized by a <strong>relevance</strong>.</p>
+<p>The allowed list of relevancies (a generic list, irrespective of the topic) is declared in
+<code>~abinit/abimkdocs/variables.py</code>. 
+Standard names are:</p>
+<ul>
+<li><em>compulsory</em> (when such input variable <strong>must</strong> be present in the input file when the &ldquo;feature&rdquo; of the topic is activated)</li>
+<li><em>basic</em> (when such input variable is usually explicitly specified in the standard usage, although the default might be adequate)</li>
+<li><em>useful</em> (when the default value is used most of the time)</li>
+<li><em>expert</em> (when only expert users should use other values than the default)</li>
+</ul>
+<p>Other relevance names have been allowed for specific topics, in which such a classification 
+(compulsory/basic/useful/expert) is not a relevant one.</p>
+<p>In order to specify the (possibly several) combinations of topic+relevance to which an input variable is attached,
+the field &ldquo;topics&rdquo; is used inside the <code>~abinit/abimkdocs/variables_abinit.py</code> file
+(and similar files in the same directory for the other executables).</p>
+<p>Some examples:</p>
+<ul>
+<li>for dmatpawu: <em>DFT+U_useful</em></li>
+<li>for mdwall: <em>MolecularDynamics_expert</em></li>
+<li>for gwpara: <em>parallelism_useful, GW_basic</em></li>
+</ul>
+<p>The latter is a case where one input variable is associated to two topics, with a different relevance
+for topic &ldquo;parallelism&rdquo; and topic &ldquo;GW&rdquo;.</p>
+<h2 id="release-notes">Release Notes<a class="headerlink" href="#release-notes" title="Permanent link">&para;</a></h2>
+<p>Release notes are written in Markdown so it is possible to use the <a href="../markdown/#wikilinks">wikilink syntax</a>
+to insert links to new tests, new autoconf files and even links to pull-requests and issues that will redirect
+the reader to the Abinit repository on github.
+For example, the following markdown text</p>
+<div class="highlight"><pre><span></span><code>B.1   
+Implementation of algorithms to interpolate the electronic band structure.
+See the new input variables [[einterp]], [[nkpath]], and [[prtebands]], 
+and the new tests [[test:v8_04]], [[test:libxc_41]].
+Added in [[gitsha:f74dba1ed8346ca586dc95fd10fe4b8ced108d5e]]
+
+B.2
+Added subsuite syntax [[test:gspw_01]]
+
+C.2  
+New versions of Fortran compilers have been integrated in the test farm:
+
+<span class="k">-</span> intel 16.0
+<span class="k">-</span> gnu 6.1 and 6.2
+<span class="k">-</span> IBM xlf compiler 14.1
+<span class="k">-</span> NAG 7.0
+
+Corresponding examples are available in [[ac:abiref_nag_7.0_openmpi.ac]]
+</code></pre></div>
+<p>produces a nice report with links to the features available in the new version:</p>
+<p>B.1 <br />
+Implementation of algorithms to interpolate the electronic band structure.
+See the new input variables <a class="wikilink codevar-wikilink" href="../../variables/basic#einterp">einterp</a>, <a class="wikilink codevar-wikilink" href="../../variables/basic#nkpath">nkpath</a>, and <a class="wikilink codevar-wikilink" href="../../variables/gstate#prtebands">prtebands</a>, 
+and the new tests <a class="wikilink abifile-wikilink" data-content="
+Interpolation of electronic bands with two different techniques (star functions and B-spline interpolation)" data-placement="auto right" data-toggle="popover" data-trigger="hover focus" href="../../tests/v8/Input/t04.abi" target="_blank">v8[04]</a>, <a class="wikilink abifile-wikilink" data-content="
+Diamond: hybrid functional calculation with the GW code
+Perturbative approach to the HSE06, PBE0, and B3LYP band gaps
+HSE06 and PBE0 tests temporarily disabled, waiting for the next version of the libxc)" data-placement="auto right" data-toggle="popover" data-trigger="hover focus" href="../../tests/libxc/Input/t41.abi" target="_blank">libxc[41]</a>.
+Added in <a class="wikilink abigit-wikilink" href="https://github.com/abinit/abinit/commit/f74dba1ed8346ca586dc95fd10fe4b8ced108d5e">f74dba1</a>.</p>
+<p>B.2
+Added subsuite syntax <a class="wikilink abifile-wikilink" data-content="Gold with one vacancy (107 atoms of gold)." data-placement="auto right" data-toggle="popover" data-trigger="hover focus" href="../../tests/tutoparal/Input/tgspw_01.abi" target="_blank">gspw[01]</a></p>
+<p>C.2<br />
+New versions of Fortran compilers have been integrated in the test farm:</p>
+<ul>
+<li>intel 16.0</li>
+<li>gnu 6.1 and 6.2</li>
+<li>IBM xlf compiler 14.1</li>
+<li>NAG 7.0</li>
+</ul>
+<p>Corresponding examples are available in <a class="wikilink" href="../../build/config-template.ac9"></a>.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>We are already using Markdown on gitlab to document our merge requests.
+This means that we can easily integrate all this gitlab documentation
+with the release notes published on the website.</p>
+</div>
+<h2 id="variable-object">Variable object<a class="headerlink" href="#variable-object" title="Permanent link">&para;</a></h2>
+<p>It is the type that contains the other fields.  </p>
+<dl>
+<dt>abivarname</dt>
+<dd>The name of the variable. Note that the name for input variables 
+  of the executables anaddb, aim and optic is always finished with @anaddb, @aim or @optic.</dd>
+<dt>characteristics</dt>
+<dd>Possibly, a specific characteristics of the input variable. 
+  To be chosen among the names in <code>~abinit/doc/input_variables/origin_files/characteristics.yml</code>.</dd>
+<dt>commentdefault</dt>
+<dd>Possibly, some comment about a default value.</dd>
+<dt>commentdims</dt>
+<dd>Possibly, some comment about the dimension of an array.</dd>
+<dt>defaultval</dt>
+<dd>Must be an integer or real value, possibly specified using the types presented below (e.g. !multiplevalue)</dd>
+<dt>dimensions</dt>
+<dd>Either scalar or a list of dimensions, using YML syntax.</dd>
+<dt>excludes</dt>
+<dd>Possible excluded values</dd>
+<dt>mnemonics</dt>
+<dd>A longer description of the variable role, in a few words</dd>
+<dt>requires</dt>
+<dd>The input variable is relevant only if this condition is fulfilled</dd>
+<dt>text</dt>
+<dd>Free text describing the input variable</dd>
+<dt>topics</dt>
+<dd>A string, specified in <a href="#topics-and-relevances">topics_and_relevances</a></dd>
+<dt>varset</dt>
+<dd>a unique &ldquo;set of variables&rdquo; to which the variable belong. 
+  To be chosen among the names in <code>~abinit/doc/input_variables/origin_files/varsets.yml</code>.</dd>
+<dt>vartype</dt>
+<dd>to be chosen among integer, real or string
+  If there is no information of a type for a specific variable, its value must be &ldquo;null&rdquo;.</dd>
+</dl>
+<h3 id="multiplevalue-object">MultipleValue object<a class="headerlink" href="#multiplevalue-object" title="Permanent link">&para;</a></h3>
+<p>This is the equivalent to the X * Y syntax in the Abinit parser.</p>
+<p><code>
+  X * Y
+</code></p>
+<p>will become</p>
+<div class="highlight"><pre><span></span><code>  <span class="kt">!multiplevalue</span>
+    <span class="nt">number </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">X</span>
+    <span class="nt">value </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Y</span>
+</code></pre></div>
+<p>If X is null, it means that you want to do *Y (all Y)</p>
+<h3 id="range-object">Range object<a class="headerlink" href="#range-object" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>  <span class="kt">!range</span>
+     <span class="nt">start</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>
+     <span class="nt">stop</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">N</span>
+</code></pre></div>
+<p>As a default value, it means that the default value is 1, 2, &hellip; N</p>
+<h3 id="valuewithconditions-object">ValueWithConditions object<a class="headerlink" href="#valuewithconditions-object" title="Permanent link">&para;</a></h3>
+<p>This type allows to specify conditions on values:</p>
+<div class="highlight"><pre><span></span><code><span class="kt">!valuewithconditions</span>
+    <span class="nt">defaultval</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">-[[diemix]]</span>
+    <span class="s">&#39;70</span><span class="nv"> </span><span class="s">&lt;</span><span class="nv"> </span><span class="s">[[iprcel]]</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">[[iprcel]]</span><span class="nv"> </span><span class="s">&lt;</span><span class="nv"> </span><span class="s">80&#39;</span><span class="p p-Indicator">:</span> <span class="s">&#39;[[diemix]]&#39;</span>
+    <span class="s">&#39;[[iscf]]&lt;10&#39;</span><span class="p p-Indicator">:</span> <span class="s">&#39;[[diemix]]&#39;</span>
+    <span class="s">&#39;[[iprcel]]==0&#39;</span><span class="p p-Indicator">:</span> <span class="s">&#39;[[diemix]]&#39;</span>
+</code></pre></div>
+<p>defaultval is the default value if no condition is fulfilled.
+As condition, please use strings with the most basic expressions, 
+containing &lt;, &lt; =, &gt;, &gt;=, ==, !=, +, -, *, /, etc to allow for further simple parsing !</p>
+<p>As a convention, we use &ldquo;pythonic&rdquo; way for expressions, so you can use &ldquo;or&rdquo;, &ldquo;and&rdquo; and &ldquo;in&rdquo; 
+also as <span style="background-color: #E0E0E0;font-size:90%;"> &#91; [varname] &#93; in [1,2,5]</span> for example &hellip;</p>
+<h3 id="valuewithunit-object">ValueWithUnit object<a class="headerlink" href="#valuewithunit-object" title="Permanent link">&para;</a></h3>
+<p>This type allows to specify values with units:</p>
+<div class="highlight"><pre><span></span><code><span class="kt">!valuewithunit</span>
+    <span class="nt">units</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">eV</span>
+    <span class="nt">value</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">100.0</span>
+</code></pre></div>
+<p>means &ldquo;100 eV&rdquo;.</p>
+<h3 id="constraints-between-variables">Constraints between variables<a class="headerlink" href="#constraints-between-variables" title="Permanent link">&para;</a></h3>
+<p>In the YML file (and via the GUI), there are some constraints between variables that have been introduced.
+You can specify &ldquo;requires: CONDITION&rdquo; and &ldquo;excludes: CONDITION&rdquo; in the YML file 
+(or fill the fields requires and excludes in the GUI).</p>
+<p>If a varname has &ldquo;requires: CONDITION&rdquo;, it means that the variable is only relevant when CONDITION is fulfilled.
+If a varname has as &ldquo;excludes: CONDITION&rdquo;, it means that the specification of the variable in the input file forbids 
+the CONDITION to be fulfilled.</p>
+<p>Pay attention to strings. If it is recognized as string directly, you don&rsquo;t need ticks (&lsquo; &lsquo;).
+Otherwise, you need to put ticks. 
+For example, if you want to use a link as a value, use a link shortcut like <span style="background-color: #E0E0E0;font-size:90%;"> &#91; [abivarname] &#93; </span>. 
+See the doc about link shortcuts at <a href="../markdown/#links">links shortcuts</a>. </p>
+                
+                  
+                
+              
+
+<!-- 
+add dropdown button with toolbar (based on https://bootsnipp.com/snippets/featured/inbox-by-gmail)
+and return to Top button (based on https://codepen.io/rdallaire/pen/apoyx)
+-->
+<div class="md-container">
+  <div class="row">
+    <div id="inbox">
+      <div class="fab btn-group show-on-hover dropup">
+        <div data-toggle="tooltip" data-placement="left" title="Menu" style="margin-left: 42px;">
+          <button id="return-to-top" type="button" class="btn btn-primary btn-io dropdown-toggle" data-toggle="dropdown">
+            <span class="fa-stack fa-2x">
+                <i class="fa fa-circle fa-stack-2x fab-backdrop"></i>
+                <i class="fa fa-chevron-up fa-stack-1x fa-inverse fab-primary"></i>
+                <i class="fa fa-map-signs fa-stack-1x fa-inverse fab-secondary"></i>
+            </span>
+          </button>
+        </div>
+        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+        
+        
+          <li><a href="../../about/release-notes/" data-toggle="tooltip" data-placement="left" 
+                  title="About"><i class="fa fa-info-circle"></i></a></li>
+        
+          <li><a href="../git_and_gitlab/" data-toggle="tooltip" data-placement="left" 
+                  title="Developers"><i class="fa fa-terminal"></i></a></li>
+        
+          <li><a href="../../theory/geometry/" data-toggle="tooltip" data-placement="left" 
+                  title="Theory"><i class="fa fa-book"></i></a></li>
+        
+          <li><a href="../../tutorial/" data-toggle="tooltip" data-placement="left" 
+                  title="Tutorial"><i class="fa fa-graduation-cap"></i></a></li>
+        
+          <li><a href="../../variables/" data-toggle="tooltip" data-placement="left" 
+                  title="Variables"><i class="fa fa-file-text-o"></i></a></li>
+        
+          <li><a href="../../topics/features/" data-toggle="tooltip" data-placement="left" 
+                  title="Topics"><i class="fa fa-question"></i></a></li>
+        
+          <li><a href="../.." data-toggle="tooltip" data-placement="left" 
+                  title="User Guide"><i class="fa fa-user-circle-o"></i></a></li>
+        
+        <!--
+        Example: 
+        <li><a href="/index.html" data-toggle="tooltip" data-placement="left" title="User-Guide">
+              <i class="fa fa-user-circle-o"></i></a></li>
+        -->
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+              
+                
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+    <!-- Add tabs to footer -->
+    
+        
+
+  
+
+<nav class="md-tabs md-tabs--active" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../.." title="User Guide" class="md-tabs__link">
+          User Guide
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../topics/features/" title="Topics" class="md-tabs__link">
+          Topics
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../variables/" title="Variables" class="md-tabs__link">
+          Variables
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../tutorial/" title="Tutorial" class="md-tabs__link">
+          Tutorial
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../theory/geometry/" title="Theory" class="md-tabs__link">
+          Theory
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../git_and_gitlab/" title="Developers" class="md-tabs__link md-tabs__link--active">
+          Developers
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../about/release-notes/" title="About" class="md-tabs__link">
+          About
+        </a>
+      
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+    
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../developers_howto/" title="HowTo for developers" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                HowTo for developers
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../markdown/" title="Markdown" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Markdown
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+            <center>Abinit version 9.4.0</center>
+        
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2020-2021 The Abinit Group (MG, XG)
+          </div>
+        
+        powered by
+        <a href="http://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+  <div class="md-footer-social">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+      <a href="https://github.com/abinit/abinit" class="md-footer-social__link fa fa-github-alt"></a>
+    
+      <a href="https://twitter.com/hashtag/abinit" class="md-footer-social__link fa fa-twitter"></a>
+    
+      <a href="http://www.facebook.com/abinit.org" class="md-footer-social__link fa fa-facebook"></a>
+    
+      <a href="https://www.youtube.com/watch?v=gcbfb_Mteo4" class="md-footer-social__link fa fa-youtube"></a>
+    
+  </div>
+
+      
+    </div>
+  </div>
+</footer>
+      
+
+    </div>
+    
+      <script src="../../assets/javascripts/application.02434462.js"></script>
+      
+      <script>app.initialize({version:"0.17.5",url:{base:"../.."}})</script>
+      
+        <script src="../../extra_javascript/jquery.dialogextend.min.js"></script>
+      
+        <script src="../../extra_javascript/abidocs.js"></script>
+      
+    
+    
+      
+        <script>!function(e,a,t,n,o,c,i){e.GoogleAnalyticsObject=o,e.ga=e.ga||function(){(e.ga.q=e.ga.q||[]).push(arguments)},e.ga.l=1*new Date,c=a.createElement(t),i=a.getElementsByTagName(t)[0],c.async=1,c.src="https://www.google-analytics.com/analytics.js",i.parentNode.insertBefore(c,i)}(window,document,"script",0,"ga"),ga("create","UA-116681470-1","docs.abinit.org"),ga("set","anonymizeIp",!0),ga("send","pageview");var links=document.getElementsByTagName("a");if(Array.prototype.map.call(links,function(e){e.host!=document.location.host&&e.addEventListener("click",function(){var a=e.getAttribute("data-md-action")||"follow";ga("send","event","outbound",a,e.href)})}),document.forms.search){var query=document.forms.search.query;query.addEventListener("blur",function(){if(this.value){var e=document.location.pathname;ga("send","pageview",e+"?q="+this.value)}})}</script>
+      
+    
+  </body>
+</html>

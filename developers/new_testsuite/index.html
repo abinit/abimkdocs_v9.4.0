@@ -1,0 +1,4902 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="Design of the new YAML-based test suite.">
+      
+      
+        <link rel="canonical" href="https://docs.abinit.org/developers/new_testsuite/">
+      
+      
+        <meta name="author" content="The Abinit group">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../images/favicon.ico">
+      <meta name="generator" content="mkdocs-0.17.5, mkdocs-material-2.6.6">
+    
+    
+      
+        <title>YAML-based test suite Howto - abinit</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application.78aab2dc.css">
+      
+        <link rel="stylesheet" href="../../assets/stylesheets/application-palette.6079476c.css">
+      
+    
+    
+    
+      <script src="../../assets/javascripts/modernizr.1aa3b519.js"></script>
+    
+
+    <!-- Jquery from Google CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Load Jquery UI -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <!-- Handle jQuery plugin naming conflict between jQuery UI and Bootstrap 
+    https://stackoverflow.com/questions/13731400/jqueryui-tooltips-are-competing-with-twitter-bootstrap
+    -->
+    <script>
+      $.widget.bridge('uibutton', $.ui.button);
+      $.widget.bridge('uitooltip', $.ui.tooltip);
+    </script>
+
+    <!--
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/pepper-grinder/jquery-ui.css">
+    -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <!-- Bootstrap theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.0/build/css/themes/bootstrap.min.css"/>
+
+    <!-- Bootstrap http://getbootstrap.com/getting-started/ -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" 
+    integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
+    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous">
+    </script>
+
+    <!-- font-awesome -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    
+
+    <!--Pace support. http://github.hubspot.com/pace/ -->
+    <script>
+        paceOptions = {
+            ajax: true,      // disabled
+            document: true,  // activated
+            eventLag: false  // disabled
+            //target: 'article'
+            //elements: {selectors: ['.my-page']}
+        };
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/white/pace-theme-big-counter.min.css" />
+    <!--
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/white/pace-theme-bounce.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-corner-indicator.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-flat-top.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-loading-bar.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-center-atom.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-flash.min.css" />
+    -->
+
+    <!-- MathJax support
+    <script type="text/javascript" async 
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script> 
+    -->
+    <!--
+    This is compatible with plotly.
+    -->
+    <script type="text/javascript" async 
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_SVG">
+    </script> 
+
+    <!--
+    Configure MathJax to produce automatic equation numbers http://docs.mathjax.org/en/latest/tex.html
+    -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        //jax: ["input/TeX","output/HTML-CSS"],
+        //tex2jax: {inlineMath: [['$','$']]},
+        //displayAlign: "center",
+        TeX: {
+            equationNumbers: { autoNumber: "AMS" },
+            extensions: ["AMSmath.js", "boldsymbol.js"],
+            Macros: {
+                "*": "{\\dagger}",
+                "ra": "{\\rangle}",
+                "la": "{\\langle}",
+                // Workaround for bm package. See https://github.com/mathjax/MathJax/issues/1219
+                bm: ["{\\boldsymbol #1}",1],
+                // Mathcal symbols
+                mcL: "{\\mathcal{L}}",
+                mcG: "{\\mathcal{G}}",
+                mcR: "{\\mathcal{R}}",
+                mcS: "{\\mathcal{S}}",
+                mcC: "{\\mathcal{C}}",
+                mcO: "{\\mathcal{O}}",
+                // Acronyms
+                KS: "{\\text{KS}}",
+                eph: "{\\text{e-ph}}",
+                ee: "{\\text{e-e}}",
+                phph: "{\\text{ph-ph}}",
+                FM: "{\\text{FM}}",
+                DW: "{\\text{DW}}",
+                QP: "{\\text{QP}}",
+                BZ: "{\\text{BZ}}",
+                sign: "{\\text{sign}}",
+                xc: "{\\text{xc}}",
+                tchi: "{\\tilde\\chi}",
+                // Symbols commonly used (k-points, eigenvalues ...)
+                rr: "{\\bf r}",
+                RR: "{\\bf R}",
+                tt: "{\\bf t}",
+                GG: "{\\bf G}",
+                kk: "{\\bf k}",
+                qq: "{\\bf q}",
+                kq: "{\\kk + \\qq}",
+                qG: "{\\bf q + G}",
+                kG: "{\\bf k + G}",
+                kmq: "{\\kk - \\qq}",
+                kpq: "{\\kk + \\qq}",
+                kpG: "{\\kk + \\GG}",
+                qpG: "{\\qq + \\GG}",
+                nk: "{n \\kk}",
+                enk: "{\\varepsilon_\\nk}",
+                emkq: "{\\varepsilon_{m\\kk+\\qq}}",
+                qnu: "{\\qq \\nu}",
+                wqnu: "{\\omega_{\\qnu}}",
+                vnk: "{\\mathbf{v}_{n\\kk}}",
+                vmkq: "{\\mathbf{v}_{m\\kk+\\qq}}",
+                vnka: "{\\mathrm{v}_{n\\kk,\\alpha}}",
+                vnkb: "{\\mathrm{v}_{n\\kk,\\beta}}",
+                ef: "{\\varepsilon_F}",
+                // EPH quantities
+                gkkp: "{g_{mn\\nu}(\\kk,\\qq)}",
+                gkq: "{g_{mn\\nu}(\\kk,\\qq)}",
+                //\newcommand{\gkkpL}{g_{mn\nu}^\Lc(\kb,\qb)}
+                // Many-body theory
+                Go: "{G_0}",
+                Wo: "{W_0}",
+                Ueff: "{U_{\\text{eff}}}",
+                // Greek symbols + tilde version
+                ee: "{\\epsilon}",
+                tee: "{\\tilde{\\epsilon}}",
+                ww: "{\\omega}",
+                tww: "{\\tilde\\omega}",
+                dd: "{\\,\\text{d}}",
+                vxc: "{v_\\xc}",
+                // symrel
+                Ri: "{\\mcR^{-1}}",
+                Rit: "{\\mcR^{-1\\tau}}",
+                // symrec
+                Si: "{\\mcS^{-1}}}",
+                Sit: "{\\Si^\\tau}}",
+                // partial and functional derivative.
+                PDER: ["{\\dfrac{\\partial #1}{\\partial #2}}", 2],
+                FDER: ["{\\dfrac{\\delta #1}{\\delta #2}}", 2],
+                // PAW
+                tPsi: "{\\tilde\\Psi}",
+                tpsi: "{\\tilde\\psi}",
+                tPhi: "{\\tilde\\Phi}",
+                tphi: "{\\tilde\\phi}",
+                tprj: "{\\tilde p}"
+            }
+          }
+      });
+    </script>
+
+    <!-- See http://docs.mathjax.org/en/latest/start.html 
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js", "MathMenu.js", "MathZoom.js"],
+        jax: ["input/TeX", "output/HTML-CSS", "output/NativeMML],
+        tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+            processEscapes: true
+        },
+        "HTML-CSS": { availableFonts: ["TeX"] }
+      });
+    </script>
+    -->
+
+    
+    
+    
+
+    <!-- Introjs for Guided Tour -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.7.0/intro.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.7.0/introjs.min.css" />
+
+    <!-- Load fonts used for input variables -->
+    <!--
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu+Mono" rel="stylesheet">
+    -->
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+
+    
+      <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+      
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    
+    
+      <link rel="stylesheet" href="../../css/extra.css">
+    
+      <link rel="stylesheet" href="../../css/gallery.css">
+    
+      <link rel="stylesheet" href="../../css/my_codehilite.css">
+    
+    
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="deep-orange" data-md-color-accent="deep-orange">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="drawer">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
+    <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
+    
+      <a href="#yaml-based-tests-design-principles-and-implementation-details" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="https://www.abinit.org" title="abinit" class="md-header-nav__button md-logo">
+          
+            <img src="../../images/logo-abinit-2015.png" width="48" height="48">
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <span class="md-flex__ellipsis md-header-nav__title">
+          
+            
+              
+                <span class="md-header-nav__parent">
+                  Developers
+                </span>
+              
+                <span class="md-header-nav__parent">
+                  Test Suite
+                </span>
+              
+            
+            YAML-based test suite Howto
+          
+        </span>
+      </div>
+      <!-- Guided Tour with introjs. Add glow effect to button only if homepage -->
+      <div class="md-flex__cell md-flex__cell--shrink">
+           
+          
+          <a href="#" class="btn btn-xs btn-default  " id="guided-tour-button" title="Guided Tour" 
+              onclick="abidocs_guidedtour()">
+           <span class="fa fa-info-circle"></span></a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.com/abinit/abinit/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      github-abinit
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+      <div class="md-flex__cell md-flex__cell--shrink" id="previous_published_versions">
+        <div class="dropdown">
+          <button class="btn btn-basic btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
+            9.4.0
+          <span class="caret"></span></button>
+          <ul class="dropdown-menu">
+            
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+        
+
+  
+
+<nav class="md-tabs md-tabs--active" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../.." title="User Guide" class="md-tabs__link">
+          User Guide
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../topics/features/" title="Topics" class="md-tabs__link">
+          Topics
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../variables/" title="Variables" class="md-tabs__link">
+          Variables
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../tutorial/" title="Tutorial" class="md-tabs__link">
+          Tutorial
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../theory/geometry/" title="Theory" class="md-tabs__link">
+          Theory
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../git_and_gitlab/" title="Developers" class="md-tabs__link md-tabs__link--active">
+          Developers
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../about/release-notes/" title="About" class="md-tabs__link">
+          About
+        </a>
+      
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="drawer">
+    <span class="md-nav__button md-logo">
+      
+        <img src="../../images/logo-abinit-2015.png" width="24" height="24">
+      
+    </span>
+    abinit
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/abinit/abinit/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      github-abinit
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1">
+    
+    <label class="md-nav__link" for="nav-1">
+      User Guide
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-1">
+        User Guide
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="NewUser" class="md-nav__link">
+      NewUser
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/abinit/" title="Abinit" class="md-nav__link">
+      Abinit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/aim/" title="Aim" class="md-nav__link">
+      Aim
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/anaddb/" title="Anaddb" class="md-nav__link">
+      Anaddb
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/cut3d/" title="Cut3d" class="md-nav__link">
+      Cut3d
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/fold2bloch/" title="Fold2Bloch" class="md-nav__link">
+      Fold2Bloch
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/mrgddb/" title="Mrgddb" class="md-nav__link">
+      Mrgddb
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/mrgscr/" title="Mrgscr" class="md-nav__link">
+      Mrgscr
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/multibinit/" title="Multibinit" class="md-nav__link">
+      Multibinit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/optic/" title="Optic" class="md-nav__link">
+      Optic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/respfn/" title="Respfn" class="md-nav__link">
+      Respfn
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/spacegroup/" title="Spacegroup" class="md-nav__link">
+      Spacegroup
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/a-TDEP/" title="a-TDEP" class="md-nav__link">
+      a-TDEP
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1-14" type="checkbox" id="nav-1-14">
+    
+    <label class="md-nav__link" for="nav-1-14">
+      Installation
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-1-14">
+        Installation
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../installation/" title="HowTo" class="md-nav__link">
+      HowTo
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../INSTALL_MacOS/" title="MacOS" class="md-nav__link">
+      MacOS
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../INSTALL_Ubuntu/" title="Ubuntu" class="md-nav__link">
+      Ubuntu
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../INSTALL_CentOS/" title="CentOS" class="md-nav__link">
+      CentOS
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../INSTALL_EasyBuild/" title="EasyBuild" class="md-nav__link">
+      EasyBuild
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../INSTALL_gpu/" title="GPUs" class="md-nav__link">
+      GPUs
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Topics
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Topics
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/features/" title="Features" class="md-nav__link">
+      Features
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/" title="Topic List" class="md-nav__link">
+      Topic List
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Abipy/" title="Abipy" class="md-nav__link">
+      Abipy
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/APPA/" title="APPA" class="md-nav__link">
+      APPA
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Artificial/" title="Artificial" class="md-nav__link">
+      Artificial
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/AtomManipulator/" title="AtomManipulator" class="md-nav__link">
+      AtomManipulator
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/AtomTypes/" title="AtomTypes" class="md-nav__link">
+      AtomTypes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Bader/" title="Bader" class="md-nav__link">
+      Bader
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Band2eps/" title="Band2eps" class="md-nav__link">
+      Band2eps
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Berry/" title="Berry" class="md-nav__link">
+      Berry
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/BandOcc/" title="BandOcc" class="md-nav__link">
+      BandOcc
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/BSE/" title="BSE" class="md-nav__link">
+      BSE
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/BoundingProcess/" title="BoundingProcess" class="md-nav__link">
+      BoundingProcess
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ConstrainedDFT/" title="ConstrainedDFT" class="md-nav__link">
+      ConstrainedDFT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ConstrainedPol/" title="ConstrainedPol" class="md-nav__link">
+      ConstrainedPol
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Control/" title="Control" class="md-nav__link">
+      Control
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Coulomb/" title="Coulomb" class="md-nav__link">
+      Coulomb
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/CrossingBarriers/" title="CrossingBarriers" class="md-nav__link">
+      CrossingBarriers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/CRPA/" title="CRPA" class="md-nav__link">
+      CRPA
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/crystal/" title="Crystal" class="md-nav__link">
+      Crystal
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/DFT+U/" title="DFT+U" class="md-nav__link">
+      DFT+U
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/DeltaSCF/" title="DeltaSCF" class="md-nav__link">
+      DeltaSCF
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/DensityPotential/" title="DensityPotential" class="md-nav__link">
+      DensityPotential
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Dev/" title="Dev" class="md-nav__link">
+      Dev
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/DFPT/" title="DFPT" class="md-nav__link">
+      DFPT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/DMFT/" title="DMFT" class="md-nav__link">
+      DMFT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/DynamicsMultibinit/" title="DynamicsMultibinit" class="md-nav__link">
+      DynamicsMultibinit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/EffectiveMass/" title="EffectiveMass" class="md-nav__link">
+      EffectiveMass
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/EFG/" title="EFG" class="md-nav__link">
+      EFG
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Elastic/" title="Elastic" class="md-nav__link">
+      Elastic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ElPhonInt/" title="ElPhonInt" class="md-nav__link">
+      ElPhonInt
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ElPhonTransport/" title="ElPhonTransport" class="md-nav__link">
+      ElPhonTransport
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ElecDOS/" title="ElecDOS" class="md-nav__link">
+      ElecDOS
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ElecBandStructure/" title="ElecBandStructure" class="md-nav__link">
+      ElecBandStructure
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/FileFormats/" title="FileFormats" class="md-nav__link">
+      FileFormats
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/FitProcess/" title="FitProcess" class="md-nav__link">
+      FitProcess
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ForcesStresses/" title="ForcesStresses" class="md-nav__link">
+      ForcesStresses
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/FrequencyMeshMBPT/" title="FrequencyMeshMBPT" class="md-nav__link">
+      FrequencyMeshMBPT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/GeoConstraints/" title="GeoConstraints" class="md-nav__link">
+      GeoConstraints
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/GeoOpt/" title="GeoOpt" class="md-nav__link">
+      GeoOpt
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Git/" title="Git" class="md-nav__link">
+      Git
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/GSintroduction/" title="GSintroduction" class="md-nav__link">
+      GSintroduction
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/GW/" title="GW" class="md-nav__link">
+      GW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/GWls/" title="GWls" class="md-nav__link">
+      GWls
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Hybrids/" title="Hybrids" class="md-nav__link">
+      Hybrids
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/k-points/" title="K points" class="md-nav__link">
+      K points
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/LatticeModel/" title="LatticeModel" class="md-nav__link">
+      LatticeModel
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/LDAminushalf/" title="LDAminushalf" class="md-nav__link">
+      LDAminushalf
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/LOTF/" title="LOTF" class="md-nav__link">
+      LOTF
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/longwave/" title="Longwave" class="md-nav__link">
+      Longwave
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Macroave/" title="Macroave" class="md-nav__link">
+      Macroave
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/MagField/" title="MagField" class="md-nav__link">
+      MagField
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/MagMom/" title="MagMom" class="md-nav__link">
+      MagMom
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/MolecularDynamics/" title="MolecularDynamics" class="md-nav__link">
+      MolecularDynamics
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/multidtset/" title="Multidtset" class="md-nav__link">
+      Multidtset
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/nonlinear/" title="Nonlinear" class="md-nav__link">
+      Nonlinear
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Optic/" title="Optic" class="md-nav__link">
+      Optic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Output/" title="Output" class="md-nav__link">
+      Output
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/parallelism/" title="Parallelism" class="md-nav__link">
+      Parallelism
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/PAW/" title="PAW" class="md-nav__link">
+      PAW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/PIMD/" title="PIMD" class="md-nav__link">
+      PIMD
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Planewaves/" title="Planewaves" class="md-nav__link">
+      Planewaves
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Phonons/" title="Phonons" class="md-nav__link">
+      Phonons
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/PhononBands/" title="PhononBands" class="md-nav__link">
+      PhononBands
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/PhononWidth/" title="PhononWidth" class="md-nav__link">
+      PhononWidth
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/PortabilityNonRegression/" title="PortabilityNonRegression" class="md-nav__link">
+      PortabilityNonRegression
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/positron/" title="Positron" class="md-nav__link">
+      Positron
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/printing/" title="Printing" class="md-nav__link">
+      Printing
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/PseudosPAW/" title="PseudosPAW" class="md-nav__link">
+      PseudosPAW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/q-points/" title="Q points" class="md-nav__link">
+      Q points
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/RandStopPow/" title="RandStopPow" class="md-nav__link">
+      RandStopPow
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Recursion/" title="Recursion" class="md-nav__link">
+      Recursion
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/RPACorrEn/" title="RPACorrEn" class="md-nav__link">
+      RPACorrEn
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/SCFControl/" title="SCFControl" class="md-nav__link">
+      SCFControl
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/SCFAlgorithms/" title="SCFAlgorithms" class="md-nav__link">
+      SCFAlgorithms
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/SelfEnergy/" title="SelfEnergy" class="md-nav__link">
+      SelfEnergy
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/SmartSymm/" title="SmartSymm" class="md-nav__link">
+      SmartSymm
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/spinpolarisation/" title="Spinpolarisation" class="md-nav__link">
+      Spinpolarisation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/SpinDynamicsMultibinit/" title="SpinDynamicsMultibinit" class="md-nav__link">
+      SpinDynamicsMultibinit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/STM/" title="STM" class="md-nav__link">
+      STM
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Susceptibility/" title="Susceptibility" class="md-nav__link">
+      Susceptibility
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/TDDFT/" title="TDDFT" class="md-nav__link">
+      TDDFT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/a-TDEP/" title="a TDEP" class="md-nav__link">
+      a TDEP
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/TDepES/" title="TDepES" class="md-nav__link">
+      TDepES
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Temperature/" title="Temperature" class="md-nav__link">
+      Temperature
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/TransPath/" title="TransPath" class="md-nav__link">
+      TransPath
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/TuningSpeedMem/" title="TuningSpeedMem" class="md-nav__link">
+      TuningSpeedMem
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Unfolding/" title="Unfolding" class="md-nav__link">
+      Unfolding
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/UnitCell/" title="UnitCell" class="md-nav__link">
+      UnitCell
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/vdw/" title="Vdw" class="md-nav__link">
+      Vdw
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Verification/" title="Verification" class="md-nav__link">
+      Verification
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Wannier/" title="Wannier" class="md-nav__link">
+      Wannier
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Wavelets/" title="Wavelets" class="md-nav__link">
+      Wavelets
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/xc/" title="Xc" class="md-nav__link">
+      Xc
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/external_resources/" title="External Resources" class="md-nav__link">
+      External Resources
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Variables
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Variables
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/" title="All Variables" class="md-nav__link">
+      All Variables
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-2" type="checkbox" id="nav-3-2">
+    
+    <label class="md-nav__link" for="nav-3-2">
+      Abinit
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-2">
+        Abinit
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/basic/" title="Basic" class="md-nav__link">
+      Basic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/bse/" title="Bethe-Salpeter" class="md-nav__link">
+      Bethe-Salpeter
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/dev/" title="Developers" class="md-nav__link">
+      Developers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/dmft/" title="DMFT" class="md-nav__link">
+      DMFT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/eph/" title="Electron-Phonon" class="md-nav__link">
+      Electron-Phonon
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/ffield/" title="Varff" class="md-nav__link">
+      Varff
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/files/" title="File-handling" class="md-nav__link">
+      File-handling
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/geo/" title="Geometry" class="md-nav__link">
+      Geometry
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/gstate/" title="Ground-State" class="md-nav__link">
+      Ground-State
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/gw/" title="GW" class="md-nav__link">
+      GW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/internal/" title="Internal" class="md-nav__link">
+      Internal
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/paral/" title="Parallelism" class="md-nav__link">
+      Parallelism
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/paw/" title="PAW" class="md-nav__link">
+      PAW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/dfpt/" title="DFPT" class="md-nav__link">
+      DFPT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/rlx/" title="Relaxation" class="md-nav__link">
+      Relaxation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/vdw/" title="VdW" class="md-nav__link">
+      VdW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/w90/" title="Wannier90" class="md-nav__link">
+      Wannier90
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/anaddb/" title="Anaddb" class="md-nav__link">
+      Anaddb
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/multibinit/" title="Multibinit" class="md-nav__link">
+      Multibinit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/optic/" title="Optic" class="md-nav__link">
+      Optic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/atdep/" title="a-TDEP" class="md-nav__link">
+      a-TDEP
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/aim/" title="Aim" class="md-nav__link">
+      Aim
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/external_parameters/" title="External Parameters" class="md-nav__link">
+      External Parameters
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/varset_stats/" title="Statistics" class="md-nav__link">
+      Statistics
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      Tutorial
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        Tutorial
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/compilation/" title="Building Abinit" class="md-nav__link">
+      Building Abinit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-3" type="checkbox" id="nav-4-3">
+    
+    <label class="md-nav__link" for="nav-4-3">
+      Base Tutorials
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-3">
+        Base Tutorials
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/base1/" title="Base1" class="md-nav__link">
+      Base1
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/base2/" title="Base2" class="md-nav__link">
+      Base2
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/base3/" title="Base3" class="md-nav__link">
+      Base3
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/base4/" title="Base4" class="md-nav__link">
+      Base4
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/spin/" title="Spin" class="md-nav__link">
+      Spin
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-4" type="checkbox" id="nav-4-4">
+    
+    <label class="md-nav__link" for="nav-4-4">
+      PAW
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-4">
+        PAW
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/paw1/" title="PAW1" class="md-nav__link">
+      PAW1
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/paw2/" title="PAW2" class="md-nav__link">
+      PAW2
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/paw3/" title="PAW3" class="md-nav__link">
+      PAW3
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-5" type="checkbox" id="nav-4-5">
+    
+    <label class="md-nav__link" for="nav-4-5">
+      DFT_PLUS_U
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-5">
+        DFT_PLUS_U
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/dftu/" title="Dftu" class="md-nav__link">
+      Dftu
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/udet/" title="Udet" class="md-nav__link">
+      Udet
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/ucalc_crpa/" title="Ucalc crpa" class="md-nav__link">
+      Ucalc crpa
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-6" type="checkbox" id="nav-4-6">
+    
+    <label class="md-nav__link" for="nav-4-6">
+      DFPT
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-6">
+        DFPT
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/rf1/" title="RF1" class="md-nav__link">
+      RF1
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/rf2/" title="RF2" class="md-nav__link">
+      RF2
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/elastic/" title="Elastic" class="md-nav__link">
+      Elastic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/ffield/" title="Ffield" class="md-nav__link">
+      Ffield
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/nlo/" title="Nlo" class="md-nav__link">
+      Nlo
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/dmft/" title="DMFT" class="md-nav__link">
+      DMFT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-8" type="checkbox" id="nav-4-8">
+    
+    <label class="md-nav__link" for="nav-4-8">
+      EPH
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-8">
+        EPH
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/eph_intro/" title="Eph intro" class="md-nav__link">
+      Eph intro
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/eph4mob/" title="Eph4mob" class="md-nav__link">
+      Eph4mob
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/eph4zpr/" title="Eph4zpr" class="md-nav__link">
+      Eph4zpr
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-9" type="checkbox" id="nav-4-9">
+    
+    <label class="md-nav__link" for="nav-4-9">
+      EPH-legacy
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-9">
+        EPH-legacy
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/eph/" title="Eph" class="md-nav__link">
+      Eph
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/tdepes/" title="Tdepes" class="md-nav__link">
+      Tdepes
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-10" type="checkbox" id="nav-4-10">
+    
+    <label class="md-nav__link" for="nav-4-10">
+      Many-Body
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-10">
+        Many-Body
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/gw1/" title="GW1" class="md-nav__link">
+      GW1
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/gw2/" title="GW2" class="md-nav__link">
+      GW2
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/bse/" title="Bethe-Salpeter" class="md-nav__link">
+      Bethe-Salpeter
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-11" type="checkbox" id="nav-4-11">
+    
+    <label class="md-nav__link" for="nav-4-11">
+      Parallelism
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-11">
+        Parallelism
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/basepar/" title="Base" class="md-nav__link">
+      Base
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/paral_gspw/" title="GSPW" class="md-nav__link">
+      GSPW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/paral_gswvl/" title="GSWVL" class="md-nav__link">
+      GSWVL
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/paral_dfpt/" title="DFPT" class="md-nav__link">
+      DFPT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/paral_images/" title="Images" class="md-nav__link">
+      Images
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/paral_mbt/" title="Many-Body" class="md-nav__link">
+      Many-Body
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/paral_moldyn/" title="Moldyn" class="md-nav__link">
+      Moldyn
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-12" type="checkbox" id="nav-4-12">
+    
+    <label class="md-nav__link" for="nav-4-12">
+      Multibinit
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-12">
+        Multibinit
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/lattice_model/" title="Lattice Model" class="md-nav__link">
+      Lattice Model
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/spin_model/" title="Spin Model" class="md-nav__link">
+      Spin Model
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/cut3d/" title="Cut3d" class="md-nav__link">
+      Cut3d
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/fold2bloch/" title="Fold2bloch" class="md-nav__link">
+      Fold2bloch
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/nuc/" title="Nuc" class="md-nav__link">
+      Nuc
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/optic/" title="Optic" class="md-nav__link">
+      Optic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/positron/" title="Positron" class="md-nav__link">
+      Positron
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/tddft/" title="Tddft" class="md-nav__link">
+      Tddft
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/wannier90/" title="Wannier90" class="md-nav__link">
+      Wannier90
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      Theory
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        Theory
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/geometry/" title="Geometry" class="md-nav__link">
+      Geometry
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/spherical_harmonics/" title="Spherical Harmonics" class="md-nav__link">
+      Spherical Harmonics
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/wavefunctions/" title="Wavefunctions" class="md-nav__link">
+      Wavefunctions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/noncollinear/" title="Noncollinear" class="md-nav__link">
+      Noncollinear
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/pseudopotentials/" title="Pseudopotentials" class="md-nav__link">
+      Pseudopotentials
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/mbt/" title="Many-Body Perturbation Theory" class="md-nav__link">
+      Many-Body Perturbation Theory
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/bse/" title="Bethe-Salpeter" class="md-nav__link">
+      Bethe-Salpeter
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/documents/" title="Documents" class="md-nav__link">
+      Documents
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/acknowledgments/" title="Acknowledgments" class="md-nav__link">
+      Acknowledgments
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/bibliography/" title="Bibliography" class="md-nav__link">
+      Bibliography
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6" checked>
+    
+    <label class="md-nav__link" for="nav-6">
+      Developers
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        Developers
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../git_and_gitlab/" title="Git and Gitlab" class="md-nav__link">
+      Git and Gitlab
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../developers_howto/" title="HowTo for developers" class="md-nav__link">
+      HowTo for developers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../abimkdocs/" title="Abimkdocs" class="md-nav__link">
+      Abimkdocs
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../markdown/" title="Markdown" class="md-nav__link">
+      Markdown
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6-5" type="checkbox" id="nav-6-5" checked>
+    
+    <label class="md-nav__link" for="nav-6-5">
+      Test Suite
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-6-5">
+        Test Suite
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../testsuite/" title="Test list" class="md-nav__link">
+      Test list
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../testsuite_howto/" title="Test Suite Howto" class="md-nav__link">
+      Test Suite Howto
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="toc">
+        YAML-based test suite Howto
+      </label>
+    
+    <a href="./" title="YAML-based test suite Howto" class="md-nav__link md-nav__link--active">
+      YAML-based test suite Howto
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#motivations" title="Motivations" class="md-nav__link">
+    Motivations
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-details" title="Implementation details" class="md-nav__link">
+    Implementation details
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#yaml-configuration-file" title="YAML configuration file" class="md-nav__link">
+    YAML configuration file
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-to-activate-the-yaml-mode" title="How to activate the YAML mode" class="md-nav__link">
+    How to activate the YAML mode
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#our-first-example-of-yaml-configuration-file" title="Our first example of YAML configuration file" class="md-nav__link">
+    Our first example of YAML configuration file
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#basic-concepts" title="Basic concepts" class="md-nav__link">
+    Basic concepts
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-more-complicated-example" title="A more complicated example" class="md-nav__link">
+    A more complicated example
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-use-filters-to-select-documents-by-iteration-state" title="How to use filters to select documents by iteration state" class="md-nav__link">
+    How to use filters to select documents by iteration state
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#filters-api" title="Filters API" class="md-nav__link">
+    Filters API
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#filter-declaration" title="Filter declaration" class="md-nav__link">
+    Filter declaration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filter-overlapping" title="Filter overlapping" class="md-nav__link">
+    Filter overlapping
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-use-equation-and-callback" title="How to use equation and callback" class="md-nav__link">
+    How to use equation and callback
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#command-line-interface" title="Command line interface" class="md-nav__link">
+    Command line interface
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../yaml_tools_api/" title="YAML-based test suite Python tools and API" class="md-nav__link">
+      YAML-based test suite Python tools and API
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../XgType/" title="XgType" class="md-nav__link">
+      XgType
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6-7" type="checkbox" id="nav-6-7">
+    
+    <label class="md-nav__link" for="nav-6-7">
+      Pseudos
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-6-7">
+        Pseudos
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../psp1_info/" title="psp1" class="md-nav__link">
+      psp1
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../psp3_info/" title="psp3" class="md-nav__link">
+      psp3
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../psp45_info/" title="psp45" class="md-nav__link">
+      psp45
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../psp5spinorbit_info/" title="psp5" class="md-nav__link">
+      psp5
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../psp6_info/" title="psp6" class="md-nav__link">
+      psp6
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../psp8_info/" title="psp8" class="md-nav__link">
+      psp8
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../codestats/" title="Code stats" class="md-nav__link">
+      Code stats
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../autoconf_examples/" title="Autoconf_examples" class="md-nav__link">
+      Autoconf_examples
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../testlink/" title="Test Page for linkcheck" class="md-nav__link">
+      Test Page for linkcheck
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+    
+    <label class="md-nav__link" for="nav-7">
+      About
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        About
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../about/release-notes/" title="Release Notes" class="md-nav__link">
+      Release Notes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../about/contributing/" title="Contributing" class="md-nav__link">
+      Contributing
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../about/history/" title="History" class="md-nav__link">
+      History
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../about/license/" title="License" class="md-nav__link">
+      License
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#motivations" title="Motivations" class="md-nav__link">
+    Motivations
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-details" title="Implementation details" class="md-nav__link">
+    Implementation details
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#yaml-configuration-file" title="YAML configuration file" class="md-nav__link">
+    YAML configuration file
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-to-activate-the-yaml-mode" title="How to activate the YAML mode" class="md-nav__link">
+    How to activate the YAML mode
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#our-first-example-of-yaml-configuration-file" title="Our first example of YAML configuration file" class="md-nav__link">
+    Our first example of YAML configuration file
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#basic-concepts" title="Basic concepts" class="md-nav__link">
+    Basic concepts
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-more-complicated-example" title="A more complicated example" class="md-nav__link">
+    A more complicated example
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-use-filters-to-select-documents-by-iteration-state" title="How to use filters to select documents by iteration state" class="md-nav__link">
+    How to use filters to select documents by iteration state
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#filters-api" title="Filters API" class="md-nav__link">
+    Filters API
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#filter-declaration" title="Filter declaration" class="md-nav__link">
+    Filter declaration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filter-overlapping" title="Filter overlapping" class="md-nav__link">
+    Filter overlapping
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-use-equation-and-callback" title="How to use equation and callback" class="md-nav__link">
+    How to use equation and callback
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#command-line-interface" title="Command line interface" class="md-nav__link">
+    Command line interface
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+
+                
+                  <a href="https://github.com/abinit/abinit/edit/master/doc/developers/new_testsuite.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="yaml-based-tests-design-principles-and-implementation-details">YAML-based tests: design principles and implementation details<a class="headerlink" href="#yaml-based-tests-design-principles-and-implementation-details" title="Permanent link">&para;</a></h1>
+<p>This document discusses the new YAML-based format used to represent physical results
+in the main output file.
+The connection with the ABINIT test suite and the yaml syntax used to define
+tolerances, parameters and constraints is also discussed.</p>
+<p>The new infrastructure consists of a set of Fortran modules to output 
+structured data in YAML format and Python code to parse the output files and analyze data.</p>
+<h2 id="motivations">Motivations<a class="headerlink" href="#motivations" title="Permanent link">&para;</a></h2>
+<p>In ABINITv8 and previous versions, the ABINIT test suite is based on input files with the
+associated reference output files.
+Roughly speaking, an automatic test consists in comparing the reference file with
+the output file in a <strong>line-oriented fashion</strong>
+by computing differences between floating-point numbers <strong>without any knowledge</strong> about
+the meaning and the importance of the numerical values.
+This approach is very rigid and rather limited because it obliges developers to use a
+single (usually large) tolerance to account for possibly large fluctuations in
+the intermediate results whereas the tolerance criteria should be ideally
+applied only to the final results that are (hopefully) independent of details
+such as hardware, optimization level and parallelism.</p>
+<p>This limitation is clearly seen when comparing the results of iterative algorithms.
+The number of iterations required to converge, indeed, may depend
+on several factors especially when the input parameters are far from convergence
+or when different parallelization schemes or stochastic methods are used.
+From the point of view of code validation, what really matters is the <strong>final converged value</strong>
+plus the <strong>time to solution</strong> if performance ends up being of concern.
+Unfortunately, any line-by-line comparison algorithm will miserably fail in such
+conditions because it will continue to insist on having the same number of
+iterations (lines) in the two calculations to consider the test succeeded.
+It is therefore clear that the approach used so far to validate new developments in
+Abinit is not able to cope with the challenges posed by high-performance
+computing and that smarter and more flexible approaches are needed to address these limitations.
+Ideally, we would like to be able to</p>
+<ul>
+<li>use <strong>different tolerances</strong> for particular quantities that are selected by keyword</li>
+<li>be able to replace the check on the absolute and relative difference with a <strong>threshold check</strong>
+  (is this quantity smaller that the give threshold?)</li>
+<li>have some sort of syntax to apply different rules depending on the <strong>iteration state</strong> e.g. the dataset index</li>
+<li>execute python code (<strong>callbacks</strong>) that operates on the data to perform more advanced tests requiring 
+  some sort of post-processing</li>
+<li>provide an easy-to-use <strong>declarative interface</strong> that allows developers to define the logic
+  to compare selected quantities.</li>
+</ul>
+<p>In what follows, we present this new infrastructure, the design principles and the steps required
+to define YAML-based tests.</p>
+<!--
+The goal of this project is to provide ABINIT developers with reusable tools to implement physics-aware tests.
+With "physics-aware" we intend tests in which the developer can customize the tolerances and the logic used to
+compare numerical results thanks to the fact that the new parser
+is aware of the context and of the meaning of the numerical values extracted from the output file.
+The new infrastructure consists of a set of Fortran modules to output
+structured data in YAML format as well as Python code to parse the output files and analyze data.
+One of the goals of this project is to implement a 
+
+The new python-based infrastructure allows developers to implement more rigorous tests on the portability of
+important physical quantities while ignoring intermediate results.
+This goal is achieved by providing a *declarative* interface that allows developers to define
+the logic used to compare selected physical quantities.
+We also provide a declarative API to check that the results computed by the ab-initio code
+satisfies fundamental physical and mathematical rules such as energy
+conservation, Newton's third law, symmetry properties, etc.
+
+That is not quite as simple as it sounds, especially because one of our goals is
+to minimize the amount of (coding) work required to express such logic. 
+There are therefore basic rules and design principles Abinit developers should be
+aware of in order to take fully advantage of the new infrastructure. 
+In what follows, we briefly describe the philosophy employed to implement the YAML-based
+test suite, the syntax used to define tests and the modifications required to extend the framework.
+-->
+
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>The new YAML-based testsuite relies on libraries that are not provided
+by the python standard library.
+To install these dependencies in <em>user</em> mode, use:</p>
+<div class="codehilite"><pre><span></span><code>pip install numpy pyyaml pandas --user
+</code></pre></div>
+
+<p>If these dependencies are not available, the new test system will be
+disabled and a warning message is printed to the terminal.</p>
+</div>
+<h2 id="implementation-details">Implementation details<a class="headerlink" href="#implementation-details" title="Permanent link">&para;</a></h2>
+<p>For reasons that will be clear later, implementing smart algorithms requires metadata and context.
+In other words, the python code needs to have some basic understanding of the meaning of the numerical values 
+extracted from the output file and must be able to locate a particular property by name or by its &ldquo;position&rdquo;
+inside the output file.
+For this reason, the most important physical results are now written in the main output file (<em>ab_out</em>)
+using machine-readable <a href="https://en.wikipedia.org/wiki/YAML">YAML</a> documents.</p>
+<p>A YAML document starts with three hyphens (&mdash;) followed by an
+<em>optional</em> tag beginning with an exclamation mark (e.g. <code>!ETOT</code>). 
+Three periods (&hellip;) signals the end of the document. 
+Following these rules, one can easily write a dictionary containing the different contributions
+to the total free energy using:</p>
+<div class="highlight"><pre><span></span><code><span class="nn">---</span> <span class="kt">!EnergyTerms</span>
+<span class="nt">comment             </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Components of total free energy (in Hartree)</span>
+<span class="nt">kinetic             </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">4.323825067238190201E+01</span>
+<span class="nt">hartree             </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">3.133994553363548619E+01</span>
+<span class="nt">xc                  </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">-2.246182631222462689E+01</span>
+<span class="nt">Ewald energy        </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">-1.142203169790575572E+02</span>
+<span class="nt">psp_core            </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">6.536925226004570710E+00</span>
+<span class="nt">local_psp           </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">-9.852521179991468614E+01</span>
+<span class="nt">spherical_terms     </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">2.587718945528139081E+00</span>
+<span class="nt">internal            </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">-1.515045147136467563E+02</span>
+<span class="s">&#39;-kT*entropy&#39;</span>       <span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">-3.174881766478041684E-03</span>
+<span class="nt">total_energy        </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">-1.515076895954132397E+02</span>
+<span class="nt">total_energy_eV     </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">-4.122733899322517573E+03</span>
+<span class="nn">...</span>
+</code></pre></div>
+<p>Further details about the meaning of <strong>tags</strong>, <strong>labels</strong> and their connection with the
+testing infrastructure will be given in the below sections. For the time being,
+it is sufficient to say that we opted for YAML because it is a <em>human-readable</em>
+data serialization language already used in the log file to record important
+events such as WARNINGs, ERRORs and COMMENTs (this is indeed the <em>protocol</em>
+employed by AbiPy to monitor the status of Abinit calculations).
+Many programming languages, including python, provide support for YAML hence
+it is relatively easy to implement post processing tools
+based on well-established python libraries for scientific computing such as
+NumPy, SciPy, Matplotlib and Pandas. Last but not least, writing YAML in
+Fortran does not represent an insurmountable problem provided one keeps the
+complexity of the YAML document at a <em>reasonable level</em>.
+Our Fortran implementation, indeed, supports only a subset of the YAML specifications:</p>
+<ul>
+<li>scalars</li>
+<li>arrays with one or two dimensions</li>
+<li>dictionaries mapping strings to scalars</li>
+<li>tables in CSV format (this is an extension of the standard)</li>
+</ul>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>YAML is not designed to handle large amount of data therefore it should
+not be used to represent large arrays for which performance is critical and human-readability
+is lost by definition (do you really consider a YAML list with one thousand numbers human-readable?).
+Following this philosophy, YAML is supposed to be used to print the most important results
+in the main output file and should not be considered as a replacement for binary netcdf files
+when it comes to storing large data structures with lots of metadata.</p>
+<p>Note also that we do not plan to rewrite entirely the main output file in YAML syntax
+but we prefer to focus on those physical properties that will be used by the new test procedure
+to validate new developments.
+This approach, indeed, will facilitate the migration to the new YAML-based approach as only selected portions
+of the output file will be ported to the new format thus maintaining the look and the feel relatively
+close to the previous <em>unstructured</em> format.</p>
+</div>
+<!--
+In this tutorial we mainly focus on the user interface i.e. on the syntax used to define Yaml-based tests.
+For the technical details related to the internal implementation see
+-->
+
+<h2 id="yaml-configuration-file">YAML configuration file<a class="headerlink" href="#yaml-configuration-file" title="Permanent link">&para;</a></h2>
+<h3 id="how-to-activate-the-yaml-mode">How to activate the YAML mode<a class="headerlink" href="#how-to-activate-the-yaml-mode" title="Permanent link">&para;</a></h3>
+<p>The parameters governing the execution of the test
+are specified in the <code>TEST_INFO</code> section located at the end of the input file.
+The options are given in the <a href="https://en.wikipedia.org/wiki/INI_file">INI file format</a>.
+The integration of the new YAML-based tests with the pre-existent infrastructure
+is obtained via two modifications of the current specifications.
+More specifically:</p>
+<ul>
+<li>
+<p>the <strong>files_to_test</strong> section now accepts the optional argument <strong>use_yaml</strong>.
+  The allowed values are:</p>
+<ul>
+<li>&ldquo;yes&rdquo; &rarr; activate YAML mode</li>
+<li>&ldquo;no&rdquo; &rarr;  do not use YAML mode (default)</li>
+<li>&ldquo;only&rdquo; &rarr; use YAML mode, deactivate legacy fldiff algorithm</li>
+</ul>
+</li>
+<li>
+<p>a new <em>optional</em> section <strong>[yaml_test]</strong> has been added. 
+  This section contains two mutually exclusive fields:</p>
+<ul>
+<li>
+<p><em>file</em> &rarr; path of the YAML configuration file.
+  The path is relative to the input file. A natural choice
+  would be to use the same prefix as the input file e.g. &ldquo;./t21.yaml&rdquo; 
+  is the configuration file associated to the input file &ldquo;t21.in&rdquo;.</p>
+</li>
+<li>
+<p><em>test</em> &rarr; multi-line string with the YAML specifications. This option may
+  be used for really short configurations heavily relying on the default values.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>An example of <code>TEST_INFO</code> section that activates the YAML mode can be found in <a class="wikilink abifile-wikilink" data-content="DFT+DMFT for SrVO3 using Hubard I code with KGB parallelism" data-placement="auto right" data-toggle="popover" data-trigger="hover focus" href="../../tests/paral/Input/t86.abi" target="_blank">paral[86]</a>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">#%%&lt;BEGIN TEST_INFO&gt;</span>
+<span class="c1">#%% [setup]</span>
+<span class="c1">#%% executable = abinit</span>
+<span class="c1">#%% [files]</span>
+<span class="c1">#%% psp_files = 23v.paw, 38sr.paw, 8o.paw</span>
+<span class="c1">#%% [paral_info]</span>
+<span class="c1">#%% nprocs_to_test = 4</span>
+<span class="c1">#%% max_nprocs = 4</span>
+<span class="c1">#%% [NCPU_4]</span>
+<span class="c1">#%% files_to_test =</span>
+<span class="c1">#%%   t86_MPI4.out, use_yaml = yes, tolnlines = 4, tolabs = 2.0e-2, tolrel = 1.0, fld_options = -easy;</span>
+<span class="c1">#%% [extra_info]</span>
+<span class="c1">#%% authors = B. Amadon, T. Cavignac</span>
+<span class="c1">#%% keywords = DMFT, FAILS_IFMPI</span>
+<span class="c1">#%% description = DFT+DMFT for SrVO3 using Hubard I code with KGB parallelism</span>
+<span class="c1">#%% topics = DMFT, parallelism</span>
+<span class="c1">#%% [yaml_test]</span>
+<span class="c1">#%% file = ./t86.yaml</span>
+<span class="c1">#%%&lt;END TEST_INFO&gt;</span>
+</code></pre></div>
+<p>with the associated YAML configuration file given by:</p>
+<div class="text-center"><button type="button" id="uuid-93fed1d8-3480-4f21-a961-d06942a6b780" class="btn btn-default btn-labeled">
+  <span class="btn-label"><i class="fa fa-window-restore" aria-hidden="true"></i></span>View tests/paral/Input/t86.yaml
+</button></div>
+<div id="uuid-fe0661ef-2a59-495f-be7e-95e4db41fd7a" class="my_dialog" title="tests/paral/Input/t86.yaml" hidden><div><pre class="small-text">
+tol_eq: 1.0e-6
+tol_vec: 1.0e-5
+
+ks:
+    # tolvrs 1.0e-7
+    tol_abs: 5.0e-6
+    tol_rel: 5.0e-6
+    ResultsGS!:
+        convergence:
+            ceil: 1.0e-6
+        cartesian_stress_tensor:
+            tol_vec: 1.0e-7
+
+#    EtotSteps:
+#        data:
+#            callback:
+#                method: last_iter
+#                tol_iter: 3
+#                Etot(hartree):
+#                    tol: 1.0e-7
+#                deltaE(h):
+#                    ceil: 2.0e-8
+#                residm:
+#                    ceil: 5.0e-7
+#                nres2:
+#                    ceil: 2.0e-8
+
+dmft:
+    tol_abs: 2.0e-8
+    tol_rel: 5.0e-9
+    ResultsGS!:  # hard reset result_gs
+        convergence:
+            ceil: 1.0e-6
+            deltae:
+                ceil: 2.0e-3
+            res2:
+                ignore: true
+        fermie:
+            tol_abs: 1.0e-7
+            tol_rel: 1.0e-8
+        cartesian_stress_tensor:
+            ignore: true
+    EnergyTerms:
+        total_energy_eV:
+            tol_abs: 1.0e-4
+            tol_rel: 1.0e-8
+    EnergyTermsDC:
+        tol_abs: 1.0e-7
+        total_energy_dc_eV:
+            tol_abs: 1.0e-4
+            tol_rel: 1.0e-8
+
+#    EtotSteps:
+#        data:
+#            callback:
+#                method: last_iter
+#                tol_iter: 3
+#                Etot(hartree):
+#                    tol: 1.0e-7
+#                deltaE(h):
+#                    ceil: 2.0e-4
+#                residm:
+#                    ceil: 1.0e-12
+#                nres2:
+#                    ceil: 2.0e-1
+
+
+filters:
+    ks:
+        dtset: 1
+    dmft:
+        dtset: 2
+
+</pre>
+</div></div>
+
+<script> $(function() { abidocs_jqueryui_dialog("#uuid-fe0661ef-2a59-495f-be7e-95e4db41fd7a", "#uuid-93fed1d8-3480-4f21-a961-d06942a6b780") }); </script>
+
+<h3 id="our-first-example-of-yaml-configuration-file">Our first example of YAML configuration file<a class="headerlink" href="#our-first-example-of-yaml-configuration-file" title="Permanent link">&para;</a></h3>
+<p>Let us start with a minimalistic example in which we compare the components of
+the total free energy in the <code>Etot</code> document with an absolute tolerance of 1.0e-7 Ha.
+The YAML configuration file will look like:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">Etot</span><span class="p">:</span>
+    <span class="nt">tol_abs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-7</span>
+</code></pre></div>
+<p>The <code>tol_abs</code> keyword defines the <strong>constraint</strong> that will applied to <strong>all the children</strong> of the <code>Etot</code> document.
+In other words, all the entries in the <code>Etot</code> dictionary will be compared with 
+an absolute tolerance of 1.0e-7 and the <strong>default value</strong> for the relative difference <code>tol_rel</code> as this 
+tolerance is not explicitly specified.</p>
+<!--
+In order to pass the test, all the absolute differences must be smaller that `tol_abs`.
+If this condition is not fulfilled, the test will fail and python will list the entries that did not pass the test.
+-->
+
+<p>There are however cases in which we would like to specify different tolerances for particular entries
+instead of relying on the <em>global</em> tolerances.
+The <code>Etot</code> document, for example, contains the total energy in eV in the <code>Total energy (eV)</code> entry.
+To use a different absolute tolerance for this property, we <strong>specialize</strong> the rule with the syntax:</p>
+<!--
+Since the unit is different, the absolute tolerance does not have the same impact on the precision.
+We want to achieve the same relative precision on this term but we cannot
+achieve the same absolute precision. Though we will **specialize** the rules
+and use the `tol_rel` constraint. 
+We could do something like this:
+
+<div class="highlight"><pre><span></span><code><span class="nt">Etot</span><span class="p">:</span>
+    <span class="nt">tol_abs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-7</span>
+    <span class="nt">Total energy (eV)</span><span class="p">:</span>
+        <span class="nt">tol_rel</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-10</span>
+</code></pre></div>
+
+However the `tol_abs` constraint defined in `Etot` is _inherited_ by `Total
+energy (eV)` which means that the comparison will be performed with a relative tolerance `tol_rel` of
+1.0e-10 **and** an absolute tolerance `tol_abs` of 1.0e-7. Most of the time it is
+what we need even though here it's not. So we will just use a different
+tolerance for `tol_abs` in `Total energy (eV)`.
+-->
+
+<div class="highlight"><pre><span></span><code><span class="nt">Etot</span><span class="p">:</span>
+    <span class="nt">tol_abs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-7</span>
+    <span class="nt">Total energy (eV)</span><span class="p">:</span>
+        <span class="nt">tol_abs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-5</span>
+</code></pre></div>
+<!--
+Now we achieve the same relative precision and the test does not fail because
+of the looser absolute precision of the total energy in eV.
+-->
+
+<p>To change the default value for the relative difference, it is sufficient to specify the 
+constraint outside of the document:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">tol_rel</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-2</span>
+
+<span class="nt">Etot</span><span class="p">:</span>
+    <span class="nt">tol_abs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-7</span>
+    <span class="nt">Total energy (eV)</span><span class="p">:</span>
+        <span class="nt">tol_abs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-5</span>
+</code></pre></div>
+<h3 id="basic-concepts">Basic concepts<a class="headerlink" href="#basic-concepts" title="Permanent link">&para;</a></h3>
+<p>In the previous section, we presented a minimal example of configuration file.
+In the next paragraphs we will discuss in more detail how to implement more advanced test
+but before proceeding with the examples, we need to introduce some basic terminology
+to facilitate the discussion.</p>
+<!--
+To explain how to build a test specification we will go step-by-step through
+the definition of [[test:paral_86]].
+First we have to introduce the most important concepts.
+-->
+
+<dl>
+<dt>Document tree</dt>
+<dd>The YAML document is a dictionary that can be treated as a tree
+  whose nodes have a label and leaf are scalars or special data structures
+  identified by a tag (note however that not all tags mark a leaf).
+  The top-level nodes are the YAML documents and their labels are the names of their tag.</dd>
+<dt>Config tree</dt>
+<dd>The YAML configuration also takes the form of a tree where nodes are
+  <strong>specializations</strong> and its leaf represent <strong>parameters</strong> or <strong>constraints</strong>.
+  Its structure matches the structure of the <strong>document tree</strong> thus one can define rules
+  (constraint and parameters) that will be applied to a specific part of the <strong>document tree</strong>.</dd>
+<dt>Specialization</dt>
+<dd>The rules defined under a specialization will apply only on the matching node
+  of the <em>document tree</em> and its children.</dd>
+<dt>Constraint</dt>
+<dd>A constraint is a condition one imposes for the test to succeed. Constraints
+  can apply to leafs of the document tree or to nodes depending of the nature of the constraint.</dd>
+<dt>Parameter</dt>
+<dd>A parameter is a value that can be used by the constraints to modify their behavior.</dd>
+<dt>Iteration state</dt>
+<dd>An iteration state describes how many iterations of each possible level are present
+  in the run (e.g. idtset = 2, itimimage = not used, image = 5, time = not used).
+  It gives information on the current state of the run. Documents are implicitly
+  associated to their iteration state. This information is made available to
+  the test engine through specialized YAML documents with <code>IterStart</code> tag.</dd>
+</dl>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>To get the list of constraints and parameters, run:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">~</span><span class="n">abinit</span><span class="o">/</span><span class="n">tests</span><span class="o">/</span><span class="n">testtools</span><span class="o">.</span><span class="n">py</span> <span class="n">explore</span>
+</code></pre></div>
+
+<p>and type <code>show *</code>. You can then type for example <code>show tol_eq</code> to learn more
+about a specific constraint or parameter.</p>
+</div>
+<!--
+A few conventions on documents writing
+
+: All data document have a **tag**. It should be a unique identifier
+  at the scale of an _iteration state_. It also describes the structure of the document
+  like other uses of tags but in this case it identify the document. The *comment* field is
+  optional but it is recommended especially when the purpose of the document is not obvious.
+-->
+
+<h3 id="a-more-complicated-example">A more complicated example<a class="headerlink" href="#a-more-complicated-example" title="Permanent link">&para;</a></h3>
+<p>The <code>Etot</code> document is the simplest possible document. It only contains fields
+with real values. Now we will have a look at the <code>ResultsGS</code> document
+that represents the results stored in the corresponding Fortran datatype used in Abinit.
+The YAML document is now given by:</p>
+<div class="highlight"><pre><span></span><code><span class="nn">---</span> <span class="kt">!ResultsGS</span>
+<span class="nt">comment   </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Summary of ground states results.</span>
+<span class="nt">natom     </span><span class="p">:</span>        <span class="l l-Scalar l-Scalar-Plain">5</span>
+<span class="nt">nsppol    </span><span class="p">:</span>        <span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="nt">cut       </span><span class="p">:</span> <span class="p p-Indicator">{</span><span class="s">&quot;ecut&quot;</span><span class="p p-Indicator">:</span>   <span class="nv">1.20000000000000000E+01</span><span class="p p-Indicator">,</span> <span class="s">&quot;pawecutdg&quot;</span><span class="p p-Indicator">:</span>   <span class="nv">2.00000000000000000E+01</span><span class="p p-Indicator">,</span> <span class="p p-Indicator">}</span>
+<span class="nt">convergence</span><span class="p">:</span> <span class="p p-Indicator">{</span>
+    <span class="s">&quot;deltae&quot;</span><span class="p p-Indicator">:</span>   <span class="nv">2.37409381043107715E-09</span><span class="p p-Indicator">,</span> <span class="s">&quot;res2&quot;</span><span class="p p-Indicator">:</span>   <span class="nv">1.41518780109792898E-08</span><span class="p p-Indicator">,</span> 
+    <span class="s">&quot;residm&quot;</span><span class="p p-Indicator">:</span>   <span class="nv">2.60254842131463755E-07</span><span class="p p-Indicator">,</span> <span class="s">&quot;diffor&quot;</span><span class="p p-Indicator">:</span> <span class="nv">0.00000000000000000E+00</span><span class="p p-Indicator">,</span> 
+<span class="p p-Indicator">}</span>
+<span class="nt">etotal    </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">-1.51507711707660150E+02</span>
+<span class="nt">entropy   </span><span class="p">:</span>   <span class="l l-Scalar l-Scalar-Plain">0.00000000000000000E+00</span>
+<span class="nt">fermie    </span><span class="p">:</span>   <span class="l l-Scalar l-Scalar-Plain">3.09658145725792422E-01</span>
+<span class="nt">stress tensor</span><span class="p">:</span> <span class="kt">!Tensor</span>
+<span class="p p-Indicator">-</span> <span class="p p-Indicator">[</span>  <span class="nv">3.56483996349480498E-03</span><span class="p p-Indicator">,</span>   <span class="nv">0.00000000000000000E+00</span><span class="p p-Indicator">,</span>   <span class="nv">0.00000000000000000E+00</span><span class="p p-Indicator">,</span> <span class="p p-Indicator">]</span>
+<span class="p p-Indicator">-</span> <span class="p p-Indicator">[</span>  <span class="nv">0.00000000000000000E+00</span><span class="p p-Indicator">,</span>   <span class="nv">3.56483996349480151E-03</span><span class="p p-Indicator">,</span>   <span class="nv">0.00000000000000000E+00</span><span class="p p-Indicator">,</span> <span class="p p-Indicator">]</span>
+<span class="p p-Indicator">-</span> <span class="p p-Indicator">[</span>  <span class="nv">0.00000000000000000E+00</span><span class="p p-Indicator">,</span>   <span class="nv">0.00000000000000000E+00</span><span class="p p-Indicator">,</span>   <span class="nv">3.56483996349478416E-03</span><span class="p p-Indicator">,</span> <span class="p p-Indicator">]</span>
+
+<span class="nt">cartesian forces</span><span class="p">:</span> <span class="kt">!CartForces</span>
+<span class="p p-Indicator">-</span> <span class="p p-Indicator">[</span> <span class="nv">-0.00000000000000000E+00</span><span class="p p-Indicator">,</span>  <span class="nv">-0.00000000000000000E+00</span><span class="p p-Indicator">,</span>  <span class="nv">-0.00000000000000000E+00</span><span class="p p-Indicator">,</span> <span class="p p-Indicator">]</span>
+<span class="p p-Indicator">-</span> <span class="p p-Indicator">[</span> <span class="nv">-0.00000000000000000E+00</span><span class="p p-Indicator">,</span>  <span class="nv">-0.00000000000000000E+00</span><span class="p p-Indicator">,</span>  <span class="nv">-0.00000000000000000E+00</span><span class="p p-Indicator">,</span> <span class="p p-Indicator">]</span>
+<span class="p p-Indicator">-</span> <span class="p p-Indicator">[</span> <span class="nv">-0.00000000000000000E+00</span><span class="p p-Indicator">,</span>  <span class="nv">-0.00000000000000000E+00</span><span class="p p-Indicator">,</span>  <span class="nv">-0.00000000000000000E+00</span><span class="p p-Indicator">,</span> <span class="p p-Indicator">]</span>
+<span class="p p-Indicator">-</span> <span class="p p-Indicator">[</span> <span class="nv">-0.00000000000000000E+00</span><span class="p p-Indicator">,</span>  <span class="nv">-0.00000000000000000E+00</span><span class="p p-Indicator">,</span>  <span class="nv">-0.00000000000000000E+00</span><span class="p p-Indicator">,</span> <span class="p p-Indicator">]</span>
+<span class="p p-Indicator">-</span> <span class="p p-Indicator">[</span> <span class="nv">-0.00000000000000000E+00</span><span class="p p-Indicator">,</span>  <span class="nv">-0.00000000000000000E+00</span><span class="p p-Indicator">,</span>  <span class="nv">-0.00000000000000000E+00</span><span class="p p-Indicator">,</span> <span class="p p-Indicator">]</span>
+<span class="nn">...</span>
+</code></pre></div>
+<p>This YAML document is more complicated as it contains scalar fields, dictionaries and even 2D arrays.
+<strong>MG: Are integer values always compared without tolerance?</strong>
+Still, the parsers will be able to locate the entire document via its tag/label and address all the entries by name.
+To specify the tolerance for the relative difference for all the scalar quantities in <code>ResultsGS</code>,
+we just add a new entry to the YAML configuration file similarly to what we did for <code>EnergyTerms</code>: </p>
+<div class="highlight"><pre><span></span><code><span class="nt">EnergyTerms</span><span class="p">:</span>
+    <span class="nt">tol_abs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-7</span>
+    <span class="nt">total_energy_eV</span><span class="p">:</span>
+        <span class="nt">tol_abs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-5</span>
+        <span class="nt">tol_rel</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-10</span>
+
+<span class="nt">ResultsGS</span><span class="p">:</span>
+    <span class="nt">tol_rel</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-8</span>
+</code></pre></div>
+<p>At this point we have to precise that there are implicit top-level settings that
+are applied on all quantities that are not subject to a more specific rule.
+For example in the above example ResultsGS is subject to the default absolute
+tolerance, whereas the default relative tolerance have been overridden.</p>
+<!--
+For simplicity sake I will only write the `ResultsGS` part in next examples.
+-->
+<p>Unfortunately, such a strict value for <code>tol_rel</code> will become very problematic
+when we have to compare the residues stored in the <code>convergence</code> dictionary!
+In this case, it makes more sense to check that all the residues are below a certain threshold.
+This is what the <strong>ceil</strong> constraint is for:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">ResultsGS</span><span class="p">:</span>
+    <span class="nt">tol_rel</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-8</span>
+    <span class="nt">convergence</span><span class="p">:</span>
+        <span class="nt">ceil</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">3.0e-7</span>
+</code></pre></div>
+<p>Now the test will fail if one of the components of the <code>convergence</code> dictionary is above 3.0e-7.
+Note that the <code>ceil</code> constraint automatically disables the check for <code>tol_rel</code> and <code>tol_abs</code> inside <code>convergence</code>.
+In other words, all the scalar entries in <code>ResultsGS</code> will be compared with our <code>tol_rel</code> and the default <code>tol_abs</code>
+whereas the entries in the <code>convergence</code> dictionary will be tested against <code>ceil</code>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Within the explore shell <code>show ceil</code> will list
+the constraints that are disabled by the use of <code>ceil</code> in the <em>exclude</em> field.</p>
+</div>
+<p>Up to now we have been focusing on scalar quantities for which the concept of 
+relative and absolute difference is unambiguously defined but how do we compare vectors and matrices?
+Fields with the <code>!TensorCart</code> tags are leafs of the tree. The tester routine
+won&rsquo;t try to compare each individual coefficient with <code>tol_rel</code>. However we
+still want to check that it does not change too much. For that purpose we use the
+<code>tol_vec</code> constraint which apply to all arrays derived from <code>BaseArray</code> (most
+arrays with a tag). <code>BaseArray</code> let us use the capabilities of Numpy arrays with
+YAML defined arrays. <code>tol_vec</code> check the euclidean distance between the reference
+and the output arrays. Since we also want to apply this constraint to
+<code>cartesian_force</code>, we will define the constraint at the top level of <code>ResultsGS</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">ResultsGS</span><span class="p">:</span>
+    <span class="nt">tol_rel</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-8</span>
+    <span class="nt">tol_vec</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-5</span>
+    <span class="nt">convergence</span><span class="p">:</span>
+        <span class="nt">ceil</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">3.0e-7</span>
+</code></pre></div>
+<h3 id="how-to-use-filters-to-select-documents-by-iteration-state">How to use filters to select documents by iteration state<a class="headerlink" href="#how-to-use-filters-to-select-documents-by-iteration-state" title="Permanent link">&para;</a></h3>
+<p>Thanks to the syntax presented in the previous sections, one can customize tolerances for different 
+documents and different entries.
+Note however that these rules will be applied to all the documents found in the output file.
+This means that we are implicitly assuming that all the different steps of the calculation
+have similar numerical stability.
+There are however cases in which the results of particular datasets are less numerically stable than the others.
+An example will help clarify. </p>
+<p>The test <a class="wikilink abifile-wikilink" data-content="DFT+DMFT for SrVO3 using Hubard I code with KGB parallelism" data-placement="auto right" data-toggle="popover" data-trigger="hover focus" href="../../tests/paral/Input/t86.abi" target="_blank">paral[86]</a> uses two datasets to perform two different computations.
+The first dataset computes the DFT density with LDA while
+the second dataset uses the LDA density to perform a DMFT computation.
+The entire calculation is supposed to take less than ~3-5 minutes hence the input parameters 
+are severely under converged and the numerical noise propagates quickly through the different steps.
+As a consequence, one cannot expect the DFMT results to have the same numerical stability as the LDA part. 
+Fortunately, one can use <strong>filters</strong> to specify different convergence criteria for the two datasets.</p>
+<p>A filter is a mechanism that allows one to associate a specific configuration to a set of <strong>iteration states</strong>.
+A filter is defined in a separated section of the configuration file under the node <code>filters</code>.
+Let&rsquo;s declare two filters with the syntax:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">filters</span><span class="p">:</span>
+    <span class="nt">ks</span><span class="p">:</span>
+        <span class="nt">dtset</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>
+    <span class="nt">dmft</span><span class="p">:</span>
+        <span class="nt">dtset</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">2</span>
+</code></pre></div>
+<p>Here we are simply saying that we want to associate the label <code>ks</code> to all
+documents created in the first dataset and the label <code>dmft</code> to all document
+created in the second dataset. The chose of the names <code>ks</code> and <code>dmft</code> are
+absolutely arbitrary. Pick anything that make sense to your test. This is the
+simplest filter declaration possible.  See <a href="#filters-api">here</a> for more info on
+filter declarations.  Now we can use our filters. First of all we will associate
+the configuration we already wrote to the <code>ks</code> filter so we can have a different
+configuration for the second dataset. The YAML file now reads</p>
+<div class="highlight"><pre><span></span><code><span class="nt">filters</span><span class="p">:</span>
+    <span class="nt">ks</span><span class="p">:</span>
+        <span class="nt">dtset</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>
+    <span class="nt">dmft</span><span class="p">:</span>
+        <span class="nt">dtset</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">2</span>
+
+<span class="nt">ks</span><span class="p">:</span>
+    <span class="nt">EnergyTerms</span><span class="p">:</span>
+        <span class="nt">tol_abs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-7</span>
+        <span class="nt">total_energy_eV</span><span class="p">:</span>
+            <span class="nt">tol_abs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-5</span>
+            <span class="nt">tol_rel</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-10</span>
+
+    <span class="nt">ResultsGS</span><span class="p">:</span>
+        <span class="nt">tol_rel</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-8</span>
+        <span class="nt">tol_vec</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-5</span>
+        <span class="nt">convergence</span><span class="p">:</span>
+            <span class="nt">ceil</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">3.0e-7</span>
+</code></pre></div>
+<p>By inserting the configuration options under the <code>ks</code> node, we specify that these rules
+apply only to the first dataset. We will then create a new <code>dmft</code> node and create a
+configuration following the same procedure as before.
+We end up with something like this:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">filters</span><span class="p">:</span>
+    <span class="nt">ks</span><span class="p">:</span>
+        <span class="nt">dtset</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>
+    <span class="nt">dmft</span><span class="p">:</span>
+        <span class="nt">dtset</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">2</span>
+
+<span class="nt">ks</span><span class="p">:</span>
+    <span class="nt">EnergyTerms</span><span class="p">:</span>
+        <span class="nt">tol_abs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-7</span>
+        <span class="nt">total_energy_eV</span><span class="p">:</span>
+            <span class="nt">tol_abs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-5</span>
+            <span class="nt">tol_rel</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-10</span>
+
+    <span class="nt">ResultsGS</span><span class="p">:</span>
+        <span class="nt">tol_rel</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-8</span>
+        <span class="nt">tol_vec</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-5</span>
+        <span class="nt">convergence</span><span class="p">:</span>
+            <span class="nt">ceil</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">3.0e-7</span>
+
+<span class="nt">dmft</span><span class="p">:</span>
+    <span class="nt">tol_abs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">2.0e-8</span>
+    <span class="nt">tol_rel</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">5.0e-9</span>
+
+    <span class="nt">ResultsGS</span><span class="p">:</span>
+        <span class="nt">convergence</span><span class="p">:</span>
+            <span class="nt">ceil</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-6</span>
+            <span class="nt">diffor</span><span class="p">:</span>
+                <span class="nt">ignore</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+        <span class="nt">fermie</span><span class="p">:</span>
+            <span class="nt">tol_abs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-7</span>
+            <span class="nt">tol_rel</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-8</span>
+
+        <span class="nt">stress tensor</span><span class="p">:</span>
+            <span class="nt">ignore</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+    <span class="nt">EnergyTerms</span><span class="p">:</span>
+        <span class="nt">total_energy_eV</span><span class="p">:</span>
+            <span class="nt">tol_abs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-5</span>
+            <span class="nt">tol_rel</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-8</span>
+
+    <span class="nt">EnergyTermsDC</span><span class="p">:</span>
+        <span class="nt">tol_abs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-7</span>
+        <span class="nt">total_energy_dc_eV</span><span class="p">:</span>
+            <span class="nt">tol_abs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-5</span>
+            <span class="nt">tol_rel</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-8</span>
+</code></pre></div>
+<h2 id="filters-api">Filters API<a class="headerlink" href="#filters-api" title="Permanent link">&para;</a></h2>
+<p>Filters provide a practical way to specify different configuration for different
+states of iterations without having to rewrite everything from scratch.</p>
+<h3 id="filter-declaration">Filter declaration<a class="headerlink" href="#filter-declaration" title="Permanent link">&para;</a></h3>
+<p>A filter can specify all currently known iterators: <strong>dtset</strong>, <strong>timimage</strong>, <strong>image</strong>, and <strong>time</strong>.
+For each iterator, a set of integers can be defined with three different methods:</p>
+<ul>
+<li>a single integer value e.g. <code>dtset: 1</code></li>
+<li>a YAML list of values e.g. <code>dtset: [1, 2, 5]</code></li>
+<li>a mapping with the optional members &ldquo;from&rdquo; and &ldquo;to&rdquo; specifying the boundaries (both
+  included) of the integer interval e.g. <code>dtset: {from: 1, to: 5}</code>. 
+  If &ldquo;from&rdquo; is omitted, the default is 1. If &ldquo;to&rdquo; is omitted the default is no upper boundary. </li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>The order is never relevant in parsing YAML (unless you are writing a list
+of course). As a consequence you can define filter wherever you want in the
+file.</p>
+</div>
+<h3 id="filter-overlapping">Filter overlapping<a class="headerlink" href="#filter-overlapping" title="Permanent link">&para;</a></h3>
+<p>Several filters can apply to the same document even when they overlap. Note, however, 
+that overlapping filters must have a trivial order of <em>specificity</em>.
+In other words, one filter must be a subset of the other one.
+The example below is OK because <em>f2</em> is included in <em>f1</em>  i.e. is more specific:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># this is fine</span>
+<span class="nt">filters</span><span class="p">:</span>
+    <span class="nt">f1</span><span class="p">:</span>
+        <span class="nt">dtset</span><span class="p">:</span>
+            <span class="nt">from</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">2</span>
+            <span class="nt">to</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">7</span>
+        <span class="nt">image</span><span class="p">:</span>
+            <span class="nt">from</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">4</span>
+
+    <span class="nt">f2</span><span class="p">:</span>
+        <span class="nt">dtset</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">7</span>
+        <span class="nt">image</span><span class="p">:</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">4</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">5</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">6</span>
+</code></pre></div>
+<p>whereas this second example will raise an error because <em>f4</em> is not included in <em>f3</em>.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># this will raise an error</span>
+<span class="nt">filters</span><span class="p">:</span>
+    <span class="nt">f3</span><span class="p">:</span>
+        <span class="nt">dtset</span><span class="p">:</span>
+            <span class="nt">from</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">2</span>
+            <span class="nt">to</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">7</span>
+        <span class="nt">image</span><span class="p">:</span>
+            <span class="nt">from</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">4</span>
+
+    <span class="nt">f4</span><span class="p">:</span>
+        <span class="nt">dtset</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">7</span>
+        <span class="nt">image</span><span class="p">:</span>
+            <span class="nt">from</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>
+            <span class="nt">to</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">5</span>
+</code></pre></div>
+<p>When a test is defined, the default tree is overridden by the user-defined tree.
+When a filtered tree is used, it overrides the less specific tree. Trees are
+sequentially applied to the tree from the most general to the most specific one.
+The overriding process is often used, though it is important to know how it
+works. By default, only what is explicitly specified in the file is overridden which means
+that if a constraint is defined at a deeper level on the default tree than what
+is done on the new tree, the original constraints will be kept. For example let
+<code>f1</code>  and <code>f2</code> be two filters such that <code>f2</code> is included in <code>f1</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">filters</span><span class="p">:</span>
+    <span class="nt">f1</span><span class="p">:</span>
+        <span class="nt">dtset</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>
+    <span class="nt">f2</span><span class="p">:</span>
+        <span class="nt">dtset</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>
+        <span class="nt">image</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">5</span>
+
+<span class="nt">f1</span><span class="p">:</span>
+    <span class="nt">ResultsGS</span><span class="p">:</span>
+        <span class="nt">tol_abs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-6</span>
+        <span class="nt">convergence</span><span class="p">:</span>
+            <span class="nt">ceil</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-6</span>
+            <span class="nt">diffor</span><span class="p">:</span>
+                <span class="l l-Scalar l-Scalar-Plain">1.0e-4</span>
+
+<span class="nt">f2</span><span class="p">:</span>
+    <span class="nt">ResultsGS</span><span class="p">:</span>
+        <span class="nt">tol_rel</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-7</span>
+        <span class="nt">convergence</span><span class="p">:</span>
+            <span class="nt">ceil</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-7</span>
+</code></pre></div>
+<p>When the tester will reach the fifth image of the first dataset, the config tree
+used will be the following:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">ResultsGS</span><span class="p">:</span>
+    <span class="nt">tol_abs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-6</span>  <span class="c1"># this come from application of f1</span>
+    <span class="nt">tol_rel</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-7</span>  <span class="c1"># this has been appended without modifying anything else when appling f2</span>
+    <span class="nt">convergence</span><span class="p">:</span>
+        <span class="nt">ceil</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-7</span>  <span class="c1"># this one have been overridden</span>
+        <span class="nt">diffor</span><span class="p">:</span>
+            <span class="l l-Scalar l-Scalar-Plain">1.0e-4</span>  <span class="c1"># this one have been kept</span>
+</code></pre></div>
+<p>If this is not the behavior you need, you can use the &ldquo;hard reset marker&rdquo;.
+Append <code>!</code> to the name of the specialization you want to override to completely
+replace it. Let the <code>f2</code> tree be:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">f2</span><span class="p">:</span>
+    <span class="nt">ResultsGS</span><span class="p">:</span>
+        <span class="nt">convergence!</span><span class="p">:</span>
+            <span class="nt">ceil</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-7</span>
+</code></pre></div>
+<p>and now the resulting tree for the fifth image of the first dataset is:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">ResultsGS</span><span class="p">:</span>
+    <span class="nt">tol_abs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-6</span>
+    <span class="nt">convergence</span><span class="p">:</span>  <span class="c1"># the whole convergence node have been overriden</span>
+        <span class="nt">ceil</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-7</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Here again the <code>explore</code> shell could be of great help to know what is inherited
+from the other trees and what is overridden.</p>
+</div>
+<h3 id="how-to-use-equation-and-callback">How to use equation and callback<a class="headerlink" href="#how-to-use-equation-and-callback" title="Permanent link">&para;</a></h3>
+<p><strong>equation</strong> and <strong>callback</strong> are special constraints because their
+actual effects are defined directly in the configuration file. They have been introduced to
+increase the flexibility of the configuration file without having to change the python code.</p>
+<p><strong>equation</strong> takes a string in input. This string will
+be interpreted as a python expression that must return in a number. The
+absolute value of this number will be compared to the value of the <code>tol_eq</code>
+parameter and if <code>tol_eq</code> is greater the test will succeed. The expression can
+also result in a numpy array. In this case, the returned value if the euclidean norm of the
+array that will be compared to <code>tol_eq</code> value.
+A minimal example:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">EnergyTerms</span><span class="p">:</span>
+    <span class="nt">tol_eq</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-6</span>
+    <span class="nt">equation</span><span class="p">:</span> <span class="s">&#39;this[&quot;Etotal&quot;]</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">this[&quot;Total</span><span class="nv"> </span><span class="s">energy(eV)&quot;]/27.2114&#39;</span>
+</code></pre></div>
+<p><strong>equations</strong> works exactly the same but has a list of string as value. 
+Each string is a different expression
+that will be tested independently from the others. In both case the tested
+object can be referred as <code>this</code> and the reference object can be referred as <code>ref</code>.</p>
+<p><strong>callback</strong> requires a bit of python coding since it will invoke a method of the
+structure. Suppose we have a tag <code>!AtomSpeeds</code> associated to a document and
+a class <code>AtomSpeeds</code>. The <code>AtomSpeeds</code> class have a method <code>not_going_anywhere</code> that checks
+that the atoms are not going to try to leave the box. We would like to
+pass some kind of tolerance <code>d_min</code> the minimal distance atoms can approach
+the border of the box. The signature of the method have to be
+<code>not_going_anywhere(self, tested, d_min=DEFAULT_VALUE)</code> and should return
+<code>True</code>, <code>False</code> or an instance of <code>FailDetail</code> (see <strong>Add a new constraint</strong>
+for explanations about those). Note that <code>self</code> will be the reference
+instance. We can then use it by with the following configuration:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">AtomSpeeds</span><span class="p">:</span>
+    <span class="nt">callback</span><span class="p">:</span>
+        <span class="nt">method</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">not_going_anywhere</span>
+        <span class="nt">d_min</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0e-2</span>
+</code></pre></div>
+<h2 id="command-line-interface">Command line interface<a class="headerlink" href="#command-line-interface" title="Permanent link">&para;</a></h2>
+<p>The <code>~abinit/tests/testtools.py</code> script provides a command line interface to facilitate 
+the creation of new tests and the exploration of the YAML configuration file.
+The syntax is:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">.</span><span class="o">/</span><span class="n">testtools</span><span class="p">.</span><span class="n">py</span><span class="w"> </span><span class="n">COMMAND</span><span class="w"> </span><span class="o">[</span><span class="n">options</span><span class="o">]</span><span class="w"></span>
+</code></pre></div>
+
+<p>Run the script without arguments to get the list of possible commands and use:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">./</span><span class="n">testtools</span><span class="o">.</span><span class="n">py</span> <span class="n">COMMAND</span> <span class="o">--</span><span class="n">help</span>
+</code></pre></div>
+
+<p>to display the options supported by <code>COMMAND</code>.
+The list of available commands is:</p>
+<dl>
+<dt>fldiff</dt>
+<dd>
+<p>Interface to the <em>fldiff.py</em> module.
+This command can be used to compare output and reference files without executing ABINIT.
+It is also possible to specify the YAML configuration file with the <code>--yaml-conf</code> option so 
+that one can employ the same parameters as those used by <em>runtests.py</em></p>
+</dd>
+<dt>explore</dt>
+<dd>
+<p>This command allows the user to <em>explore</em> and <em>validate</em> a YAML configuration file. 
+It provides a shell like interface in which the user can explore
+the tree defined by the configuration file and print the constraints. 
+It also provides documentation about constraints and parameters via the <em>show</em> command.</p>
+</dd>
+</dl>
+                
+                  
+                
+              
+
+<!-- 
+add dropdown button with toolbar (based on https://bootsnipp.com/snippets/featured/inbox-by-gmail)
+and return to Top button (based on https://codepen.io/rdallaire/pen/apoyx)
+-->
+<div class="md-container">
+  <div class="row">
+    <div id="inbox">
+      <div class="fab btn-group show-on-hover dropup">
+        <div data-toggle="tooltip" data-placement="left" title="Menu" style="margin-left: 42px;">
+          <button id="return-to-top" type="button" class="btn btn-primary btn-io dropdown-toggle" data-toggle="dropdown">
+            <span class="fa-stack fa-2x">
+                <i class="fa fa-circle fa-stack-2x fab-backdrop"></i>
+                <i class="fa fa-chevron-up fa-stack-1x fa-inverse fab-primary"></i>
+                <i class="fa fa-map-signs fa-stack-1x fa-inverse fab-secondary"></i>
+            </span>
+          </button>
+        </div>
+        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+        
+        
+          <li><a href="../../about/release-notes/" data-toggle="tooltip" data-placement="left" 
+                  title="About"><i class="fa fa-info-circle"></i></a></li>
+        
+          <li><a href="../git_and_gitlab/" data-toggle="tooltip" data-placement="left" 
+                  title="Developers"><i class="fa fa-terminal"></i></a></li>
+        
+          <li><a href="../../theory/geometry/" data-toggle="tooltip" data-placement="left" 
+                  title="Theory"><i class="fa fa-book"></i></a></li>
+        
+          <li><a href="../../tutorial/" data-toggle="tooltip" data-placement="left" 
+                  title="Tutorial"><i class="fa fa-graduation-cap"></i></a></li>
+        
+          <li><a href="../../variables/" data-toggle="tooltip" data-placement="left" 
+                  title="Variables"><i class="fa fa-file-text-o"></i></a></li>
+        
+          <li><a href="../../topics/features/" data-toggle="tooltip" data-placement="left" 
+                  title="Topics"><i class="fa fa-question"></i></a></li>
+        
+          <li><a href="../.." data-toggle="tooltip" data-placement="left" 
+                  title="User Guide"><i class="fa fa-user-circle-o"></i></a></li>
+        
+        <!--
+        Example: 
+        <li><a href="/index.html" data-toggle="tooltip" data-placement="left" title="User-Guide">
+              <i class="fa fa-user-circle-o"></i></a></li>
+        -->
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+              
+                
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+    <!-- Add tabs to footer -->
+    
+        
+
+  
+
+<nav class="md-tabs md-tabs--active" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../.." title="User Guide" class="md-tabs__link">
+          User Guide
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../topics/features/" title="Topics" class="md-tabs__link">
+          Topics
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../variables/" title="Variables" class="md-tabs__link">
+          Variables
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../tutorial/" title="Tutorial" class="md-tabs__link">
+          Tutorial
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../theory/geometry/" title="Theory" class="md-tabs__link">
+          Theory
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../git_and_gitlab/" title="Developers" class="md-tabs__link md-tabs__link--active">
+          Developers
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../about/release-notes/" title="About" class="md-tabs__link">
+          About
+        </a>
+      
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+    
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../testsuite_howto/" title="Test Suite Howto" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Test Suite Howto
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../yaml_tools_api/" title="YAML-based test suite Python tools and API" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                YAML-based test suite Python tools and API
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+            <center>Abinit version 9.4.0</center>
+        
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2020-2021 The Abinit Group (TC, MG)
+          </div>
+        
+        powered by
+        <a href="http://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+  <div class="md-footer-social">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+      <a href="https://github.com/abinit/abinit" class="md-footer-social__link fa fa-github-alt"></a>
+    
+      <a href="https://twitter.com/hashtag/abinit" class="md-footer-social__link fa fa-twitter"></a>
+    
+      <a href="http://www.facebook.com/abinit.org" class="md-footer-social__link fa fa-facebook"></a>
+    
+      <a href="https://www.youtube.com/watch?v=gcbfb_Mteo4" class="md-footer-social__link fa fa-youtube"></a>
+    
+  </div>
+
+      
+    </div>
+  </div>
+</footer>
+      
+
+    </div>
+    
+      <script src="../../assets/javascripts/application.02434462.js"></script>
+      
+      <script>app.initialize({version:"0.17.5",url:{base:"../.."}})</script>
+      
+        <script src="../../extra_javascript/jquery.dialogextend.min.js"></script>
+      
+        <script src="../../extra_javascript/abidocs.js"></script>
+      
+    
+    
+      
+        <script>!function(e,a,t,n,o,c,i){e.GoogleAnalyticsObject=o,e.ga=e.ga||function(){(e.ga.q=e.ga.q||[]).push(arguments)},e.ga.l=1*new Date,c=a.createElement(t),i=a.getElementsByTagName(t)[0],c.async=1,c.src="https://www.google-analytics.com/analytics.js",i.parentNode.insertBefore(c,i)}(window,document,"script",0,"ga"),ga("create","UA-116681470-1","docs.abinit.org"),ga("set","anonymizeIp",!0),ga("send","pageview");var links=document.getElementsByTagName("a");if(Array.prototype.map.call(links,function(e){e.host!=document.location.host&&e.addEventListener("click",function(){var a=e.getAttribute("data-md-action")||"follow";ga("send","event","outbound",a,e.href)})}),document.forms.search){var query=document.forms.search.query;query.addEventListener("blur",function(){if(this.value){var e=document.location.pathname;ga("send","pageview",e+"?q="+this.value)}})}</script>
+      
+    
+  </body>
+</html>

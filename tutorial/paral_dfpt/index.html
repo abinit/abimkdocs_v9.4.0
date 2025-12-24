@@ -1,0 +1,4776 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="Abinit documentation">
+      
+      
+        <link rel="canonical" href="https://docs.abinit.org/tutorial/paral_dfpt/">
+      
+      
+        <meta name="author" content="The Abinit group">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../images/favicon.ico">
+      <meta name="generator" content="mkdocs-0.17.5, mkdocs-material-2.6.6">
+    
+    
+      
+        <title>DFPT - abinit</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application.78aab2dc.css">
+      
+        <link rel="stylesheet" href="../../assets/stylesheets/application-palette.6079476c.css">
+      
+    
+    
+    
+      <script src="../../assets/javascripts/modernizr.1aa3b519.js"></script>
+    
+
+    <!-- Jquery from Google CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Load Jquery UI -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <!-- Handle jQuery plugin naming conflict between jQuery UI and Bootstrap 
+    https://stackoverflow.com/questions/13731400/jqueryui-tooltips-are-competing-with-twitter-bootstrap
+    -->
+    <script>
+      $.widget.bridge('uibutton', $.ui.button);
+      $.widget.bridge('uitooltip', $.ui.tooltip);
+    </script>
+
+    <!--
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/pepper-grinder/jquery-ui.css">
+    -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <!-- Bootstrap theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.0/build/css/themes/bootstrap.min.css"/>
+
+    <!-- Bootstrap http://getbootstrap.com/getting-started/ -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" 
+    integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
+    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous">
+    </script>
+
+    <!-- font-awesome -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    
+
+    <!--Pace support. http://github.hubspot.com/pace/ -->
+    <script>
+        paceOptions = {
+            ajax: true,      // disabled
+            document: true,  // activated
+            eventLag: false  // disabled
+            //target: 'article'
+            //elements: {selectors: ['.my-page']}
+        };
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/white/pace-theme-big-counter.min.css" />
+    <!--
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/white/pace-theme-bounce.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-corner-indicator.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-flat-top.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-loading-bar.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-center-atom.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-flash.min.css" />
+    -->
+
+    <!-- MathJax support
+    <script type="text/javascript" async 
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script> 
+    -->
+    <!--
+    This is compatible with plotly.
+    -->
+    <script type="text/javascript" async 
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_SVG">
+    </script> 
+
+    <!--
+    Configure MathJax to produce automatic equation numbers http://docs.mathjax.org/en/latest/tex.html
+    -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        //jax: ["input/TeX","output/HTML-CSS"],
+        //tex2jax: {inlineMath: [['$','$']]},
+        //displayAlign: "center",
+        TeX: {
+            equationNumbers: { autoNumber: "AMS" },
+            extensions: ["AMSmath.js", "boldsymbol.js"],
+            Macros: {
+                "*": "{\\dagger}",
+                "ra": "{\\rangle}",
+                "la": "{\\langle}",
+                // Workaround for bm package. See https://github.com/mathjax/MathJax/issues/1219
+                bm: ["{\\boldsymbol #1}",1],
+                // Mathcal symbols
+                mcL: "{\\mathcal{L}}",
+                mcG: "{\\mathcal{G}}",
+                mcR: "{\\mathcal{R}}",
+                mcS: "{\\mathcal{S}}",
+                mcC: "{\\mathcal{C}}",
+                mcO: "{\\mathcal{O}}",
+                // Acronyms
+                KS: "{\\text{KS}}",
+                eph: "{\\text{e-ph}}",
+                ee: "{\\text{e-e}}",
+                phph: "{\\text{ph-ph}}",
+                FM: "{\\text{FM}}",
+                DW: "{\\text{DW}}",
+                QP: "{\\text{QP}}",
+                BZ: "{\\text{BZ}}",
+                sign: "{\\text{sign}}",
+                xc: "{\\text{xc}}",
+                tchi: "{\\tilde\\chi}",
+                // Symbols commonly used (k-points, eigenvalues ...)
+                rr: "{\\bf r}",
+                RR: "{\\bf R}",
+                tt: "{\\bf t}",
+                GG: "{\\bf G}",
+                kk: "{\\bf k}",
+                qq: "{\\bf q}",
+                kq: "{\\kk + \\qq}",
+                qG: "{\\bf q + G}",
+                kG: "{\\bf k + G}",
+                kmq: "{\\kk - \\qq}",
+                kpq: "{\\kk + \\qq}",
+                kpG: "{\\kk + \\GG}",
+                qpG: "{\\qq + \\GG}",
+                nk: "{n \\kk}",
+                enk: "{\\varepsilon_\\nk}",
+                emkq: "{\\varepsilon_{m\\kk+\\qq}}",
+                qnu: "{\\qq \\nu}",
+                wqnu: "{\\omega_{\\qnu}}",
+                vnk: "{\\mathbf{v}_{n\\kk}}",
+                vmkq: "{\\mathbf{v}_{m\\kk+\\qq}}",
+                vnka: "{\\mathrm{v}_{n\\kk,\\alpha}}",
+                vnkb: "{\\mathrm{v}_{n\\kk,\\beta}}",
+                ef: "{\\varepsilon_F}",
+                // EPH quantities
+                gkkp: "{g_{mn\\nu}(\\kk,\\qq)}",
+                gkq: "{g_{mn\\nu}(\\kk,\\qq)}",
+                //\newcommand{\gkkpL}{g_{mn\nu}^\Lc(\kb,\qb)}
+                // Many-body theory
+                Go: "{G_0}",
+                Wo: "{W_0}",
+                Ueff: "{U_{\\text{eff}}}",
+                // Greek symbols + tilde version
+                ee: "{\\epsilon}",
+                tee: "{\\tilde{\\epsilon}}",
+                ww: "{\\omega}",
+                tww: "{\\tilde\\omega}",
+                dd: "{\\,\\text{d}}",
+                vxc: "{v_\\xc}",
+                // symrel
+                Ri: "{\\mcR^{-1}}",
+                Rit: "{\\mcR^{-1\\tau}}",
+                // symrec
+                Si: "{\\mcS^{-1}}}",
+                Sit: "{\\Si^\\tau}}",
+                // partial and functional derivative.
+                PDER: ["{\\dfrac{\\partial #1}{\\partial #2}}", 2],
+                FDER: ["{\\dfrac{\\delta #1}{\\delta #2}}", 2],
+                // PAW
+                tPsi: "{\\tilde\\Psi}",
+                tpsi: "{\\tilde\\psi}",
+                tPhi: "{\\tilde\\Phi}",
+                tphi: "{\\tilde\\phi}",
+                tprj: "{\\tilde p}"
+            }
+          }
+      });
+    </script>
+
+    <!-- See http://docs.mathjax.org/en/latest/start.html 
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js", "MathMenu.js", "MathZoom.js"],
+        jax: ["input/TeX", "output/HTML-CSS", "output/NativeMML],
+        tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+            processEscapes: true
+        },
+        "HTML-CSS": { availableFonts: ["TeX"] }
+      });
+    </script>
+    -->
+
+    
+        <!-- Plotly support -->
+        <script type="text/javascript" src="https://cdn.plot.ly/plotly-latest.min.js"></script> 
+    
+    
+    
+
+    <!-- Introjs for Guided Tour -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.7.0/intro.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.7.0/introjs.min.css" />
+
+    <!-- Load fonts used for input variables -->
+    <!--
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu+Mono" rel="stylesheet">
+    -->
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+
+    
+      <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+      
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    
+    
+      <link rel="stylesheet" href="../../css/extra.css">
+    
+      <link rel="stylesheet" href="../../css/gallery.css">
+    
+      <link rel="stylesheet" href="../../css/my_codehilite.css">
+    
+    
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="deep-orange" data-md-color-accent="deep-orange">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="drawer">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
+    <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
+    
+      <a href="#parallelism-in-the-dfpt-formalism" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="https://www.abinit.org" title="abinit" class="md-header-nav__button md-logo">
+          
+            <img src="../../images/logo-abinit-2015.png" width="48" height="48">
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <span class="md-flex__ellipsis md-header-nav__title">
+          
+            
+              
+                <span class="md-header-nav__parent">
+                  Tutorial
+                </span>
+              
+                <span class="md-header-nav__parent">
+                  Parallelism
+                </span>
+              
+            
+            DFPT
+          
+        </span>
+      </div>
+      <!-- Guided Tour with introjs. Add glow effect to button only if homepage -->
+      <div class="md-flex__cell md-flex__cell--shrink">
+           
+          
+          <a href="#" class="btn btn-xs btn-default  " id="guided-tour-button" title="Guided Tour" 
+              onclick="abidocs_guidedtour()">
+           <span class="fa fa-info-circle"></span></a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.com/abinit/abinit/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      github-abinit
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+      <div class="md-flex__cell md-flex__cell--shrink" id="previous_published_versions">
+        <div class="dropdown">
+          <button class="btn btn-basic btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
+            9.4.0
+          <span class="caret"></span></button>
+          <ul class="dropdown-menu">
+            
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+        
+
+  
+
+<nav class="md-tabs md-tabs--active" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../.." title="User Guide" class="md-tabs__link">
+          User Guide
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../topics/features/" title="Topics" class="md-tabs__link">
+          Topics
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../variables/" title="Variables" class="md-tabs__link">
+          Variables
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../" title="Tutorial" class="md-tabs__link md-tabs__link--active">
+          Tutorial
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../theory/geometry/" title="Theory" class="md-tabs__link">
+          Theory
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../developers/git_and_gitlab/" title="Developers" class="md-tabs__link">
+          Developers
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../about/release-notes/" title="About" class="md-tabs__link">
+          About
+        </a>
+      
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="drawer">
+    <span class="md-nav__button md-logo">
+      
+        <img src="../../images/logo-abinit-2015.png" width="24" height="24">
+      
+    </span>
+    abinit
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/abinit/abinit/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      github-abinit
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1">
+    
+    <label class="md-nav__link" for="nav-1">
+      User Guide
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-1">
+        User Guide
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="NewUser" class="md-nav__link">
+      NewUser
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/abinit/" title="Abinit" class="md-nav__link">
+      Abinit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/aim/" title="Aim" class="md-nav__link">
+      Aim
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/anaddb/" title="Anaddb" class="md-nav__link">
+      Anaddb
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/cut3d/" title="Cut3d" class="md-nav__link">
+      Cut3d
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/fold2bloch/" title="Fold2Bloch" class="md-nav__link">
+      Fold2Bloch
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/mrgddb/" title="Mrgddb" class="md-nav__link">
+      Mrgddb
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/mrgscr/" title="Mrgscr" class="md-nav__link">
+      Mrgscr
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/multibinit/" title="Multibinit" class="md-nav__link">
+      Multibinit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/optic/" title="Optic" class="md-nav__link">
+      Optic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/respfn/" title="Respfn" class="md-nav__link">
+      Respfn
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/spacegroup/" title="Spacegroup" class="md-nav__link">
+      Spacegroup
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/a-TDEP/" title="a-TDEP" class="md-nav__link">
+      a-TDEP
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1-14" type="checkbox" id="nav-1-14">
+    
+    <label class="md-nav__link" for="nav-1-14">
+      Installation
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-1-14">
+        Installation
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../installation/" title="HowTo" class="md-nav__link">
+      HowTo
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../INSTALL_MacOS/" title="MacOS" class="md-nav__link">
+      MacOS
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../INSTALL_Ubuntu/" title="Ubuntu" class="md-nav__link">
+      Ubuntu
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../INSTALL_CentOS/" title="CentOS" class="md-nav__link">
+      CentOS
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../INSTALL_EasyBuild/" title="EasyBuild" class="md-nav__link">
+      EasyBuild
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../INSTALL_gpu/" title="GPUs" class="md-nav__link">
+      GPUs
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Topics
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Topics
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/features/" title="Features" class="md-nav__link">
+      Features
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/" title="Topic List" class="md-nav__link">
+      Topic List
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Abipy/" title="Abipy" class="md-nav__link">
+      Abipy
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/APPA/" title="APPA" class="md-nav__link">
+      APPA
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Artificial/" title="Artificial" class="md-nav__link">
+      Artificial
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/AtomManipulator/" title="AtomManipulator" class="md-nav__link">
+      AtomManipulator
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/AtomTypes/" title="AtomTypes" class="md-nav__link">
+      AtomTypes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Bader/" title="Bader" class="md-nav__link">
+      Bader
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Band2eps/" title="Band2eps" class="md-nav__link">
+      Band2eps
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Berry/" title="Berry" class="md-nav__link">
+      Berry
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/BandOcc/" title="BandOcc" class="md-nav__link">
+      BandOcc
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/BSE/" title="BSE" class="md-nav__link">
+      BSE
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/BoundingProcess/" title="BoundingProcess" class="md-nav__link">
+      BoundingProcess
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ConstrainedDFT/" title="ConstrainedDFT" class="md-nav__link">
+      ConstrainedDFT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ConstrainedPol/" title="ConstrainedPol" class="md-nav__link">
+      ConstrainedPol
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Control/" title="Control" class="md-nav__link">
+      Control
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Coulomb/" title="Coulomb" class="md-nav__link">
+      Coulomb
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/CrossingBarriers/" title="CrossingBarriers" class="md-nav__link">
+      CrossingBarriers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/CRPA/" title="CRPA" class="md-nav__link">
+      CRPA
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/crystal/" title="Crystal" class="md-nav__link">
+      Crystal
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/DFT+U/" title="DFT+U" class="md-nav__link">
+      DFT+U
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/DeltaSCF/" title="DeltaSCF" class="md-nav__link">
+      DeltaSCF
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/DensityPotential/" title="DensityPotential" class="md-nav__link">
+      DensityPotential
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Dev/" title="Dev" class="md-nav__link">
+      Dev
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/DFPT/" title="DFPT" class="md-nav__link">
+      DFPT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/DMFT/" title="DMFT" class="md-nav__link">
+      DMFT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/DynamicsMultibinit/" title="DynamicsMultibinit" class="md-nav__link">
+      DynamicsMultibinit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/EffectiveMass/" title="EffectiveMass" class="md-nav__link">
+      EffectiveMass
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/EFG/" title="EFG" class="md-nav__link">
+      EFG
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Elastic/" title="Elastic" class="md-nav__link">
+      Elastic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ElPhonInt/" title="ElPhonInt" class="md-nav__link">
+      ElPhonInt
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ElPhonTransport/" title="ElPhonTransport" class="md-nav__link">
+      ElPhonTransport
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ElecDOS/" title="ElecDOS" class="md-nav__link">
+      ElecDOS
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ElecBandStructure/" title="ElecBandStructure" class="md-nav__link">
+      ElecBandStructure
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/FileFormats/" title="FileFormats" class="md-nav__link">
+      FileFormats
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/FitProcess/" title="FitProcess" class="md-nav__link">
+      FitProcess
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ForcesStresses/" title="ForcesStresses" class="md-nav__link">
+      ForcesStresses
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/FrequencyMeshMBPT/" title="FrequencyMeshMBPT" class="md-nav__link">
+      FrequencyMeshMBPT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/GeoConstraints/" title="GeoConstraints" class="md-nav__link">
+      GeoConstraints
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/GeoOpt/" title="GeoOpt" class="md-nav__link">
+      GeoOpt
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Git/" title="Git" class="md-nav__link">
+      Git
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/GSintroduction/" title="GSintroduction" class="md-nav__link">
+      GSintroduction
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/GW/" title="GW" class="md-nav__link">
+      GW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/GWls/" title="GWls" class="md-nav__link">
+      GWls
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Hybrids/" title="Hybrids" class="md-nav__link">
+      Hybrids
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/k-points/" title="K points" class="md-nav__link">
+      K points
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/LatticeModel/" title="LatticeModel" class="md-nav__link">
+      LatticeModel
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/LDAminushalf/" title="LDAminushalf" class="md-nav__link">
+      LDAminushalf
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/LOTF/" title="LOTF" class="md-nav__link">
+      LOTF
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/longwave/" title="Longwave" class="md-nav__link">
+      Longwave
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Macroave/" title="Macroave" class="md-nav__link">
+      Macroave
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/MagField/" title="MagField" class="md-nav__link">
+      MagField
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/MagMom/" title="MagMom" class="md-nav__link">
+      MagMom
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/MolecularDynamics/" title="MolecularDynamics" class="md-nav__link">
+      MolecularDynamics
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/multidtset/" title="Multidtset" class="md-nav__link">
+      Multidtset
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/nonlinear/" title="Nonlinear" class="md-nav__link">
+      Nonlinear
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Optic/" title="Optic" class="md-nav__link">
+      Optic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Output/" title="Output" class="md-nav__link">
+      Output
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/parallelism/" title="Parallelism" class="md-nav__link">
+      Parallelism
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/PAW/" title="PAW" class="md-nav__link">
+      PAW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/PIMD/" title="PIMD" class="md-nav__link">
+      PIMD
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Planewaves/" title="Planewaves" class="md-nav__link">
+      Planewaves
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Phonons/" title="Phonons" class="md-nav__link">
+      Phonons
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/PhononBands/" title="PhononBands" class="md-nav__link">
+      PhononBands
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/PhononWidth/" title="PhononWidth" class="md-nav__link">
+      PhononWidth
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/PortabilityNonRegression/" title="PortabilityNonRegression" class="md-nav__link">
+      PortabilityNonRegression
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/positron/" title="Positron" class="md-nav__link">
+      Positron
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/printing/" title="Printing" class="md-nav__link">
+      Printing
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/PseudosPAW/" title="PseudosPAW" class="md-nav__link">
+      PseudosPAW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/q-points/" title="Q points" class="md-nav__link">
+      Q points
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/RandStopPow/" title="RandStopPow" class="md-nav__link">
+      RandStopPow
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Recursion/" title="Recursion" class="md-nav__link">
+      Recursion
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/RPACorrEn/" title="RPACorrEn" class="md-nav__link">
+      RPACorrEn
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/SCFControl/" title="SCFControl" class="md-nav__link">
+      SCFControl
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/SCFAlgorithms/" title="SCFAlgorithms" class="md-nav__link">
+      SCFAlgorithms
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/SelfEnergy/" title="SelfEnergy" class="md-nav__link">
+      SelfEnergy
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/SmartSymm/" title="SmartSymm" class="md-nav__link">
+      SmartSymm
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/spinpolarisation/" title="Spinpolarisation" class="md-nav__link">
+      Spinpolarisation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/SpinDynamicsMultibinit/" title="SpinDynamicsMultibinit" class="md-nav__link">
+      SpinDynamicsMultibinit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/STM/" title="STM" class="md-nav__link">
+      STM
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Susceptibility/" title="Susceptibility" class="md-nav__link">
+      Susceptibility
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/TDDFT/" title="TDDFT" class="md-nav__link">
+      TDDFT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/a-TDEP/" title="a TDEP" class="md-nav__link">
+      a TDEP
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/TDepES/" title="TDepES" class="md-nav__link">
+      TDepES
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Temperature/" title="Temperature" class="md-nav__link">
+      Temperature
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/TransPath/" title="TransPath" class="md-nav__link">
+      TransPath
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/TuningSpeedMem/" title="TuningSpeedMem" class="md-nav__link">
+      TuningSpeedMem
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Unfolding/" title="Unfolding" class="md-nav__link">
+      Unfolding
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/UnitCell/" title="UnitCell" class="md-nav__link">
+      UnitCell
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/vdw/" title="Vdw" class="md-nav__link">
+      Vdw
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Verification/" title="Verification" class="md-nav__link">
+      Verification
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Wannier/" title="Wannier" class="md-nav__link">
+      Wannier
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Wavelets/" title="Wavelets" class="md-nav__link">
+      Wavelets
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/xc/" title="Xc" class="md-nav__link">
+      Xc
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/external_resources/" title="External Resources" class="md-nav__link">
+      External Resources
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Variables
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Variables
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/" title="All Variables" class="md-nav__link">
+      All Variables
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-2" type="checkbox" id="nav-3-2">
+    
+    <label class="md-nav__link" for="nav-3-2">
+      Abinit
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-2">
+        Abinit
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/basic/" title="Basic" class="md-nav__link">
+      Basic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/bse/" title="Bethe-Salpeter" class="md-nav__link">
+      Bethe-Salpeter
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/dev/" title="Developers" class="md-nav__link">
+      Developers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/dmft/" title="DMFT" class="md-nav__link">
+      DMFT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/eph/" title="Electron-Phonon" class="md-nav__link">
+      Electron-Phonon
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/ffield/" title="Varff" class="md-nav__link">
+      Varff
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/files/" title="File-handling" class="md-nav__link">
+      File-handling
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/geo/" title="Geometry" class="md-nav__link">
+      Geometry
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/gstate/" title="Ground-State" class="md-nav__link">
+      Ground-State
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/gw/" title="GW" class="md-nav__link">
+      GW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/internal/" title="Internal" class="md-nav__link">
+      Internal
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/paral/" title="Parallelism" class="md-nav__link">
+      Parallelism
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/paw/" title="PAW" class="md-nav__link">
+      PAW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/dfpt/" title="DFPT" class="md-nav__link">
+      DFPT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/rlx/" title="Relaxation" class="md-nav__link">
+      Relaxation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/vdw/" title="VdW" class="md-nav__link">
+      VdW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/w90/" title="Wannier90" class="md-nav__link">
+      Wannier90
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/anaddb/" title="Anaddb" class="md-nav__link">
+      Anaddb
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/multibinit/" title="Multibinit" class="md-nav__link">
+      Multibinit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/optic/" title="Optic" class="md-nav__link">
+      Optic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/atdep/" title="a-TDEP" class="md-nav__link">
+      a-TDEP
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/aim/" title="Aim" class="md-nav__link">
+      Aim
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/external_parameters/" title="External Parameters" class="md-nav__link">
+      External Parameters
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/varset_stats/" title="Statistics" class="md-nav__link">
+      Statistics
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
+    
+    <label class="md-nav__link" for="nav-4">
+      Tutorial
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        Tutorial
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../compilation/" title="Building Abinit" class="md-nav__link">
+      Building Abinit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-3" type="checkbox" id="nav-4-3">
+    
+    <label class="md-nav__link" for="nav-4-3">
+      Base Tutorials
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-3">
+        Base Tutorials
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../base1/" title="Base1" class="md-nav__link">
+      Base1
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../base2/" title="Base2" class="md-nav__link">
+      Base2
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../base3/" title="Base3" class="md-nav__link">
+      Base3
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../base4/" title="Base4" class="md-nav__link">
+      Base4
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../spin/" title="Spin" class="md-nav__link">
+      Spin
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-4" type="checkbox" id="nav-4-4">
+    
+    <label class="md-nav__link" for="nav-4-4">
+      PAW
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-4">
+        PAW
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../paw1/" title="PAW1" class="md-nav__link">
+      PAW1
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../paw2/" title="PAW2" class="md-nav__link">
+      PAW2
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../paw3/" title="PAW3" class="md-nav__link">
+      PAW3
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-5" type="checkbox" id="nav-4-5">
+    
+    <label class="md-nav__link" for="nav-4-5">
+      DFT_PLUS_U
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-5">
+        DFT_PLUS_U
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../dftu/" title="Dftu" class="md-nav__link">
+      Dftu
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../udet/" title="Udet" class="md-nav__link">
+      Udet
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../ucalc_crpa/" title="Ucalc crpa" class="md-nav__link">
+      Ucalc crpa
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-6" type="checkbox" id="nav-4-6">
+    
+    <label class="md-nav__link" for="nav-4-6">
+      DFPT
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-6">
+        DFPT
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rf1/" title="RF1" class="md-nav__link">
+      RF1
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rf2/" title="RF2" class="md-nav__link">
+      RF2
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../elastic/" title="Elastic" class="md-nav__link">
+      Elastic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../ffield/" title="Ffield" class="md-nav__link">
+      Ffield
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../nlo/" title="Nlo" class="md-nav__link">
+      Nlo
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../dmft/" title="DMFT" class="md-nav__link">
+      DMFT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-8" type="checkbox" id="nav-4-8">
+    
+    <label class="md-nav__link" for="nav-4-8">
+      EPH
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-8">
+        EPH
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../eph_intro/" title="Eph intro" class="md-nav__link">
+      Eph intro
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../eph4mob/" title="Eph4mob" class="md-nav__link">
+      Eph4mob
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../eph4zpr/" title="Eph4zpr" class="md-nav__link">
+      Eph4zpr
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-9" type="checkbox" id="nav-4-9">
+    
+    <label class="md-nav__link" for="nav-4-9">
+      EPH-legacy
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-9">
+        EPH-legacy
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../eph/" title="Eph" class="md-nav__link">
+      Eph
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../tdepes/" title="Tdepes" class="md-nav__link">
+      Tdepes
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-10" type="checkbox" id="nav-4-10">
+    
+    <label class="md-nav__link" for="nav-4-10">
+      Many-Body
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-10">
+        Many-Body
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../gw1/" title="GW1" class="md-nav__link">
+      GW1
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../gw2/" title="GW2" class="md-nav__link">
+      GW2
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../bse/" title="Bethe-Salpeter" class="md-nav__link">
+      Bethe-Salpeter
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-11" type="checkbox" id="nav-4-11" checked>
+    
+    <label class="md-nav__link" for="nav-4-11">
+      Parallelism
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-11">
+        Parallelism
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../basepar/" title="Base" class="md-nav__link">
+      Base
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../paral_gspw/" title="GSPW" class="md-nav__link">
+      GSPW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../paral_gswvl/" title="GSWVL" class="md-nav__link">
+      GSWVL
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="toc">
+        DFPT
+      </label>
+    
+    <a href="./" title="DFPT" class="md-nav__link md-nav__link--active">
+      DFPT
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#atomic-displacements-homogeneous-electric-fields-strain" title="Atomic displacements, homogeneous electric fields, strain." class="md-nav__link">
+    Atomic displacements, homogeneous electric fields, strain.
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-the-structure-of-the-parallelism-for-the-dfpt-part-of-abinit" title="1 The structure of the parallelism for the DFPT part of ABINIT" class="md-nav__link">
+    1 The structure of the parallelism for the DFPT part of ABINIT
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-computation-of-one-dynamical-matrix-q-025-0125-0125-for-fcc-aluminum" title="2 Computation of one dynamical matrix (q =0.25 -0.125 0.125) for FCC aluminum" class="md-nav__link">
+    2 Computation of one dynamical matrix (q =0.25 -0.125 0.125) for FCC aluminum
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-computation-of-one-perturbation-for-a-slab-of-29-atoms-of-barium-titanate" title="3 Computation of one perturbation for a slab of 29 atoms of barium titanate" class="md-nav__link">
+    3 Computation of one perturbation for a slab of 29 atoms of barium titanate
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../paral_images/" title="Images" class="md-nav__link">
+      Images
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../paral_mbt/" title="Many-Body" class="md-nav__link">
+      Many-Body
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../paral_moldyn/" title="Moldyn" class="md-nav__link">
+      Moldyn
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-12" type="checkbox" id="nav-4-12">
+    
+    <label class="md-nav__link" for="nav-4-12">
+      Multibinit
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-12">
+        Multibinit
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../lattice_model/" title="Lattice Model" class="md-nav__link">
+      Lattice Model
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../spin_model/" title="Spin Model" class="md-nav__link">
+      Spin Model
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../cut3d/" title="Cut3d" class="md-nav__link">
+      Cut3d
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../fold2bloch/" title="Fold2bloch" class="md-nav__link">
+      Fold2bloch
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../nuc/" title="Nuc" class="md-nav__link">
+      Nuc
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../optic/" title="Optic" class="md-nav__link">
+      Optic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../positron/" title="Positron" class="md-nav__link">
+      Positron
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../tddft/" title="Tddft" class="md-nav__link">
+      Tddft
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../wannier90/" title="Wannier90" class="md-nav__link">
+      Wannier90
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      Theory
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        Theory
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/geometry/" title="Geometry" class="md-nav__link">
+      Geometry
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/spherical_harmonics/" title="Spherical Harmonics" class="md-nav__link">
+      Spherical Harmonics
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/wavefunctions/" title="Wavefunctions" class="md-nav__link">
+      Wavefunctions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/noncollinear/" title="Noncollinear" class="md-nav__link">
+      Noncollinear
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/pseudopotentials/" title="Pseudopotentials" class="md-nav__link">
+      Pseudopotentials
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/mbt/" title="Many-Body Perturbation Theory" class="md-nav__link">
+      Many-Body Perturbation Theory
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/bse/" title="Bethe-Salpeter" class="md-nav__link">
+      Bethe-Salpeter
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/documents/" title="Documents" class="md-nav__link">
+      Documents
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/acknowledgments/" title="Acknowledgments" class="md-nav__link">
+      Acknowledgments
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/bibliography/" title="Bibliography" class="md-nav__link">
+      Bibliography
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      Developers
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        Developers
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/git_and_gitlab/" title="Git and Gitlab" class="md-nav__link">
+      Git and Gitlab
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/developers_howto/" title="HowTo for developers" class="md-nav__link">
+      HowTo for developers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/abimkdocs/" title="Abimkdocs" class="md-nav__link">
+      Abimkdocs
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/markdown/" title="Markdown" class="md-nav__link">
+      Markdown
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6-5" type="checkbox" id="nav-6-5">
+    
+    <label class="md-nav__link" for="nav-6-5">
+      Test Suite
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-6-5">
+        Test Suite
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/testsuite/" title="Test list" class="md-nav__link">
+      Test list
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/testsuite_howto/" title="Test Suite Howto" class="md-nav__link">
+      Test Suite Howto
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/new_testsuite/" title="YAML-based test suite Howto" class="md-nav__link">
+      YAML-based test suite Howto
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/yaml_tools_api/" title="YAML-based test suite Python tools and API" class="md-nav__link">
+      YAML-based test suite Python tools and API
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/XgType/" title="XgType" class="md-nav__link">
+      XgType
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6-7" type="checkbox" id="nav-6-7">
+    
+    <label class="md-nav__link" for="nav-6-7">
+      Pseudos
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-6-7">
+        Pseudos
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/psp1_info/" title="psp1" class="md-nav__link">
+      psp1
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/psp3_info/" title="psp3" class="md-nav__link">
+      psp3
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/psp45_info/" title="psp45" class="md-nav__link">
+      psp45
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/psp5spinorbit_info/" title="psp5" class="md-nav__link">
+      psp5
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/psp6_info/" title="psp6" class="md-nav__link">
+      psp6
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/psp8_info/" title="psp8" class="md-nav__link">
+      psp8
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/codestats/" title="Code stats" class="md-nav__link">
+      Code stats
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/autoconf_examples/" title="Autoconf_examples" class="md-nav__link">
+      Autoconf_examples
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/testlink/" title="Test Page for linkcheck" class="md-nav__link">
+      Test Page for linkcheck
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+    
+    <label class="md-nav__link" for="nav-7">
+      About
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        About
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../about/release-notes/" title="Release Notes" class="md-nav__link">
+      Release Notes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../about/contributing/" title="Contributing" class="md-nav__link">
+      Contributing
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../about/history/" title="History" class="md-nav__link">
+      History
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../about/license/" title="License" class="md-nav__link">
+      License
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#atomic-displacements-homogeneous-electric-fields-strain" title="Atomic displacements, homogeneous electric fields, strain." class="md-nav__link">
+    Atomic displacements, homogeneous electric fields, strain.
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-the-structure-of-the-parallelism-for-the-dfpt-part-of-abinit" title="1 The structure of the parallelism for the DFPT part of ABINIT" class="md-nav__link">
+    1 The structure of the parallelism for the DFPT part of ABINIT
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-computation-of-one-dynamical-matrix-q-025-0125-0125-for-fcc-aluminum" title="2 Computation of one dynamical matrix (q =0.25 -0.125 0.125) for FCC aluminum" class="md-nav__link">
+    2 Computation of one dynamical matrix (q =0.25 -0.125 0.125) for FCC aluminum
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-computation-of-one-perturbation-for-a-slab-of-29-atoms-of-barium-titanate" title="3 Computation of one perturbation for a slab of 29 atoms of barium titanate" class="md-nav__link">
+    3 Computation of one perturbation for a slab of 29 atoms of barium titanate
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+
+                
+                  <a href="https://github.com/abinit/abinit/edit/master/doc/tutorial/paral_dfpt.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="parallelism-in-the-dfpt-formalism">Parallelism in the DFPT formalism<a class="headerlink" href="#parallelism-in-the-dfpt-formalism" title="Permanent link">&para;</a></h1>
+<h2 id="atomic-displacements-homogeneous-electric-fields-strain">Atomic displacements, homogeneous electric fields, strain.<a class="headerlink" href="#atomic-displacements-homogeneous-electric-fields-strain" title="Permanent link">&para;</a></h2>
+<p>This tutorial aims at showing how to use the parallelism for all the properties
+that are computed on the basis of the density-functional perturbation theory
+(DFPT) part of ABINIT, i.e.:</p>
+<ul>
+<li>responses to atomic displacements (to compute phonon frequencies, band structures, &hellip; )</li>
+<li>responses to homogeneous electric fields (dielectric constant, Born effective charges, Infra-red characteristics )</li>
+<li>responses to strain (elastic constants, piezoelectric constants &hellip;)</li>
+</ul>
+<p>Such computations are realized when one of the input variables <a class="wikilink codevar-wikilink" href="../../variables/dfpt#rfphon">rfphon</a>,
+<a class="wikilink codevar-wikilink" href="../../variables/dfpt#rfelfd">rfelfd</a> or <a class="wikilink codevar-wikilink" href="../../variables/dfpt#rfstrs">rfstrs</a> are non-zero, which activates <a class="wikilink codevar-wikilink" href="../../variables/gstate#optdriver">optdriver</a>=1.
+You are supposed to be well-familiarized with such calculations before starting
+the present tutorial. See the input variables described in <a class="wikilink" href="../../variables/dfpt">dfpt varset</a> and
+the tutorial <a href="../rf1">Response-Function 1</a> and subsequent tutorials.</p>
+<p>You will learn about the basic implementation of parallelism for DFPT
+calculations, then will execute a very simple, quick calculation for one
+dynamical matrix for FCC aluminum, whose scaling is limited to a few dozen
+computing cores, then you will execute a calculation whose scaling is much
+better, but that would take a few hours in sequential, using a provided input file.</p>
+<p>For the last section of that part, you would be better off having access
+to more than 100 computing cores, although you might also change the input
+parameters to adjust to the machine you have at hand. For the other parts of
+the tutorial, a 16-computing-core machine is recommended, in order to perform
+the scalability measurements.</p>
+<p>You are supposed to know already some basics of parallelism in ABINIT,
+explained in the tutorial <a href="../basepar">A first introduction to ABINIT in parallel</a>.</p>
+<p>This tutorial should take less than two hours to be done if a powerful parallel
+computer is available.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Supposing you made your own installation of ABINIT, the input files to run the examples
+are in the <em>~abinit/tests/</em> directory where <em>~abinit</em> is the <strong>absolute path</strong> of the abinit top-level directory.
+If you have NOT made your own install, ask your system administrator where to find the package,
+especially the executable and test files.</p>
+<p>In case you work on your own PC or workstation, to make things easier, we suggest you define
+some handy environment variables by executing the following lines in the terminal:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">ABI_HOME</span><span class="o">=</span>Replace_with_absolute_path_to_abinit_top_level_dir <span class="c1"># Change this line</span>
+<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="nv">$ABI_HOME</span>/src/98_main/:<span class="nv">$PATH</span>      <span class="c1"># Do not change this line: path to executable</span>
+<span class="nb">export</span> <span class="nv">ABI_TESTS</span><span class="o">=</span><span class="nv">$ABI_HOME</span>/tests/             <span class="c1"># Do not change this line: path to tests dir</span>
+<span class="nb">export</span> <span class="nv">ABI_PSPDIR</span><span class="o">=</span><span class="nv">$ABI_TESTS</span>/Psps_for_tests/  <span class="c1"># Do not change this line: path to pseudos dir</span>
+</code></pre></div>
+<p>Examples in this tutorial use these shell variables: copy and paste
+the code snippets into the terminal (<strong>remember to set ABI_HOME first!</strong>) or, alternatively,
+source the <code>set_abienv.sh</code> script located in the <em>~abinit</em> directory:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">source</span> ~abinit/set_abienv.sh
+</code></pre></div>
+<p>The &lsquo;export PATH&rsquo; line adds the directory containing the executables to your <a href="http://www.linfo.org/path_env_var.html">PATH</a>
+so that you can invoke the code by simply typing <em>abinit</em> in the terminal instead of providing the absolute path.</p>
+<p>To execute the tutorials, create a working directory (<code>Work*</code>) and
+copy there the input files of the lesson.</p>
+<p>Most of the tutorials do not rely on parallelism (except specific <a class="wikilink lesson-wikilink" href="../basepar">tutorials on parallelism</a>).
+However you can run most of the tutorial examples in parallel with MPI, see the <a class="wikilink topic-wikilink" data-content="How to set parameters for a parallel calculation" data-placement="auto right" data-toggle="popover" data-trigger="hover focus" href="../../topics/parallelism">topic on parallelism</a>.</p>
+</div>
+<h2 id="1-the-structure-of-the-parallelism-for-the-dfpt-part-of-abinit">1 The structure of the parallelism for the DFPT part of ABINIT<a class="headerlink" href="#1-the-structure-of-the-parallelism-for-the-dfpt-part-of-abinit" title="Permanent link">&para;</a></h2>
+<p><strong>1.1.</strong> Let us recall first the basic structure of typical DFPT calculations summarized in box 1.</p>
+<p><img alt="Schema 1" src="../paral_dfpt_assets/DFPT_Structure.png" /></p>
+<p>The step 1 is done in a preliminary ground-state calculation (either by an
+independent run, or by computing them using an earlier dataset before the DFPT calculation).
+The parallelisation of this step is examined in a separate tutorial.</p>
+<p>The step 2 and step 3 are the time-consuming DFPT steps, to which the present
+tutorial is dedicated, and for which the implementation of the parallelism
+will be explained. They generate different files, and in particular, one (or several) DDB file(s).
+As explained in related tutorials (see e.g.
+<a href="../rf1">Response-Function 1</a>), several perturbations are usually treated in
+one dataset (hence the &ldquo;Do for each perturbation&rdquo;-loop in step 2 of this
+Schema). For example, in one dataset, although one considers only one phonon
+wavevector, all the primitive atomic displacements for this wavevector (as
+determined by the symmetries) can be treated in turn.</p>
+<p>The step 4 refers to MRGDDB and ANADDB post-processing of the DDB generated by
+steps 2 and 3. These are not time-consuming sections. No parallelism is needed.</p>
+<p><strong>1.2.</strong> The equations to be considered for the computation of the first-order
+wavefunctions and potentials (step 2 of box 1), which is the really time-consuming part
+of any DFPT calculation, are presented in box 2.</p>
+<p><img alt="Schema 2" src="../paral_dfpt_assets/DFPT_Equations.png" /></p>
+<p>The parallelism currently implemented for the DFPT part of ABINIT is based on
+the parallel distribution of the most important arrays: the set of first-order
+and ground-state wavefunctions.
+While each such wavefunction is stored completely in the memory linked to one
+computing core (there is no splitting of different parts of one wavefunction
+between different computing cores - neither in real space nor in reciprocal
+space), different such wavefunctions might be distributed over different
+computing cores. This easily achieves a combined k point, spin and band index
+parallelism, as explained in box 3.</p>
+<p><img alt="Schema 3" src="../paral_dfpt_assets/1WFs.png" /></p>
+<p><strong>1.3.</strong> The parallelism over k points, band index and spin for the set of
+wavefunctions is implemented in all relevant steps, except for the reading
+(initialisation) of the ground-state wavefunctions (from an external file).
+Thus, the most CPU time-consuming parts of the DFPT computations are parallelized.
+The following are not parallelized:</p>
+<ul>
+<li>input of the set of ground-state wavefunctions</li>
+<li>computing the first-order change of potential from the first-order density,
+    and similar operations that do not depend on the bands or k points.</li>
+</ul>
+<p>In the case of small systems, the maximum achievable speed-up will be limited
+by the input of the set of ground-state wavefunctions. For medium to large
+systems, the maximum achievable speed-up will be determined by the operations
+that do not depend on the k point and band indices.
+Finally, the distribution of the set of ground-state wavefunctions to the
+computing cores that need them is partly parallelized, as no parallelism over
+bands can be exploited.</p>
+<p><em>Before continuing you might work in a different subdirectory as for the other
+tutorials. Why not work_paral_dfpt?</em></p>
+<p>All the input files can be found in the <em>$ABI_TESTS/tutoparal/Input</em> directory.
+You might have to adapt them to the path of the directory in which you have decided to perform your runs.
+You can compare your results with reference output files located in <em>$ABI_TESTS/tutoparal/Refs</em>.</p>
+<p>In the following, when &ldquo;(mpirun &hellip;) abinit&rdquo; appears, you have to use a
+specific command line according to the operating system and architecture of
+the computer you are using. This can be for instance: mpirun -np 16 abinit</p>
+<h2 id="2-computation-of-one-dynamical-matrix-q-025-0125-0125-for-fcc-aluminum">2 Computation of one dynamical matrix (q =0.25 -0.125 0.125) for FCC aluminum<a class="headerlink" href="#2-computation-of-one-dynamical-matrix-q-025-0125-0125-for-fcc-aluminum" title="Permanent link">&para;</a></h2>
+<p>We start by treating the case of a small systems, namely FCC aluminum, for
+which there is only one atom per unit cell. Of course, many k points are needed, since this is a metal.</p>
+<p><strong>2.1.</strong> The first step is the pre-computation of the ground state
+wavefunctions. This is driven by the files <em>tdfpt_01.abi</em>.
+You should edit it and examine it.</p>
+<div class="text-center"><button type="button" id="uuid-d399775e-8c83-4cd5-b02d-d50e2d3fa1fc" class="btn btn-default btn-labeled">
+  <span class="btn-label"><i class="fa fa-window-restore" aria-hidden="true"></i></span>View tests/tutoparal/Input/tdfpt_01.abi
+</button></div>
+<div id="uuid-0e41044a-12ff-47ef-8f4c-7355fc33932f" class="my_dialog" title="tests/tutoparal/Input/tdfpt_01.abi" hidden><div><div class="codehilite small-text"><pre><span></span><span class="c1">#   FCC Al; 60 special points</span>
+
+<span class="c1">#Definition of the unit cell</span>
+ acell <span class="m">3</span>*7.56
+ rprim   <span class="m">0</span> .5 .5  .5 <span class="m">0</span> .5  .5 .5 <span class="m">0</span>
+
+<span class="c1">#Definition of the atom types and pseudopotentials</span>
+ ntypat  <span class="m">1</span>
+ znucl <span class="m">13</span>.0
+ pp_dirpath <span class="s2">&quot;</span><span class="nv">$ABI_PSPDIR</span><span class="s2">&quot;</span>                 <span class="c1"># This is the path to the directory were pseudopotentials for tests are stored</span>
+ pseudos <span class="s2">&quot;Pseudodojo_nc_sr_04_pw_standard_psp8/Al.psp8&quot;</span>  <span class="c1"># Name and location of the pseudopotential</span>
+
+<span class="c1">#Definition of the atoms</span>
+ natom  <span class="m">1</span>
+ typat  <span class="m">1</span>  
+ xred  <span class="m">0</span>.0 <span class="m">0</span>.0 <span class="m">0</span>.0
+
+<span class="c1">#Numerical parameters of the calculation : planewave basis set and k point grid</span>
+ ecut <span class="m">10</span>
+ ngkpt <span class="m">8</span> <span class="m">8</span> <span class="m">8</span> 
+ nshiftk <span class="m">4</span>
+ shiftk <span class="m">0</span>.5 <span class="m">0</span>.5 <span class="m">0</span>.5
+        <span class="m">0</span>.5 <span class="m">0</span>.0 <span class="m">0</span>.0
+        <span class="m">0</span>.0 <span class="m">0</span>.5 <span class="m">0</span>.0
+        <span class="m">0</span>.0 <span class="m">0</span>.0 <span class="m">0</span>.5
+
+<span class="c1">#Parameters for the SCF procedure</span>
+ nstep <span class="m">20</span>
+ occopt <span class="m">4</span>
+ tolvrs <span class="m">1</span>.0d-18
+ nband <span class="m">5</span>
+
+<span class="c1">#Needed for next calculation</span>
+ prtden <span class="m">1</span>   
+
+<span class="c1">##############################################################</span>
+<span class="c1"># This section is used only for regression testing of ABINIT #</span>
+<span class="c1">##############################################################</span>
+<span class="c1">#%%&lt;BEGIN TEST_INFO&gt;</span>
+<span class="c1">#%% [setup]</span>
+<span class="c1">#%% executable = abinit</span>
+<span class="c1">#%% test_chain = tdfpt_01.abi, tdfpt_02.abi</span>
+<span class="c1">#%% [files]</span>
+<span class="c1">#%% [paral_info]</span>
+<span class="c1">#%% max_nprocs = 4</span>
+<span class="c1">#%% nprocs_to_test = 4</span>
+<span class="c1">#%% [NCPU_4]</span>
+<span class="c1">#%% files_to_test = tdfpt_01_MPI4.abo, tolnlines=  0, tolabs=  0.000e+00, tolrel=  0.000e+00</span>
+<span class="c1">#%% post_commands =</span>
+<span class="c1">#%%   ww_mv tdfpt_01_MPI4o_WFK tdfpt_02_MPI4i_WFK;</span>
+<span class="c1">#%% [extra_info]</span>
+<span class="c1">#%% authors = X. Gonze</span>
+<span class="c1">#%% keywords =</span>
+<span class="c1">#%% description = FCC Al linear response with k point parallelism </span>
+<span class="c1">#%%&lt;END TEST_INFO&gt;</span>
+</pre></div>
+</div></div>
+
+<script> $(function() { abidocs_jqueryui_dialog("#uuid-0e41044a-12ff-47ef-8f4c-7355fc33932f", "#uuid-d399775e-8c83-4cd5-b02d-d50e2d3fa1fc") }); </script>
+
+<p>One relies on a k-point grid of 8x8x8 x 4 shifts (=2048 k points), and 5 bands.
+The k-point grid sampling is well converged, actually.
+For this ground-state calculation, symmetries can be used to reduce
+drastically the number of k points: there are 60 k points in the irreducible
+Brillouin zone (this cannot be deduced from the examination of the input file, though).
+In order to treat properly the phonon calculation, the number of bands is larger than the
+default value, that would have given <a class="wikilink codevar-wikilink" href="../../variables/basic#nband">nband</a>=3. Indeed, several of the unoccupied bands 
+plays a role in the response calculations in the case of etallic occupations.
+For example, the acoustic sum rule might be largely violated when too few unoccopied 
+bands are treated. </p>
+<p>This calculation is very fast, actually.
+You can launch it:</p>
+<div class="codehilite"><pre><span></span><code>mpirun -n 4  abinit tdfpt_01.abi &gt; log &amp;
+</code></pre></div>
+
+<p>A reference output file is available in <em>$ABI_TESTS/tutoparal/Refs</em>, under
+the name <em>tdfpt_01.abo</em>. It was obtained using 4 computing cores, and took a few seconds.</p>
+<p><strong>2.2.</strong> The second step is the DFPT calculation, see the file <em>tdfpt_02.abi</em></p>
+<div class="text-center"><button type="button" id="uuid-568cee48-4e31-4546-ad93-e215124562c3" class="btn btn-default btn-labeled">
+  <span class="btn-label"><i class="fa fa-window-restore" aria-hidden="true"></i></span>View tests/tutoparal/Input/tdfpt_02.abi
+</button></div>
+<div id="uuid-9b449f13-84de-457c-a3bd-e631c82ece8f" class="my_dialog" title="tests/tutoparal/Input/tdfpt_02.abi" hidden><div><div class="codehilite small-text"><pre><span></span><span class="c1">#   FCC Al; ; phonon at 1/4 1/8 1/8</span>
+
+<span class="c1">#Definition of DFPT calculation</span>
+ rfphon <span class="m">1</span>
+ rfatpol <span class="m">1</span> <span class="m">1</span>
+ rfdir  <span class="m">1</span> <span class="m">1</span> <span class="m">1</span>
+ nqpt   <span class="m">1</span>
+ qpt    <span class="m">0</span>.25 -0.125 <span class="m">0</span>.125
+ irdwfk <span class="m">1</span>
+
+<span class="c1">#Timing parameters</span>
+ prtvol <span class="m">10</span>
+ timopt <span class="m">1</span>
+
+
+<span class="c1">#Definition of the unit cell</span>
+ acell <span class="m">3</span>*7.56
+ rprim   <span class="m">0</span> .5 .5  .5 <span class="m">0</span> .5  .5 .5 <span class="m">0</span>
+
+<span class="c1">#Definition of the atom types and pseudopotentials</span>
+ ntypat  <span class="m">1</span>
+ znucl <span class="m">13</span>.0
+ pp_dirpath <span class="s2">&quot;</span><span class="nv">$ABI_PSPDIR</span><span class="s2">&quot;</span>                 <span class="c1"># This is the path to the directory were pseudopotentials for tests are stored</span>
+ pseudos <span class="s2">&quot;Pseudodojo_nc_sr_04_pw_standard_psp8/Al.psp8&quot;</span>  <span class="c1"># Name and location of the pseudopotential</span>
+
+<span class="c1">#Definition of the atoms</span>
+ natom  <span class="m">1</span>
+ typat  <span class="m">1</span>  
+ xred  <span class="m">0</span>.0 <span class="m">0</span>.0 <span class="m">0</span>.0
+
+<span class="c1">#Numerical parameters of the calculation : planewave basis set and k point grid</span>
+ ecut <span class="m">10</span>
+ kptopt <span class="m">3</span>
+ ngkpt <span class="m">8</span> <span class="m">8</span> <span class="m">8</span> 
+ nshiftk <span class="m">4</span>
+ shiftk <span class="m">0</span>.5 <span class="m">0</span>.5 <span class="m">0</span>.5
+        <span class="m">0</span>.5 <span class="m">0</span>.0 <span class="m">0</span>.0
+        <span class="m">0</span>.0 <span class="m">0</span>.5 <span class="m">0</span>.0
+        <span class="m">0</span>.0 <span class="m">0</span>.0 <span class="m">0</span>.5
+
+<span class="c1">#Parameters for the SCF procedure</span>
+ nstep <span class="m">20</span>
+ occopt <span class="m">4</span>
+ tolvrs <span class="m">1</span>.0d-10
+ nband <span class="m">5</span>
+
+<span class="c1">##############################################################</span>
+<span class="c1"># This section is used only for regression testing of ABINIT #</span>
+<span class="c1">##############################################################</span>
+<span class="c1">#%%&lt;BEGIN TEST_INFO&gt;</span>
+<span class="c1">#%% [setup]</span>
+<span class="c1">#%% executable = abinit</span>
+<span class="c1">#%% test_chain = tdfpt_01.abi, tdfpt_02.abi</span>
+<span class="c1">#%% [files]</span>
+<span class="c1">#%% [paral_info]</span>
+<span class="c1">#%% max_nprocs = 4</span>
+<span class="c1">#%% nprocs_to_test = 4</span>
+<span class="c1">#%% [NCPU_4]</span>
+<span class="c1">#%% files_to_test = tdfpt_02_MPI4.abo, tolnlines= 12, tolabs=  1.1e-05, tolrel=  6.0e-03</span>
+<span class="c1">#%% [extra_info]</span>
+<span class="c1">#%% authors = X. Gonze</span>
+<span class="c1">#%% keywords =</span>
+<span class="c1">#%% description = FCC Al linear response with k point parallelism</span>
+<span class="c1">#%%&lt;END TEST_INFO&gt;</span>
+</pre></div>
+</div></div>
+
+<script> $(function() { abidocs_jqueryui_dialog("#uuid-9b449f13-84de-457c-a3bd-e631c82ece8f", "#uuid-568cee48-4e31-4546-ad93-e215124562c3") }); </script>
+
+<p>There are three perturbations (three atomic displacements). For the two first
+perturbations, no symmetry can be used, while for the third, two symmetries
+can be used to reduce the number of k points to 1024. Hence, for the perfectly
+scalable sections of the code, the maximum speed up is 5120 (=1024 k points *
+5 bands), if you have access to 5120 computing cores. However, the sequential
+parts of the code dominate at a much, much lower value. Indeed, the sequential
+parts is actually a few percents of the code on one processor, depending on
+the machine you run. The speed-up might saturate beyond 8&hellip;16 (depending on
+the machine). Note that the number of processors that you use for this second step
+is independent of the number of processors that you used for the first step.
+The only relevant information from the first step is the *_WFK file.</p>
+<p>First copy the output of the ground-state calculation so that it can be used
+as the input of the DFPT calculation:</p>
+<div class="codehilite"><pre><span></span><code>cp tdfpt_01.o_WFK tdfpt_02.i_WFK
+</code></pre></div>
+
+<p>(A _WFQ file is not needed, as all GS wavefunctions at k+q are present in the GW wavefuction at k).
+Then, you can launch the calculation:</p>
+<div class="codehilite"><pre><span></span><code>mpirun -n 4 abinit tdfpt_02.abi &gt; tdfpt_02.log &amp;
+</code></pre></div>
+
+<p>A reference output file is given in <em>$ABI_TESTS/tutoparal/Refs</em>, under the name
+<em>tdfpt_02.abo</em>. Edit it, and examine some information.
+The calculation has been made with four computing cores:</p>
+<div class="highlight"><pre><span></span><code>-   mpi_nproc: 4, omp_nthreads: -1 (-1 if OMP is not activated)
+</code></pre></div>
+<p>The wall clock time is less than 50 seconds :</p>
+<div class="highlight"><pre><span></span><code>-
+- Proc.   0 individual time (sec): cpu=         28.8  wall=         28.9
+
+================================================================================
+
+ Calculation completed.
+.Delivered   0 WARNINGs and   0 COMMENTs to log file.
++Overall time at end (sec) : cpu=        115.4  wall=        115.8
+</code></pre></div>
+<p>The major result is the phonon frequencies:</p>
+<div class="codehilite"><pre><span></span><code>  Phonon wavevector (reduced coordinates) :  0.25000 -0.12500  0.12500
+ Phonon energies in Hartree :
+   6.521506E-04  7.483301E-04  1.099648E-03
+ Phonon frequencies in cm-1    :
+-  1.431305E+02  1.642395E+02  2.413447E+02
+</code></pre></div>
+
+<p><strong>2.3.</strong> Because this test case is quite fast, you should play a bit with it.
+In particular, run it several times, with an increasing number of computing
+cores (let us say, up to 40 computing cores, at which stage you should have
+obtained a saturation of the speed-up).
+You should be able to obtain a decent speedup up to 8 processors, then the gain becomes more and more marginal.
+Note however that the result is independent (to an exquisite accuracy) of the number of computing cores that is used</p>
+<p>Let us explain the timing section. It is present a bit before the end of the output file:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">-</span>
+<span class="o">-</span> <span class="n">For</span> <span class="n">major</span> <span class="n">independent</span> <span class="n">code</span> <span class="n">sections</span><span class="p">,</span> <span class="n">cpu</span> <span class="n">and</span> <span class="n">wall</span> <span class="n">times</span> <span class="p">(</span><span class="n">sec</span><span class="p">),</span>
+<span class="o">-</span>  <span class="n">as</span> <span class="n">well</span> <span class="n">as</span> <span class="err">%</span> <span class="n">of</span> <span class="n">the</span> <span class="n">time</span> <span class="n">and</span> <span class="n">number</span> <span class="n">of</span> <span class="n">calls</span> <span class="n">for</span> <span class="n">node</span> <span class="mi">0</span><span class="o">-</span>
+<span class="o">-&lt;</span><span class="n">BEGIN_TIMER</span> <span class="n">mpi_nprocs</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">omp_nthreads</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mpi_rank</span> <span class="o">=</span> <span class="mi">0</span><span class="o">&gt;</span>
+<span class="o">-</span> <span class="n">cpu_time</span> <span class="o">=</span>           <span class="mf">28.8</span><span class="p">,</span> <span class="n">wall_time</span> <span class="o">=</span>           <span class="mf">28.9</span>
+<span class="o">-</span>
+<span class="o">-</span> <span class="n">routine</span>                        <span class="n">cpu</span>     <span class="err">%</span>       <span class="n">wall</span>     <span class="err">%</span>      <span class="n">number</span> <span class="n">of</span> <span class="n">calls</span>  <span class="n">Gflops</span>    <span class="n">Speedup</span> <span class="n">Efficacity</span>
+<span class="o">-</span>                                                                  <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">=</span><span class="n">no</span> <span class="n">count</span><span class="p">)</span>
+<span class="o">-</span> <span class="n">fourwf</span><span class="err">%</span><span class="p">(</span><span class="n">pot</span><span class="p">)</span>                  <span class="mf">14.392</span>  <span class="mf">12.5</span>     <span class="mf">14.443</span>  <span class="mf">12.5</span>         <span class="mi">170048</span>      <span class="o">-</span><span class="mf">1.00</span>        <span class="mf">1.00</span>       <span class="mf">1.00</span>
+<span class="o">-</span> <span class="n">nonlop</span><span class="p">(</span><span class="n">apply</span><span class="p">)</span>                  <span class="mf">2.787</span>   <span class="mf">2.4</span>      <span class="mf">2.802</span>   <span class="mf">2.4</span>         <span class="mi">125248</span>      <span class="o">-</span><span class="mf">1.00</span>        <span class="mf">0.99</span>       <span class="mf">0.99</span>
+<span class="o">-</span> <span class="n">nonlop</span><span class="p">(</span><span class="n">forces</span><span class="p">)</span>                 <span class="mf">2.609</span>   <span class="mf">2.3</span>      <span class="mf">2.620</span>   <span class="mf">2.3</span>          <span class="mi">64000</span>      <span class="o">-</span><span class="mf">1.00</span>        <span class="mf">1.00</span>       <span class="mf">1.00</span>
+<span class="o">-</span> <span class="n">fourwf</span><span class="err">%</span><span class="p">(</span><span class="n">G</span><span class="o">-&gt;</span><span class="n">r</span><span class="p">)</span>                  <span class="mf">2.044</span>   <span class="mf">1.8</span>      <span class="mf">2.052</span>   <span class="mf">1.8</span>          <span class="mi">47124</span>      <span class="o">-</span><span class="mf">1.00</span>        <span class="mf">1.00</span>       <span class="mf">1.00</span>
+<span class="o">-</span> <span class="n">dfpt_vtorho</span><span class="o">-</span><span class="n">kpt</span> <span class="n">loop</span>           <span class="mf">1.174</span>   <span class="mf">1.0</span>      <span class="mf">1.177</span>   <span class="mf">1.0</span>             <span class="mi">21</span>      <span class="o">-</span><span class="mf">1.00</span>        <span class="mf">1.00</span>       <span class="mf">1.00</span>
+<span class="o">-</span> <span class="n">getgh1c_setup</span>                  <span class="mf">1.111</span>   <span class="mf">1.0</span>      <span class="mf">1.114</span>   <span class="mf">1.0</span>           <span class="mi">8960</span>      <span class="o">-</span><span class="mf">1.00</span>        <span class="mf">1.00</span>       <span class="mf">1.00</span>
+<span class="o">-</span> <span class="n">mkffnl</span>                         <span class="mf">1.087</span>   <span class="mf">0.9</span>      <span class="mf">1.092</span>   <span class="mf">0.9</span>          <span class="mi">20992</span>      <span class="o">-</span><span class="mf">1.00</span>        <span class="mf">1.00</span>       <span class="mf">1.00</span>
+<span class="o">-</span> <span class="n">projbd</span>                         <span class="mf">1.023</span>   <span class="mf">0.9</span>      <span class="mf">1.036</span>   <span class="mf">0.9</span>         <span class="mi">286336</span>      <span class="o">-</span><span class="mf">1.00</span>        <span class="mf">0.99</span>       <span class="mf">0.99</span>
+<span class="o">-</span> <span class="n">dfpt_vtowfk</span><span class="p">(</span><span class="n">contrib</span><span class="p">)</span>           <span class="mf">0.806</span>   <span class="mf">0.7</span>      <span class="mf">0.805</span>   <span class="mf">0.7</span>             <span class="o">-</span><span class="mi">1</span>      <span class="o">-</span><span class="mf">1.00</span>        <span class="mf">1.00</span>       <span class="mf">1.00</span>
+<span class="o">-</span> <span class="n">others</span> <span class="p">(</span><span class="mi">120</span><span class="p">)</span>                  <span class="o">-</span><span class="mf">2.787</span>  <span class="o">-</span><span class="mf">2.4</span>     <span class="o">-</span><span class="mf">2.825</span>  <span class="o">-</span><span class="mf">2.4</span>             <span class="o">-</span><span class="mi">1</span>      <span class="o">-</span><span class="mf">1.00</span>        <span class="mf">0.99</span>       <span class="mf">0.99</span>
+<span class="o">-&lt;</span><span class="n">END_TIMER</span><span class="o">&gt;</span>
+<span class="o">-</span>
+<span class="o">-</span> <span class="n">subtotal</span>                      <span class="mf">24.246</span>  <span class="mf">21.0</span>     <span class="mf">24.317</span>  <span class="mf">21.0</span>                                  <span class="mf">1.00</span>       <span class="mf">1.00</span>
+
+<span class="o">-</span> <span class="n">For</span> <span class="n">major</span> <span class="n">independent</span> <span class="n">code</span> <span class="n">sections</span><span class="p">,</span> <span class="n">cpu</span> <span class="n">and</span> <span class="n">wall</span> <span class="n">times</span> <span class="p">(</span><span class="n">sec</span><span class="p">),</span>
+<span class="o">-</span> <span class="n">as</span> <span class="n">well</span> <span class="n">as</span> <span class="err">%</span> <span class="n">of</span> <span class="n">the</span> <span class="n">total</span> <span class="n">time</span> <span class="n">and</span> <span class="n">number</span> <span class="n">of</span> <span class="n">calls</span>
+
+<span class="o">-&lt;</span><span class="n">BEGIN_TIMER</span> <span class="n">mpi_nprocs</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">omp_nthreads</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mpi_rank</span> <span class="o">=</span> <span class="n">world</span><span class="o">&gt;</span>
+<span class="o">-</span> <span class="n">cpu_time</span> <span class="o">=</span>         <span class="mf">115.3</span><span class="p">,</span> <span class="n">wall_time</span> <span class="o">=</span>         <span class="mf">115.6</span>
+<span class="o">-</span>
+<span class="o">-</span> <span class="n">routine</span>                         <span class="n">cpu</span>     <span class="err">%</span>       <span class="n">wall</span>     <span class="err">%</span>      <span class="n">number</span> <span class="n">of</span> <span class="n">calls</span> <span class="n">Gflops</span>    <span class="n">Speedup</span> <span class="n">Efficacity</span>
+<span class="o">-</span>                                                                  <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">=</span><span class="n">no</span> <span class="n">count</span><span class="p">)</span>
+<span class="o">-</span> <span class="n">fourwf</span><span class="err">%</span><span class="p">(</span><span class="n">pot</span><span class="p">)</span>                  <span class="mf">51.717</span>  <span class="mf">44.8</span>     <span class="mf">51.909</span>  <span class="mf">44.9</span>         <span class="mi">679543</span>      <span class="o">-</span><span class="mf">1.00</span>        <span class="mf">1.00</span>       <span class="mf">1.00</span>
+<span class="o">-</span> <span class="n">dfpt_vtorho</span><span class="p">:</span><span class="n">MPI</span>               <span class="mf">12.267</span>  <span class="mf">10.6</span>     <span class="mf">12.292</span>  <span class="mf">10.6</span>             <span class="mi">84</span>      <span class="o">-</span><span class="mf">1.00</span>        <span class="mf">1.00</span>       <span class="mf">1.00</span>
+<span class="o">-</span> <span class="n">nonlop</span><span class="p">(</span><span class="n">apply</span><span class="p">)</span>                 <span class="mf">10.092</span>   <span class="mf">8.8</span>     <span class="mf">10.149</span>   <span class="mf">8.8</span>         <span class="mi">500343</span>      <span class="o">-</span><span class="mf">1.00</span>        <span class="mf">0.99</span>       <span class="mf">0.99</span>
+<span class="o">-</span> <span class="n">nonlop</span><span class="p">(</span><span class="n">forces</span><span class="p">)</span>                 <span class="mf">9.520</span>   <span class="mf">8.3</span>      <span class="mf">9.562</span>   <span class="mf">8.3</span>         <span class="mi">256000</span>      <span class="o">-</span><span class="mf">1.00</span>        <span class="mf">1.00</span>       <span class="mf">1.00</span>
+<span class="o">-</span> <span class="n">fourwf</span><span class="err">%</span><span class="p">(</span><span class="n">G</span><span class="o">-&gt;</span><span class="n">r</span><span class="p">)</span>                  <span class="mf">7.367</span>   <span class="mf">6.4</span>      <span class="mf">7.398</span>   <span class="mf">6.4</span>         <span class="mi">187320</span>      <span class="o">-</span><span class="mf">1.00</span>        <span class="mf">1.00</span>       <span class="mf">1.00</span>
+<span class="o">-</span> <span class="n">dfpt_vtorho</span><span class="o">-</span><span class="n">kpt</span> <span class="n">loop</span>           <span class="mf">4.182</span>   <span class="mf">3.6</span>      <span class="mf">4.193</span>   <span class="mf">3.6</span>             <span class="mi">84</span>      <span class="o">-</span><span class="mf">1.00</span>        <span class="mf">1.00</span>       <span class="mf">1.00</span>
+<span class="o">-</span> <span class="n">getgh1c_setup</span>                  <span class="mf">3.955</span>   <span class="mf">3.4</span>      <span class="mf">3.967</span>   <span class="mf">3.4</span>          <span class="mi">35840</span>      <span class="o">-</span><span class="mf">1.00</span>        <span class="mf">1.00</span>       <span class="mf">1.00</span>
+<span class="o">-</span> <span class="n">mkffnl</span>                         <span class="mf">3.911</span>   <span class="mf">3.4</span>      <span class="mf">3.929</span>   <span class="mf">3.4</span>          <span class="mi">83968</span>      <span class="o">-</span><span class="mf">1.00</span>        <span class="mf">1.00</span>       <span class="mf">1.00</span>
+<span class="o">-</span> <span class="n">projbd</span>                         <span class="mf">3.735</span>   <span class="mf">3.2</span>      <span class="mf">3.780</span>   <span class="mf">3.3</span>        <span class="mi">1144046</span>      <span class="o">-</span><span class="mf">1.00</span>        <span class="mf">0.99</span>       <span class="mf">0.99</span>
+<span class="o">-</span> <span class="n">dfpt_vtowfk</span><span class="p">(</span><span class="n">contrib</span><span class="p">)</span>           <span class="mf">2.754</span>   <span class="mf">2.4</span>      <span class="mf">2.748</span>   <span class="mf">2.4</span>             <span class="o">-</span><span class="mi">4</span>      <span class="o">-</span><span class="mf">1.00</span>        <span class="mf">1.00</span>       <span class="mf">1.00</span>
+<span class="o">-</span> <span class="n">getghc</span><span class="o">-</span><span class="n">other</span>                   <span class="mf">1.861</span>   <span class="mf">1.6</span>      <span class="mf">1.790</span>   <span class="mf">1.5</span>             <span class="o">-</span><span class="mi">4</span>      <span class="o">-</span><span class="mf">1.00</span>        <span class="mf">1.04</span>       <span class="mf">1.04</span>
+<span class="o">-</span> <span class="n">pspini</span>                         <span class="mf">0.861</span>   <span class="mf">0.7</span>      <span class="mf">0.865</span>   <span class="mf">0.7</span>              <span class="mi">4</span>      <span class="o">-</span><span class="mf">1.00</span>        <span class="mf">0.99</span>       <span class="mf">0.99</span>
+<span class="o">-</span> <span class="n">newkpt</span><span class="p">(</span><span class="n">excl</span><span class="p">.</span> <span class="n">rwwf</span>   <span class="p">)</span>          <span class="mf">0.754</span>   <span class="mf">0.7</span>      <span class="mf">0.757</span>   <span class="mf">0.7</span>             <span class="o">-</span><span class="mi">4</span>      <span class="o">-</span><span class="mf">1.00</span>        <span class="mf">1.00</span>       <span class="mf">1.00</span>
+<span class="o">-</span> <span class="n">others</span> <span class="p">(</span><span class="mi">116</span><span class="p">)</span>                 <span class="o">-</span><span class="mf">14.132</span> <span class="o">-</span><span class="mf">12.3</span>    <span class="o">-</span><span class="mf">14.220</span> <span class="o">-</span><span class="mf">12.3</span>             <span class="o">-</span><span class="mi">1</span>      <span class="o">-</span><span class="mf">1.00</span>        <span class="mf">0.99</span>       <span class="mf">0.99</span>
+<span class="o">-&lt;</span><span class="n">END_TIMER</span><span class="o">&gt;</span>
+
+<span class="o">-</span> <span class="n">subtotal</span>                      <span class="mf">98.845</span>  <span class="mf">85.7</span>     <span class="mf">99.120</span>  <span class="mf">85.7</span>                                  <span class="mf">1.00</span>       <span class="mf">1.00</span>
+</code></pre></div>
+
+<p>It is made of two groups of data. The first one corresponds to the analysis of
+the timing for the computing core (node) number 0. The second one is the sum
+over all computing cores of the data of the first group. Note that there is a
+factor of four between these two groups, reflecting that the load balance is good.</p>
+<p>Let us examine the second group of data in more detail. It corresponds to a
+decomposition of the most time-consuming parts of the code. Note that the
+subtotal is 85.7 percent, thus the statistics is not very accurate, as it should be close to 100%.
+Actually, as of ABINIT v9, there is must be a bug in the timing decomposition, since, 
+e.g. there is a negative time announced for the &ldquo;others&rdquo; subroutines.</p>
+<p>Anyhow, several of the most time-consuming parts are directly related to application of the Hamiltonian to wavefunctions,
+namely, fourwf%(pot) (application of the local potential, which implies two Fourier transforms), nonlop(apply) 
+(application of the non-local part of the Hamiltonian), nonlop(forces) (computation of the non-local part of the
+interatomic forces), fourwf%(G-&gt;r) (fourier transform needed to build the first-order density). Also, quite noticeable
+is dfpt_vtorho:MPI , synchronisation of the MPI parallelism. </p>
+<p>A study of the speed-up brought by the k-point parallelism for this simple test case
+gives the following behaviour, between 1 and 40 cores:</p>
+<div id="plotly_plot" style="width:90%;height:450px;"></div>
+<script>
+$(function() {
+    Plotly.newPlot(document.getElementById('plotly_plot'), 
+        [{ x: [1, 2, 4, 6, 8, 12, 16, 24, 32, 40], y: [1, 2, 4, 6, 8, 12, 16, 24, 32, 40], name: 'Ideal'},
+         { x: [1, 2, 4, 6, 8, 12, 16, 24, 32, 40], y: [1, 1.92, 3.75, 5.50, 7.17, 9.34, 11.1, 14.4, 17.8, 19.7], name: 'Observed' }], 
+        { title: "Parallel speed-up", 
+          xaxis: {title:'Number of cores'} }
+    );
+});
+</script>
+
+<p>At 8 processors, one gets a speed-up of 7.17, which is quite decent (about 90% efficiency),
+but 16 processors, the speed-up is only 11.1 (about 70% efficiency), and the efficiency is below 50% at 40 processors,
+for a speed-up of 19.7 ..</p>
+<h2 id="3-computation-of-one-perturbation-for-a-slab-of-29-atoms-of-barium-titanate">3 Computation of one perturbation for a slab of 29 atoms of barium titanate<a class="headerlink" href="#3-computation-of-one-perturbation-for-a-slab-of-29-atoms-of-barium-titanate" title="Permanent link">&para;</a></h2>
+<p><strong>3.1.</strong> This test, with 29 atoms, is slower, but highlights other aspects 
+of the DFPT parallelism than the Al FCC case. 
+It consists in the computation of one perturbation at <a class="wikilink codevar-wikilink" href="../../variables/gstate#qpt">qpt</a> 0.0 0.25
+0.0 for a 29 atom slab of barium titanate, artificially terminated by a double
+TiO<sub>2</sub> layer on each face, with a reasonable k-point sampling of the Brillouin zone.</p>
+<p>The symmetry of the system and perturbation will allow to decrease this
+sampling to one quarter of the Brillouin zone. E.g. with the k-point sampling
+<a class="wikilink codevar-wikilink" href="../../variables/basic#ngkpt">ngkpt</a> 4 4 1, there will be actually 4 k-points in the irreducible Brillouin
+zone for the Ground state calculations. For the DFPT case, only one (binary) symmetry
+will survive, so that, after the calculation of the frozen-wavefunction part
+(for which no symmetry is used), the self-consistent part will be done with 8
+k points in the corresponding irreducible Brillouin zone. Beyond 8 cores, the parallelisation
+will be done also on the bands. This will prove to be much more dependent
+on the computer architecture than the (low-communication) parallelism over k-points.</p>
+<p>With the sampling 8 8 1, there will be 32 k points in the irreducible Brillouin zone for the DFPT
+case. This will allow potentially to use efficiently a larger number of processors, provided the
+computer architecture and network is good enough.</p>
+<p>There are 116 occupied bands. For the ground state calculation, 4 additional conduction
+bands will be explicitly treated, which will allow better SCF stability thanks to <a class="wikilink codevar-wikilink" href="../../variables/gstate#iprcel">iprcel</a> 45.
+Note that the value of <a class="wikilink codevar-wikilink" href="../../variables/basic#ecut">ecut</a> that is used in the
+present tutorial is too low to obtain physical results (it should be around 40 Hartree).
+Also, only one atomic displacement is considered, so that the phonon frequencies
+delivered at the end of the run are meaningless.</p>
+<p>As in the previous case, a preparatory ground-state calculation is needed.
+We use the input variable <a class="wikilink codevar-wikilink" href="../../variables/paral#autoparal">autoparal</a>=1 . It does not delivers the best repartition of
+processors among <a class="wikilink codevar-wikilink" href="../../variables/paral#npkpt">npkpt</a>, <a class="wikilink codevar-wikilink" href="../../variables/paral#npband">npband</a> and <a class="wikilink codevar-wikilink" href="../../variables/paral#npfft">npfft</a>, but achieves a decent repartition, usually within a factor of two.
+With 24 processors, it selects <a class="wikilink codevar-wikilink" href="../../variables/paral#npkpt">npkpt</a>=4 (optimal), <a class="wikilink codevar-wikilink" href="../../variables/paral#npband">npband</a>=3 and <a class="wikilink codevar-wikilink" href="../../variables/paral#npfft">npfft</a>=2, while <a class="wikilink codevar-wikilink" href="../../variables/paral#npband">npband</a>=6 and <a class="wikilink codevar-wikilink" href="../../variables/paral#npband">npband</a>=1 would do better.
+For information, the speeup going from 24 cores to 64 cores is 1.76, not quite the increase of number of processor (2.76).
+Anyhow, the topics of the tutorial is not the GS calculation.</p>
+<p>The input files are provided, in the directory <em>$ABI_TESTS/tutoparal/Input</em>.
+The preparatory step is driven by <em>tdfpt_03.abi</em>. The real
+(=DFPT) test case is driven by <em>tdfpt_04.abi</em>. The
+reference output files are present in <em>$ABI_TESTS/tutoparal/Refs</em>:
+<em>tdfpt_03_MPI24.abo</em> and <em>tdfpt_04_MPI24.abo</em>. The naming convention is such that the
+number of cores used to run them is added after the name of the test: the
+<em>tdfpt_03.abi</em> files are run with 24 cores.
+The preparatory step takes about 3 minutes, and the DFPT step takes about
+3 minutes as well.</p>
+<div class="text-center"><div class="btn-group-vertical">
+<button type="button" id="uuid-a8aaa083-b138-480f-9f2d-830b57ccc21c" class="btn btn-default btn-labeled">
+  <span class="btn-label"><i class="fa fa-window-restore" aria-hidden="true"></i></span>View tests/tutoparal/Input/tdfpt_03.abi
+</button>
+<button type="button" id="uuid-ea1dc99b-40a0-43d7-94fe-88ec0501d765" class="btn btn-default btn-labeled">
+  <span class="btn-label"><i class="fa fa-window-restore" aria-hidden="true"></i></span>View tests/tutoparal/Input/tdfpt_04.abi
+</button>
+</div></div>
+<div id="uuid-aec07d45-9733-4054-96de-c6ca5ae2ef19" class="my_dialog" title="tests/tutoparal/Input/tdfpt_03.abi" hidden><div><div class="codehilite small-text"><pre><span></span><span class="c1">#SLAB ending TiO2 double layer</span>
+<span class="c1"># N=9</span>
+<span class="c1"># paralelectric configuration</span>
+
+<span class="c1">#Parameters that govern parallelism</span>
+paral_kgb <span class="m">1</span>
+autoparal <span class="m">1</span>  <span class="c1"># This attempts to find a good distribution of processors. Actually, it is not optimal, but decent.</span>
+
+<span class="c1">#Definition of the unit cell</span>
+acell <span class="m">4</span>.0 <span class="m">4</span>.0 <span class="m">28</span>.0 Angstrom
+
+<span class="c1">#Definition of the atom types and pseudopotentials</span>
+ntypat <span class="m">3</span>
+znucl <span class="m">56</span> <span class="m">22</span> <span class="m">8</span>
+pp_dirpath <span class="s2">&quot;</span><span class="nv">$ABI_PSPDIR</span><span class="s2">/Pseudodojo_nc_sr_04_pw_standard_psp8&quot;</span>
+pseudos <span class="s2">&quot;Ba.psp8, Ti.psp8, O.psp8&quot;</span>
+
+<span class="c1">#Definition of the atoms</span>
+natom <span class="m">29</span>
+typat <span class="m">3</span> <span class="m">3</span> <span class="m">2</span> <span class="m">3</span> <span class="m">3</span> <span class="m">2</span> <span class="m">1</span> <span class="m">3</span> <span class="m">3</span> <span class="m">3</span> <span class="m">2</span> <span class="m">1</span> <span class="m">3</span> <span class="m">3</span> <span class="m">3</span> <span class="m">2</span> <span class="m">1</span> <span class="m">3</span> <span class="m">3</span> <span class="m">3</span> <span class="m">2</span> <span class="m">1</span> <span class="m">3</span> <span class="m">3</span> <span class="m">3</span> <span class="m">2</span> <span class="m">3</span> <span class="m">3</span> <span class="m">2</span>
+            xcart      <span class="m">0</span>.0000000000E+00  <span class="m">0</span>.0000000000E+00 -4.2633349730E+00
+                       <span class="m">3</span>.7794522658E+00  <span class="m">3</span>.7794522658E+00 -3.2803418097E+00
+                       <span class="m">0</span>.0000000000E+00  <span class="m">3</span>.7794522658E+00 -3.6627278067E+00
+                       <span class="m">3</span>.7794522658E+00  <span class="m">0</span>.0000000000E+00  <span class="m">6</span>.5250113947E-01
+                       <span class="m">0</span>.0000000000E+00  <span class="m">3</span>.7794522658E+00 -1.0555036964E-01
+                       <span class="m">3</span>.7794522658E+00  <span class="m">3</span>.7794522658E+00  <span class="m">3</span>.2682166278E-01
+                       <span class="m">0</span>.0000000000E+00  <span class="m">0</span>.0000000000E+00  <span class="m">3</span>.9815918094E+00
+                       <span class="m">3</span>.7794522658E+00  <span class="m">3</span>.7794522658E+00  <span class="m">4</span>.0167907030E+00
+                       <span class="m">3</span>.7794522658E+00  <span class="m">0</span>.0000000000E+00  <span class="m">7</span>.7541444349E+00
+                       <span class="m">0</span>.0000000000E+00  <span class="m">3</span>.7794522658E+00  <span class="m">7</span>.6664087705E+00
+                       <span class="m">3</span>.7794522658E+00  <span class="m">3</span>.7794522658E+00  <span class="m">7</span>.7182324796E+00
+                       <span class="m">0</span>.0000000000E+00  <span class="m">0</span>.0000000000E+00  <span class="m">1</span>.1412913350E+01
+                       <span class="m">3</span>.7794522658E+00  <span class="m">3</span>.7794522658E+00  <span class="m">1</span>.1416615533E+01
+                       <span class="m">3</span>.7794522658E+00  <span class="m">0</span>.0000000000E+00  <span class="m">1</span>.5117809063E+01
+                       <span class="m">0</span>.0000000000E+00  <span class="m">3</span>.7794522658E+00  <span class="m">1</span>.5117809063E+01
+                       <span class="m">3</span>.7794522658E+00  <span class="m">3</span>.7794522658E+00  <span class="m">1</span>.5117809063E+01
+                       <span class="m">0</span>.0000000000E+00  <span class="m">0</span>.0000000000E+00  <span class="m">1</span>.8822704777E+01
+                       <span class="m">3</span>.7794522658E+00  <span class="m">3</span>.7794522658E+00  <span class="m">1</span>.8819002593E+01
+                       <span class="m">3</span>.7794522658E+00  <span class="m">0</span>.0000000000E+00  <span class="m">2</span>.2481473692E+01
+                       <span class="m">0</span>.0000000000E+00  <span class="m">3</span>.7794522658E+00  <span class="m">2</span>.2569209355E+01
+                       <span class="m">3</span>.7794522658E+00  <span class="m">3</span>.7794522658E+00  <span class="m">2</span>.2517385647E+01
+                       <span class="m">0</span>.0000000000E+00  <span class="m">0</span>.0000000000E+00  <span class="m">2</span>.6254026317E+01
+                       <span class="m">3</span>.7794522658E+00  <span class="m">3</span>.7794522658E+00  <span class="m">2</span>.6218827423E+01
+                       <span class="m">3</span>.7794522658E+00  <span class="m">0</span>.0000000000E+00  <span class="m">2</span>.9583116986E+01
+                       <span class="m">0</span>.0000000000E+00  <span class="m">3</span>.7794522658E+00  <span class="m">3</span>.0341168496E+01
+                       <span class="m">3</span>.7794522658E+00  <span class="m">3</span>.7794522658E+00  <span class="m">2</span>.9908796464E+01
+                       <span class="m">0</span>.0000000000E+00  <span class="m">0</span>.0000000000E+00  <span class="m">3</span>.4498953099E+01
+                       <span class="m">3</span>.7794522658E+00  <span class="m">3</span>.7794522658E+00  <span class="m">3</span>.3515959935E+01
+                       <span class="m">0</span>.0000000000E+00  <span class="m">3</span>.7794522658E+00  <span class="m">3</span>.3898345933E+01
+chksymtnons <span class="m">0</span>  <span class="c1"># The position of the system is such that some symmetry operations have a non-symmorphic shift which </span>
+               <span class="c1"># is not a simple fraction. This is not a problem for ABINIT, but this input variable must be activated.</span>
+
+<span class="c1">#Numerical parameters of the calculation : planewave basis set and k point grid</span>
+ecut <span class="m">15</span>.0
+ngkpt <span class="m">4</span> <span class="m">4</span> <span class="m">1</span>
+kptopt <span class="m">1</span>
+
+<span class="c1">#Parameters for the SCF procedure</span>
+nstep <span class="m">30</span>
+tolvrs <span class="m">1</span>.0d-18
+iprcel <span class="m">45</span>   <span class="c1"># This is to help the SCF procedure, work quite well in this case of a slab.</span>
+
+<span class="c1">#Electronic structure</span>
+nband <span class="m">120</span>
+
+<span class="c1">#%%&lt;BEGIN TEST_INFO&gt;</span>
+<span class="c1">#%% [setup]</span>
+<span class="c1">#%% executable = abinit</span>
+<span class="c1">#%% test_chain = tdfpt_03.abi, tdfpt_04.abi</span>
+<span class="c1">#%% [files]</span>
+<span class="c1">#%% [paral_info]</span>
+<span class="c1">#%% max_nprocs = 24</span>
+<span class="c1">#%% nprocs_to_test = 24</span>
+<span class="c1">#%% [NCPU_24]</span>
+<span class="c1">#%% files_to_test = tdfpt_03_MPI24.abo, tolnlines = 0, tolabs = 0.0, tolrel= 0.0</span>
+<span class="c1">#%% post_commands = </span>
+<span class="c1">#%%   ww_mv tdfpt_03_MPI24o_WFK tdfpt_04_MPI24i_WFK </span>
+<span class="c1">#%% [extra_info]</span>
+<span class="c1">#%% keywords = NC</span>
+<span class="c1">#%% description = BaTiO3 linear response calculation</span>
+<span class="c1">#%%&lt;END TEST_INFO&gt;</span>
+</pre></div>
+</div></div>
+
+<script> $(function() { abidocs_jqueryui_dialog("#uuid-aec07d45-9733-4054-96de-c6ca5ae2ef19", "#uuid-a8aaa083-b138-480f-9f2d-830b57ccc21c") }); </script>
+
+<div id="uuid-4db8dde9-5194-4c14-b131-91793ad5c892" class="my_dialog" title="tests/tutoparal/Input/tdfpt_04.abi" hidden><div><div class="codehilite small-text"><pre><span></span><span class="c1">#SLAB ending TiO2 double layer</span>
+<span class="c1"># N=9</span>
+<span class="c1"># paralelectric configuration</span>
+
+<span class="c1">#Parameters for DFPT</span>
+rfphon <span class="m">1</span>
+irdwfk <span class="m">1</span>
+rfatpol <span class="m">1</span> <span class="m">1</span>
+rfdir <span class="m">0</span> <span class="m">0</span> <span class="m">1</span>
+nqpt <span class="m">1</span>
+qpt <span class="m">0</span>.0 <span class="m">0</span>.25  <span class="m">0</span>.0
+
+timopt -2
+kptopt <span class="m">3</span>
+tolwfr <span class="m">1</span>.0d-18
+tolrde <span class="m">0</span>.0 <span class="c1"># This is a development input variable, used in the present case to avoid load unbalance</span>
+           <span class="c1"># when studying the scaling with respect to the number of cores. Do not define it in</span>
+           <span class="c1"># your production runs</span>
+
+<span class="c1">#Definition of the unit cell</span>
+acell <span class="m">4</span>.0 <span class="m">4</span>.0 <span class="m">28</span>.0 Angstrom
+
+<span class="c1">#Definition of the atom types and pseudopotentials</span>
+ntypat <span class="m">3</span>
+znucl <span class="m">56</span> <span class="m">22</span> <span class="m">8</span>
+pp_dirpath <span class="s2">&quot;</span><span class="nv">$ABI_PSPDIR</span><span class="s2">/Pseudodojo_nc_sr_04_pw_standard_psp8&quot;</span>
+pseudos <span class="s2">&quot;Ba.psp8, Ti.psp8, O.psp8&quot;</span>
+
+<span class="c1">#Definition of the atoms</span>
+natom <span class="m">29</span>
+typat <span class="m">3</span> <span class="m">3</span> <span class="m">2</span> <span class="m">3</span> <span class="m">3</span> <span class="m">2</span> <span class="m">1</span> <span class="m">3</span> <span class="m">3</span> <span class="m">3</span> <span class="m">2</span> <span class="m">1</span> <span class="m">3</span> <span class="m">3</span> <span class="m">3</span> <span class="m">2</span> <span class="m">1</span> <span class="m">3</span> <span class="m">3</span> <span class="m">3</span> <span class="m">2</span> <span class="m">1</span> <span class="m">3</span> <span class="m">3</span> <span class="m">3</span> <span class="m">2</span> <span class="m">3</span> <span class="m">3</span> <span class="m">2</span>
+            xcart      <span class="m">0</span>.0000000000E+00  <span class="m">0</span>.0000000000E+00 -4.2633349730E+00
+                       <span class="m">3</span>.7794522658E+00  <span class="m">3</span>.7794522658E+00 -3.2803418097E+00
+                       <span class="m">0</span>.0000000000E+00  <span class="m">3</span>.7794522658E+00 -3.6627278067E+00
+                       <span class="m">3</span>.7794522658E+00  <span class="m">0</span>.0000000000E+00  <span class="m">6</span>.5250113947E-01
+                       <span class="m">0</span>.0000000000E+00  <span class="m">3</span>.7794522658E+00 -1.0555036964E-01
+                       <span class="m">3</span>.7794522658E+00  <span class="m">3</span>.7794522658E+00  <span class="m">3</span>.2682166278E-01
+                       <span class="m">0</span>.0000000000E+00  <span class="m">0</span>.0000000000E+00  <span class="m">3</span>.9815918094E+00
+                       <span class="m">3</span>.7794522658E+00  <span class="m">3</span>.7794522658E+00  <span class="m">4</span>.0167907030E+00
+                       <span class="m">3</span>.7794522658E+00  <span class="m">0</span>.0000000000E+00  <span class="m">7</span>.7541444349E+00
+                       <span class="m">0</span>.0000000000E+00  <span class="m">3</span>.7794522658E+00  <span class="m">7</span>.6664087705E+00
+                       <span class="m">3</span>.7794522658E+00  <span class="m">3</span>.7794522658E+00  <span class="m">7</span>.7182324796E+00
+                       <span class="m">0</span>.0000000000E+00  <span class="m">0</span>.0000000000E+00  <span class="m">1</span>.1412913350E+01
+                       <span class="m">3</span>.7794522658E+00  <span class="m">3</span>.7794522658E+00  <span class="m">1</span>.1416615533E+01
+                       <span class="m">3</span>.7794522658E+00  <span class="m">0</span>.0000000000E+00  <span class="m">1</span>.5117809063E+01
+                       <span class="m">0</span>.0000000000E+00  <span class="m">3</span>.7794522658E+00  <span class="m">1</span>.5117809063E+01
+                       <span class="m">3</span>.7794522658E+00  <span class="m">3</span>.7794522658E+00  <span class="m">1</span>.5117809063E+01
+                       <span class="m">0</span>.0000000000E+00  <span class="m">0</span>.0000000000E+00  <span class="m">1</span>.8822704777E+01
+                       <span class="m">3</span>.7794522658E+00  <span class="m">3</span>.7794522658E+00  <span class="m">1</span>.8819002593E+01
+                       <span class="m">3</span>.7794522658E+00  <span class="m">0</span>.0000000000E+00  <span class="m">2</span>.2481473692E+01
+                       <span class="m">0</span>.0000000000E+00  <span class="m">3</span>.7794522658E+00  <span class="m">2</span>.2569209355E+01
+                       <span class="m">3</span>.7794522658E+00  <span class="m">3</span>.7794522658E+00  <span class="m">2</span>.2517385647E+01
+                       <span class="m">0</span>.0000000000E+00  <span class="m">0</span>.0000000000E+00  <span class="m">2</span>.6254026317E+01
+                       <span class="m">3</span>.7794522658E+00  <span class="m">3</span>.7794522658E+00  <span class="m">2</span>.6218827423E+01
+                       <span class="m">3</span>.7794522658E+00  <span class="m">0</span>.0000000000E+00  <span class="m">2</span>.9583116986E+01
+                       <span class="m">0</span>.0000000000E+00  <span class="m">3</span>.7794522658E+00  <span class="m">3</span>.0341168496E+01
+                       <span class="m">3</span>.7794522658E+00  <span class="m">3</span>.7794522658E+00  <span class="m">2</span>.9908796464E+01
+                       <span class="m">0</span>.0000000000E+00  <span class="m">0</span>.0000000000E+00  <span class="m">3</span>.4498953099E+01
+                       <span class="m">3</span>.7794522658E+00  <span class="m">3</span>.7794522658E+00  <span class="m">3</span>.3515959935E+01
+                       <span class="m">0</span>.0000000000E+00  <span class="m">3</span>.7794522658E+00  <span class="m">3</span>.3898345933E+01
+chksymtnons <span class="m">0</span>
+
+<span class="c1">#Numerical parameters of the calculation : planewave basis set and k point grid</span>
+ecut <span class="m">15</span>.0
+ngkpt <span class="m">4</span> <span class="m">4</span> <span class="m">1</span>
+
+<span class="c1">#Parameters for the SCF procedure</span>
+nstep <span class="m">30</span>
+
+<span class="c1">#Electronic structure</span>
+nband <span class="m">116</span>    <span class="c1"># Only the occupied states - will ease the convergence</span>
+<span class="c1">#prtden 0</span>
+
+<span class="c1">#%%&lt;BEGIN TEST_INFO&gt;</span>
+<span class="c1">#%% [setup]</span>
+<span class="c1">#%% executable = abinit</span>
+<span class="c1">#%% test_chain = tdfpt_03.abi, tdfpt_04.abi</span>
+<span class="c1">#%% [files]</span>
+<span class="c1">#%% [paral_info]</span>
+<span class="c1">#%% max_nprocs = 24</span>
+<span class="c1">#%% nprocs_to_test = 24</span>
+<span class="c1">#%% [NCPU_24]</span>
+<span class="c1">#%% files_to_test = tdfpt_04_MPI24.abo, tolnlines = 0, tolabs = 0.0, tolrel= 0.0</span>
+<span class="c1">#%% post_commands = </span>
+<span class="c1">#%%   ww_mv tdfpt_03_MPI24o_WFK tdfpt_04_MPI24i_WFK</span>
+<span class="c1">#%% [extra_info]</span>
+<span class="c1">#%% keywords = NC</span>
+<span class="c1">#%% description = BaTiO3 linear response calculation</span>
+<span class="c1">#%%&lt;END TEST_INFO&gt;</span>
+</pre></div>
+</div></div>
+
+<script> $(function() { abidocs_jqueryui_dialog("#uuid-4db8dde9-5194-4c14-b131-91793ad5c892", "#uuid-ea1dc99b-40a0-43d7-94fe-88ec0501d765") }); </script>
+
+<p>You can run now these test cases. For tdfpt_03, with <a class="wikilink codevar-wikilink" href="../../variables/paral#autoparal">autoparal</a>=1, 
+you will be able to run on different numbers of processors compatible with <a class="wikilink codevar-wikilink" href="../../variables/basic#nkpt">nkpt</a>=4,
+<a class="wikilink codevar-wikilink" href="../../variables/basic#nband">nband</a>=120 and <a class="wikilink codevar-wikilink" href="../../variables/gstate#ngfft">ngfft</a>=[30 30 192], detected by ABINIT. Alternatively, you might decide to explicitly 
+define <a class="wikilink codevar-wikilink" href="../../variables/paral#npkpt">npkpt</a>, <a class="wikilink codevar-wikilink" href="../../variables/paral#npband">npband</a> and <a class="wikilink codevar-wikilink" href="../../variables/paral#npfft">npfft</a>.
+At variance, for tdfpt_04, no adaptation of the input file is
+needed to be able to run on an arbitrary number of processors.
+To launch the ground-state computation, type:</p>
+<div class="codehilite"><pre><span></span><code>mpirun -n 24 abinit tdfpt_03.abi &gt; log &amp;
+</code></pre></div>
+
+<p>then copy the output of the ground-state calculation so that it can be used as
+the input of the DFPT calculation:</p>
+<div class="codehilite"><pre><span></span><code>mv tdfpt_03o_WFK.nc tdfpt_04i_WFK.nc
+</code></pre></div>
+
+<p>and launch the calculation:</p>
+<div class="codehilite"><pre><span></span><code>mpirun -n 24 abinit tdfpt_04.abi &gt; log &amp;
+</code></pre></div>
+
+<p>Now, examine the obtained output file for test 04, especially the timing.</p>
+<p>In the reference file <em>$ABI_TESTS/tutoparal/Refs/tdfpt_04_MPI24.abo</em>,
+with 24 computing cores, the timing section delivers:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">-</span> <span class="n">For</span> <span class="n">major</span> <span class="n">independent</span> <span class="n">code</span> <span class="n">sections</span><span class="p">,</span> <span class="n">cpu</span> <span class="n">and</span> <span class="n">wall</span> <span class="n">times</span> <span class="p">(</span><span class="n">sec</span><span class="p">),</span>
+<span class="o">-</span>  <span class="n">as</span> <span class="n">well</span> <span class="n">as</span> <span class="err">%</span> <span class="n">of</span> <span class="n">the</span> <span class="n">time</span> <span class="n">and</span> <span class="n">number</span> <span class="n">of</span> <span class="n">calls</span> <span class="n">for</span> <span class="n">node</span> <span class="mi">0</span><span class="o">-</span>
+<span class="o">-&lt;</span><span class="n">BEGIN_TIMER</span> <span class="n">mpi_nprocs</span> <span class="o">=</span> <span class="mi">24</span><span class="p">,</span> <span class="n">omp_nthreads</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mpi_rank</span> <span class="o">=</span> <span class="mi">0</span><span class="o">&gt;</span>
+<span class="o">-</span> <span class="n">cpu_time</span> <span class="o">=</span>          <span class="mf">159.9</span><span class="p">,</span> <span class="n">wall_time</span> <span class="o">=</span>          <span class="mf">160.0</span>
+<span class="o">-</span>
+<span class="o">-</span> <span class="n">routine</span>                        <span class="n">cpu</span>     <span class="err">%</span>       <span class="n">wall</span>     <span class="err">%</span>      <span class="n">number</span> <span class="n">of</span> <span class="n">calls</span>  <span class="n">Gflops</span>    <span class="n">Speedup</span> <span class="n">Efficacity</span>
+<span class="o">-</span>                                                                  <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">=</span><span class="n">no</span> <span class="n">count</span><span class="p">)</span>
+<span class="o">-</span> <span class="n">projbd</span>                        <span class="mf">46.305</span>   <span class="mf">1.2</span>     <span class="mf">46.345</span>   <span class="mf">1.2</span>          <span class="mi">11520</span>      <span class="o">-</span><span class="mf">1.00</span>        <span class="mf">1.00</span>       <span class="mf">1.00</span>
+<span class="o">-</span> <span class="n">nonlop</span><span class="p">(</span><span class="n">apply</span><span class="p">)</span>                 <span class="mf">42.180</span>   <span class="mf">1.1</span>     <span class="mf">42.183</span>   <span class="mf">1.1</span>           <span class="mi">5760</span>      <span class="o">-</span><span class="mf">1.00</span>        <span class="mf">1.00</span>       <span class="mf">1.00</span>
+<span class="o">-</span> <span class="n">dfpt_vtorho</span><span class="p">:</span><span class="n">MPI</span>               <span class="mf">25.087</span>   <span class="mf">0.7</span>     <span class="mf">25.085</span>   <span class="mf">0.7</span>             <span class="mi">30</span>      <span class="o">-</span><span class="mf">1.00</span>        <span class="mf">1.00</span>       <span class="mf">1.00</span>
+<span class="o">-</span> <span class="n">fourwf</span><span class="err">%</span><span class="p">(</span><span class="n">pot</span><span class="p">)</span>                  <span class="mf">22.435</span>   <span class="mf">0.6</span>     <span class="mf">22.436</span>   <span class="mf">0.6</span>           <span class="mi">6930</span>      <span class="o">-</span><span class="mf">1.00</span>        <span class="mf">1.00</span>       <span class="mf">1.00</span>
+<span class="o">-</span> <span class="n">nonlop</span><span class="p">(</span><span class="n">forces</span><span class="p">)</span>                 <span class="mf">5.485</span>   <span class="mf">0.1</span>      <span class="mf">5.486</span>   <span class="mf">0.1</span>           <span class="mi">4563</span>      <span class="o">-</span><span class="mf">1.00</span>        <span class="mf">1.00</span>       <span class="mf">1.00</span>
+<span class="o">-</span> <span class="n">fourwf</span><span class="err">%</span><span class="p">(</span><span class="n">G</span><span class="o">-&gt;</span><span class="n">r</span><span class="p">)</span>                  <span class="mf">4.445</span>   <span class="mf">0.1</span>      <span class="mf">4.446</span>   <span class="mf">0.1</span>           <span class="mi">2340</span>      <span class="o">-</span><span class="mf">1.00</span>        <span class="mf">1.00</span>       <span class="mf">1.00</span>
+<span class="o">-</span> <span class="n">pspini</span>                         <span class="mf">2.311</span>   <span class="mf">0.1</span>      <span class="mf">2.311</span>   <span class="mf">0.1</span>              <span class="mi">1</span>      <span class="o">-</span><span class="mf">1.00</span>        <span class="mf">1.00</span>       <span class="mf">1.00</span>
+
+<span class="o">&lt;</span><span class="p">...</span><span class="o">&gt;</span>
+
+<span class="o">-</span> <span class="n">For</span> <span class="n">major</span> <span class="n">independent</span> <span class="n">code</span> <span class="n">sections</span><span class="p">,</span> <span class="n">cpu</span> <span class="n">and</span> <span class="n">wall</span> <span class="n">times</span> <span class="p">(</span><span class="n">sec</span><span class="p">),</span>
+<span class="o">-</span> <span class="n">as</span> <span class="n">well</span> <span class="n">as</span> <span class="err">%</span> <span class="n">of</span> <span class="n">the</span> <span class="n">total</span> <span class="n">time</span> <span class="n">and</span> <span class="n">number</span> <span class="n">of</span> <span class="n">calls</span>
+
+<span class="o">-&lt;</span><span class="n">BEGIN_TIMER</span> <span class="n">mpi_nprocs</span> <span class="o">=</span> <span class="mi">24</span><span class="p">,</span> <span class="n">omp_nthreads</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mpi_rank</span> <span class="o">=</span> <span class="n">world</span><span class="o">&gt;</span>
+<span class="o">-</span> <span class="n">cpu_time</span> <span class="o">=</span>        <span class="mf">3826.4</span><span class="p">,</span> <span class="n">wall_time</span> <span class="o">=</span>        <span class="mf">3828.0</span>
+<span class="o">-</span>
+<span class="o">-</span> <span class="n">routine</span>                         <span class="n">cpu</span>     <span class="err">%</span>       <span class="n">wall</span>     <span class="err">%</span>      <span class="n">number</span> <span class="n">of</span> <span class="n">calls</span> <span class="n">Gflops</span>    <span class="n">Speedup</span> <span class="n">Efficacity</span>
+<span class="o">-</span>                                                                  <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">=</span><span class="n">no</span> <span class="n">count</span><span class="p">)</span>
+<span class="o">-</span> <span class="n">projbd</span>                      <span class="mf">1238.539</span>  <span class="mf">32.4</span>   <span class="mf">1239.573</span>  <span class="mf">32.4</span>         <span class="mi">278400</span>      <span class="o">-</span><span class="mf">1.00</span>        <span class="mf">1.00</span>       <span class="mf">1.00</span>
+<span class="o">-</span> <span class="n">nonlop</span><span class="p">(</span><span class="n">apply</span><span class="p">)</span>               <span class="mf">1012.783</span>  <span class="mf">26.5</span>   <span class="mf">1012.982</span>  <span class="mf">26.5</span>         <span class="mi">139200</span>      <span class="o">-</span><span class="mf">1.00</span>        <span class="mf">1.00</span>       <span class="mf">1.00</span>
+<span class="o">-</span> <span class="n">fourwf</span><span class="err">%</span><span class="p">(</span><span class="n">pot</span><span class="p">)</span>                 <span class="mf">544.047</span>  <span class="mf">14.2</span>    <span class="mf">544.201</span>  <span class="mf">14.2</span>         <span class="mi">167040</span>      <span class="o">-</span><span class="mf">1.00</span>        <span class="mf">1.00</span>       <span class="mf">1.00</span>
+<span class="o">-</span> <span class="n">dfpt_vtorho</span><span class="p">:</span><span class="n">MPI</span>              <span class="mf">450.196</span>  <span class="mf">11.8</span>    <span class="mf">450.170</span>  <span class="mf">11.8</span>            <span class="mi">720</span>      <span class="o">-</span><span class="mf">1.00</span>        <span class="mf">1.00</span>       <span class="mf">1.00</span>
+<span class="o">-</span> <span class="n">nonlop</span><span class="p">(</span><span class="n">forces</span><span class="p">)</span>               <span class="mf">131.081</span>   <span class="mf">3.4</span>    <span class="mf">131.129</span>   <span class="mf">3.4</span>         <span class="mi">108576</span>      <span class="o">-</span><span class="mf">1.00</span>        <span class="mf">1.00</span>       <span class="mf">1.00</span>
+<span class="o">-</span> <span class="n">fourwf</span><span class="err">%</span><span class="p">(</span><span class="n">G</span><span class="o">-&gt;</span><span class="n">r</span><span class="p">)</span>                <span class="mf">107.885</span>   <span class="mf">2.8</span>    <span class="mf">107.930</span>   <span class="mf">2.8</span>          <span class="mi">55680</span>      <span class="o">-</span><span class="mf">1.00</span>        <span class="mf">1.00</span>       <span class="mf">1.00</span>
+<span class="o">-</span> <span class="n">pspini</span>                        <span class="mf">54.945</span>   <span class="mf">1.4</span>     <span class="mf">54.943</span>   <span class="mf">1.4</span>             <span class="mi">24</span>      <span class="o">-</span><span class="mf">1.00</span>        <span class="mf">1.00</span>       <span class="mf">1.00</span>
+
+<span class="o">&lt;</span><span class="p">...</span><span class="o">&gt;</span>
+
+<span class="o">-</span> <span class="n">others</span> <span class="p">(</span><span class="mi">99</span><span class="p">)</span>                  <span class="o">-</span><span class="mf">98.669</span>  <span class="o">-</span><span class="mf">2.6</span>    <span class="o">-</span><span class="mf">99.848</span>  <span class="o">-</span><span class="mf">2.6</span>             <span class="o">-</span><span class="mi">1</span>      <span class="o">-</span><span class="mf">1.00</span>        <span class="mf">0.99</span>       <span class="mf">0.99</span>
+<span class="o">-&lt;</span><span class="n">END_TIMER</span><span class="o">&gt;</span>
+
+<span class="o">-</span> <span class="n">subtotal</span>                    <span class="mf">3569.873</span>  <span class="mf">93.3</span>   <span class="mf">3570.325</span>  <span class="mf">93.3</span>                                  <span class="mf">1.00</span>       <span class="mf">1.00</span>
+</code></pre></div>
+
+<p>You will notice that the run took about 160 seconds (wall clock time)..
+The sum of the major independent code sections is reasonably
+close to 100%. You might now explore the behaviour of the CPU time for
+different numbers of compute cores (consider values below and above 24
+processors). Some time-consuming routines will benefit from the parallelism, some other will not.</p>
+<p>The kpoint + band parallelism will efficiently work for many important sections
+of the code: projbd, fourwf%(pot), nonlop(apply), fourwf%(G-&gt;r).
+In this test, the product nkpt (the effective number of k points for the current
+perturbation) times nband is 8*120=960. Of course, the total speed-up will
+saturate well below this value, as there are some non-parallelized sections of the code.</p>
+<p>In the above-mentioned list, the kpoint+band parallelism cannot be exploited
+(or is badly exploited) in several sections of the code : &ldquo;dfpt_vtorho:MPI&rdquo;,
+about 12 percents of the total time of the run on 24 processors, &ldquo;pspini&rdquo;, about 1.4 percent. 
+This amounts to about &#8539; of the total.
+However, the scalability of the band parallelisation is rather poor, and effective saturation
+in this case already happens at 16 processor.</p>
+<p>A study of the speed-up brought by the combined k-point and band parallelism for this test case
+on a 2 AMD EPYC 7502 machine (2 CPUS, each with 32 cores)
+gives the following behaviour, between 1 and 40 cores:</p>
+<div id="plotly_plot2" style="width:90%;height:450px;"></div>
+<script>
+$(function() {
+    Plotly.newPlot(document.getElementById('plotly_plot2'), 
+        [{ x: [1, 2, 4, 6, 8, 12, 16, 24, 32, 40], y: [1, 2, 4, 6, 8, 12, 16, 24, 32, 40], name: 'Ideal'},
+         { x: [1, 2, 4, 6, 8, 12, 16, 24, 32, 40], y: [1, 1.97, 3.93, 3.86, 7.67, 7.53, 14.77, 16.44, 15.47, 14.37], name: 'Observed' }],
+        { title: "Parallel speed-up", 
+          xaxis: {title:'Number of cores'} }
+    );
+}); 
+</script>
+
+<p>The additional band parallelism is very efficient when running with 16 cores, bringing 14.77 speed-up,
+while using only the k point parallelism, with 6 cores, gives 7.67 speed-up. However, the behaviour
+is disappointing beyond 16 cores, or even for a number of processors which is not a multiple of 8.</p>
+<p>Such a behaviour might be different on your machine.</p>
+<p><strong>3.2.</strong> A better parallelism can be seen if the number of k-points is brought
+back to a converged value (8x8x1). Again, 
+Try this if you have more than 100 processors at hand.</p>
+<p>Set in your input files <em>tdfpt_03.abi</em> and <em>tdfpt_04.abo</em> :</p>
+<div class="codehilite"><pre><span></span><code>   ngkpt 8 8 1    ! This should replace ngkpt 4 4 1
+</code></pre></div>
+
+<p>and launch again the preliminary step, then the DFPT step. Then, you can
+practice the DFPT calculation by varying the number of computing cores. For
+the latter, you could even consider varying the number of self-consistent
+iterations to see the initialisation effects (small value of nstep), or target
+a value giving converged results (<a class="wikilink codevar-wikilink" href="../../variables/basic#nstep">nstep</a> 50 instead of <a class="wikilink codevar-wikilink" href="../../variables/basic#nstep">nstep</a> 18). The energy
+cut-off might also be increased (e.g. <a class="wikilink codevar-wikilink" href="../../variables/basic#ecut">ecut</a> 40 Hartree gives a much better
+value). Indeed, with a large value of k points, and large value of nstep, you
+might be able to obtain a speed-up of more than one hundred for the DFPT
+calculation, when compared to a sequential run (see below). Keep track of the
+time for each computing core number, to observe the scaling.</p>
+<p>On a machine with a good communication network, the following results were observed in 2011.
+The Wall clock timing decreases from</p>
+<div class="codehilite"><pre><span></span><code>- Proc.   0 individual time (sec): cpu=       2977.3  wall=       2977.3
+</code></pre></div>
+
+<p>with 16 processors to</p>
+<div class="codehilite"><pre><span></span><code>- Proc.   0 individual time (sec): cpu=        513.2  wall=        513.2
+</code></pre></div>
+
+<p>with 128 processors.</p>
+<p>The next figure presents the speed-up of a typical calculation with increasing
+number of computing cores (also, the efficiency of the calculation).</p>
+<p><img alt="Schema 1" src="../paral_dfpt_assets/Speedup.jpeg" /></p>
+<p>Beyond 300 computing cores, the sequential parts of the code start to dominate.
+With more realistic computing parameters (<a class="wikilink codevar-wikilink" href="../../variables/basic#ecut">ecut</a> 40), they dominate only beyond 600 processors.</p>
+<p>However, on the same (recent, but with slow connection beyond 32 cores) computer than for the <a class="wikilink codevar-wikilink" href="../../variables/basic#ngkpt">ngkpt</a> 4 4 1 case,
+the saturation sets in already beyond 16 cores, with the following behaviour (the reference is taken with respect to the timing at 4 processors):</p>
+<div id="plotly_plot3" style="width:90%;height:450px;"></div>
+<script>
+$(function() {
+    Plotly.newPlot(document.getElementById('plotly_plot3'),
+        [{ x: [1,4, 8, 12, 16, 24, 32, 40], y: [1, 4, 8, 12, 16, 24, 32, 40], name: 'Ideal'},
+         { x: [4, 8, 12, 16, 24, 32, 40], y: [4, 7.86, 10.46, 14.92, 13.82, 16.15, 15.27], name: 'Observed' }],
+        { title: "Parallel speed-up",
+          xaxis: {title:'Number of cores'} }
+    );
+});
+</script>
+
+<p>Thus, it is very important that you gain some understanding of the scaling of your typical runs
+for your particular computer, and that you know the parameters (especially <a class="wikilink codevar-wikilink" href="../../variables/basic#nkpt">nkpt</a>) of your calculations. 
+Up to 4 or 8 cores, the ABINIT scaling will usually be very good, if
+k-point parallelism is possible. In the range between 10 and 100 cores, the speed-up might still be good,
+but this will depend on details.</p>
+<p>This last example is the end of the present tutorial. 
+The basics of the current implementation of the parallelism for the DFPT part of ABINIT have been explained,
+then you have explored two test cases: one for a small cell
+materials, with lots of k points, and another one, medium-size, in which the k
+point and band parallelism must be used. It might reveal efficient, but this will depend on the detail of your calculation
+and your computer architecture.</p>
+                
+                  
+                
+              
+
+<!-- 
+add dropdown button with toolbar (based on https://bootsnipp.com/snippets/featured/inbox-by-gmail)
+and return to Top button (based on https://codepen.io/rdallaire/pen/apoyx)
+-->
+<div class="md-container">
+  <div class="row">
+    <div id="inbox">
+      <div class="fab btn-group show-on-hover dropup">
+        <div data-toggle="tooltip" data-placement="left" title="Menu" style="margin-left: 42px;">
+          <button id="return-to-top" type="button" class="btn btn-primary btn-io dropdown-toggle" data-toggle="dropdown">
+            <span class="fa-stack fa-2x">
+                <i class="fa fa-circle fa-stack-2x fab-backdrop"></i>
+                <i class="fa fa-chevron-up fa-stack-1x fa-inverse fab-primary"></i>
+                <i class="fa fa-map-signs fa-stack-1x fa-inverse fab-secondary"></i>
+            </span>
+          </button>
+        </div>
+        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+        
+        
+          <li><a href="../../about/release-notes/" data-toggle="tooltip" data-placement="left" 
+                  title="About"><i class="fa fa-info-circle"></i></a></li>
+        
+          <li><a href="../../developers/git_and_gitlab/" data-toggle="tooltip" data-placement="left" 
+                  title="Developers"><i class="fa fa-terminal"></i></a></li>
+        
+          <li><a href="../../theory/geometry/" data-toggle="tooltip" data-placement="left" 
+                  title="Theory"><i class="fa fa-book"></i></a></li>
+        
+          <li><a href="../" data-toggle="tooltip" data-placement="left" 
+                  title="Tutorial"><i class="fa fa-graduation-cap"></i></a></li>
+        
+          <li><a href="../../variables/" data-toggle="tooltip" data-placement="left" 
+                  title="Variables"><i class="fa fa-file-text-o"></i></a></li>
+        
+          <li><a href="../../topics/features/" data-toggle="tooltip" data-placement="left" 
+                  title="Topics"><i class="fa fa-question"></i></a></li>
+        
+          <li><a href="../.." data-toggle="tooltip" data-placement="left" 
+                  title="User Guide"><i class="fa fa-user-circle-o"></i></a></li>
+        
+        <!--
+        Example: 
+        <li><a href="/index.html" data-toggle="tooltip" data-placement="left" title="User-Guide">
+              <i class="fa fa-user-circle-o"></i></a></li>
+        -->
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+              
+                
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+    <!-- Add tabs to footer -->
+    
+        
+
+  
+
+<nav class="md-tabs md-tabs--active" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../.." title="User Guide" class="md-tabs__link">
+          User Guide
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../topics/features/" title="Topics" class="md-tabs__link">
+          Topics
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../variables/" title="Variables" class="md-tabs__link">
+          Variables
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../" title="Tutorial" class="md-tabs__link md-tabs__link--active">
+          Tutorial
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../theory/geometry/" title="Theory" class="md-tabs__link">
+          Theory
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../developers/git_and_gitlab/" title="Developers" class="md-tabs__link">
+          Developers
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../about/release-notes/" title="About" class="md-tabs__link">
+          About
+        </a>
+      
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+    
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../paral_gswvl/" title="GSWVL" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                GSWVL
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../paral_images/" title="Images" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Images
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+            <center>Abinit version 9.4.0</center>
+        
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2020-2021 The Abinit Group (XG)
+          </div>
+        
+        powered by
+        <a href="http://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+  <div class="md-footer-social">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+      <a href="https://github.com/abinit/abinit" class="md-footer-social__link fa fa-github-alt"></a>
+    
+      <a href="https://twitter.com/hashtag/abinit" class="md-footer-social__link fa fa-twitter"></a>
+    
+      <a href="http://www.facebook.com/abinit.org" class="md-footer-social__link fa fa-facebook"></a>
+    
+      <a href="https://www.youtube.com/watch?v=gcbfb_Mteo4" class="md-footer-social__link fa fa-youtube"></a>
+    
+  </div>
+
+      
+    </div>
+  </div>
+</footer>
+      
+
+    </div>
+    
+      <script src="../../assets/javascripts/application.02434462.js"></script>
+      
+      <script>app.initialize({version:"0.17.5",url:{base:"../.."}})</script>
+      
+        <script src="../../extra_javascript/jquery.dialogextend.min.js"></script>
+      
+        <script src="../../extra_javascript/abidocs.js"></script>
+      
+    
+    
+      
+        <script>!function(e,a,t,n,o,c,i){e.GoogleAnalyticsObject=o,e.ga=e.ga||function(){(e.ga.q=e.ga.q||[]).push(arguments)},e.ga.l=1*new Date,c=a.createElement(t),i=a.getElementsByTagName(t)[0],c.async=1,c.src="https://www.google-analytics.com/analytics.js",i.parentNode.insertBefore(c,i)}(window,document,"script",0,"ga"),ga("create","UA-116681470-1","docs.abinit.org"),ga("set","anonymizeIp",!0),ga("send","pageview");var links=document.getElementsByTagName("a");if(Array.prototype.map.call(links,function(e){e.host!=document.location.host&&e.addEventListener("click",function(){var a=e.getAttribute("data-md-action")||"follow";ga("send","event","outbound",a,e.href)})}),document.forms.search){var query=document.forms.search.query;query.addEventListener("blur",function(){if(this.value){var e=document.location.pathname;ga("send","pageview",e+"?q="+this.value)}})}</script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,4550 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="Abinit documentation">
+      
+      
+        <link rel="canonical" href="https://docs.abinit.org/tutorial/wannier90/">
+      
+      
+        <meta name="author" content="The Abinit group">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../images/favicon.ico">
+      <meta name="generator" content="mkdocs-0.17.5, mkdocs-material-2.6.6">
+    
+    
+      
+        <title>Wannier90 - abinit</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application.78aab2dc.css">
+      
+        <link rel="stylesheet" href="../../assets/stylesheets/application-palette.6079476c.css">
+      
+    
+    
+    
+      <script src="../../assets/javascripts/modernizr.1aa3b519.js"></script>
+    
+
+    <!-- Jquery from Google CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Load Jquery UI -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <!-- Handle jQuery plugin naming conflict between jQuery UI and Bootstrap 
+    https://stackoverflow.com/questions/13731400/jqueryui-tooltips-are-competing-with-twitter-bootstrap
+    -->
+    <script>
+      $.widget.bridge('uibutton', $.ui.button);
+      $.widget.bridge('uitooltip', $.ui.tooltip);
+    </script>
+
+    <!--
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/pepper-grinder/jquery-ui.css">
+    -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <!-- Bootstrap theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.0/build/css/themes/bootstrap.min.css"/>
+
+    <!-- Bootstrap http://getbootstrap.com/getting-started/ -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" 
+    integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
+    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous">
+    </script>
+
+    <!-- font-awesome -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    
+
+    <!--Pace support. http://github.hubspot.com/pace/ -->
+    <script>
+        paceOptions = {
+            ajax: true,      // disabled
+            document: true,  // activated
+            eventLag: false  // disabled
+            //target: 'article'
+            //elements: {selectors: ['.my-page']}
+        };
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/white/pace-theme-big-counter.min.css" />
+    <!--
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/white/pace-theme-bounce.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-corner-indicator.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-flat-top.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-loading-bar.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-center-atom.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-flash.min.css" />
+    -->
+
+    <!-- MathJax support
+    <script type="text/javascript" async 
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script> 
+    -->
+    <!--
+    This is compatible with plotly.
+    -->
+    <script type="text/javascript" async 
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_SVG">
+    </script> 
+
+    <!--
+    Configure MathJax to produce automatic equation numbers http://docs.mathjax.org/en/latest/tex.html
+    -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        //jax: ["input/TeX","output/HTML-CSS"],
+        //tex2jax: {inlineMath: [['$','$']]},
+        //displayAlign: "center",
+        TeX: {
+            equationNumbers: { autoNumber: "AMS" },
+            extensions: ["AMSmath.js", "boldsymbol.js"],
+            Macros: {
+                "*": "{\\dagger}",
+                "ra": "{\\rangle}",
+                "la": "{\\langle}",
+                // Workaround for bm package. See https://github.com/mathjax/MathJax/issues/1219
+                bm: ["{\\boldsymbol #1}",1],
+                // Mathcal symbols
+                mcL: "{\\mathcal{L}}",
+                mcG: "{\\mathcal{G}}",
+                mcR: "{\\mathcal{R}}",
+                mcS: "{\\mathcal{S}}",
+                mcC: "{\\mathcal{C}}",
+                mcO: "{\\mathcal{O}}",
+                // Acronyms
+                KS: "{\\text{KS}}",
+                eph: "{\\text{e-ph}}",
+                ee: "{\\text{e-e}}",
+                phph: "{\\text{ph-ph}}",
+                FM: "{\\text{FM}}",
+                DW: "{\\text{DW}}",
+                QP: "{\\text{QP}}",
+                BZ: "{\\text{BZ}}",
+                sign: "{\\text{sign}}",
+                xc: "{\\text{xc}}",
+                tchi: "{\\tilde\\chi}",
+                // Symbols commonly used (k-points, eigenvalues ...)
+                rr: "{\\bf r}",
+                RR: "{\\bf R}",
+                tt: "{\\bf t}",
+                GG: "{\\bf G}",
+                kk: "{\\bf k}",
+                qq: "{\\bf q}",
+                kq: "{\\kk + \\qq}",
+                qG: "{\\bf q + G}",
+                kG: "{\\bf k + G}",
+                kmq: "{\\kk - \\qq}",
+                kpq: "{\\kk + \\qq}",
+                kpG: "{\\kk + \\GG}",
+                qpG: "{\\qq + \\GG}",
+                nk: "{n \\kk}",
+                enk: "{\\varepsilon_\\nk}",
+                emkq: "{\\varepsilon_{m\\kk+\\qq}}",
+                qnu: "{\\qq \\nu}",
+                wqnu: "{\\omega_{\\qnu}}",
+                vnk: "{\\mathbf{v}_{n\\kk}}",
+                vmkq: "{\\mathbf{v}_{m\\kk+\\qq}}",
+                vnka: "{\\mathrm{v}_{n\\kk,\\alpha}}",
+                vnkb: "{\\mathrm{v}_{n\\kk,\\beta}}",
+                ef: "{\\varepsilon_F}",
+                // EPH quantities
+                gkkp: "{g_{mn\\nu}(\\kk,\\qq)}",
+                gkq: "{g_{mn\\nu}(\\kk,\\qq)}",
+                //\newcommand{\gkkpL}{g_{mn\nu}^\Lc(\kb,\qb)}
+                // Many-body theory
+                Go: "{G_0}",
+                Wo: "{W_0}",
+                Ueff: "{U_{\\text{eff}}}",
+                // Greek symbols + tilde version
+                ee: "{\\epsilon}",
+                tee: "{\\tilde{\\epsilon}}",
+                ww: "{\\omega}",
+                tww: "{\\tilde\\omega}",
+                dd: "{\\,\\text{d}}",
+                vxc: "{v_\\xc}",
+                // symrel
+                Ri: "{\\mcR^{-1}}",
+                Rit: "{\\mcR^{-1\\tau}}",
+                // symrec
+                Si: "{\\mcS^{-1}}}",
+                Sit: "{\\Si^\\tau}}",
+                // partial and functional derivative.
+                PDER: ["{\\dfrac{\\partial #1}{\\partial #2}}", 2],
+                FDER: ["{\\dfrac{\\delta #1}{\\delta #2}}", 2],
+                // PAW
+                tPsi: "{\\tilde\\Psi}",
+                tpsi: "{\\tilde\\psi}",
+                tPhi: "{\\tilde\\Phi}",
+                tphi: "{\\tilde\\phi}",
+                tprj: "{\\tilde p}"
+            }
+          }
+      });
+    </script>
+
+    <!-- See http://docs.mathjax.org/en/latest/start.html 
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js", "MathMenu.js", "MathZoom.js"],
+        jax: ["input/TeX", "output/HTML-CSS", "output/NativeMML],
+        tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+            processEscapes: true
+        },
+        "HTML-CSS": { availableFonts: ["TeX"] }
+      });
+    </script>
+    -->
+
+    
+    
+    
+
+    <!-- Introjs for Guided Tour -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.7.0/intro.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.7.0/introjs.min.css" />
+
+    <!-- Load fonts used for input variables -->
+    <!--
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu+Mono" rel="stylesheet">
+    -->
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+
+    
+      <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+      
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    
+    
+      <link rel="stylesheet" href="../../css/extra.css">
+    
+      <link rel="stylesheet" href="../../css/gallery.css">
+    
+      <link rel="stylesheet" href="../../css/my_codehilite.css">
+    
+    
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="deep-orange" data-md-color-accent="deep-orange">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="drawer">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
+    <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
+    
+      <a href="#tutorial-on-the-use-of-wannier90-library" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="https://www.abinit.org" title="abinit" class="md-header-nav__button md-logo">
+          
+            <img src="../../images/logo-abinit-2015.png" width="48" height="48">
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <span class="md-flex__ellipsis md-header-nav__title">
+          
+            
+              
+                <span class="md-header-nav__parent">
+                  Tutorial
+                </span>
+              
+            
+            Wannier90
+          
+        </span>
+      </div>
+      <!-- Guided Tour with introjs. Add glow effect to button only if homepage -->
+      <div class="md-flex__cell md-flex__cell--shrink">
+           
+          
+          <a href="#" class="btn btn-xs btn-default  " id="guided-tour-button" title="Guided Tour" 
+              onclick="abidocs_guidedtour()">
+           <span class="fa fa-info-circle"></span></a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.com/abinit/abinit/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      github-abinit
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+      <div class="md-flex__cell md-flex__cell--shrink" id="previous_published_versions">
+        <div class="dropdown">
+          <button class="btn btn-basic btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
+            9.4.0
+          <span class="caret"></span></button>
+          <ul class="dropdown-menu">
+            
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+        
+
+  
+
+<nav class="md-tabs md-tabs--active" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../.." title="User Guide" class="md-tabs__link">
+          User Guide
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../topics/features/" title="Topics" class="md-tabs__link">
+          Topics
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../variables/" title="Variables" class="md-tabs__link">
+          Variables
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../" title="Tutorial" class="md-tabs__link md-tabs__link--active">
+          Tutorial
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../theory/geometry/" title="Theory" class="md-tabs__link">
+          Theory
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../developers/git_and_gitlab/" title="Developers" class="md-tabs__link">
+          Developers
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../about/release-notes/" title="About" class="md-tabs__link">
+          About
+        </a>
+      
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="drawer">
+    <span class="md-nav__button md-logo">
+      
+        <img src="../../images/logo-abinit-2015.png" width="24" height="24">
+      
+    </span>
+    abinit
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/abinit/abinit/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      github-abinit
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1">
+    
+    <label class="md-nav__link" for="nav-1">
+      User Guide
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-1">
+        User Guide
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="NewUser" class="md-nav__link">
+      NewUser
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/abinit/" title="Abinit" class="md-nav__link">
+      Abinit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/aim/" title="Aim" class="md-nav__link">
+      Aim
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/anaddb/" title="Anaddb" class="md-nav__link">
+      Anaddb
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/cut3d/" title="Cut3d" class="md-nav__link">
+      Cut3d
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/fold2bloch/" title="Fold2Bloch" class="md-nav__link">
+      Fold2Bloch
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/mrgddb/" title="Mrgddb" class="md-nav__link">
+      Mrgddb
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/mrgscr/" title="Mrgscr" class="md-nav__link">
+      Mrgscr
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/multibinit/" title="Multibinit" class="md-nav__link">
+      Multibinit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/optic/" title="Optic" class="md-nav__link">
+      Optic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/respfn/" title="Respfn" class="md-nav__link">
+      Respfn
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/spacegroup/" title="Spacegroup" class="md-nav__link">
+      Spacegroup
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/a-TDEP/" title="a-TDEP" class="md-nav__link">
+      a-TDEP
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1-14" type="checkbox" id="nav-1-14">
+    
+    <label class="md-nav__link" for="nav-1-14">
+      Installation
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-1-14">
+        Installation
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../installation/" title="HowTo" class="md-nav__link">
+      HowTo
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../INSTALL_MacOS/" title="MacOS" class="md-nav__link">
+      MacOS
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../INSTALL_Ubuntu/" title="Ubuntu" class="md-nav__link">
+      Ubuntu
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../INSTALL_CentOS/" title="CentOS" class="md-nav__link">
+      CentOS
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../INSTALL_EasyBuild/" title="EasyBuild" class="md-nav__link">
+      EasyBuild
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../INSTALL_gpu/" title="GPUs" class="md-nav__link">
+      GPUs
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Topics
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Topics
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/features/" title="Features" class="md-nav__link">
+      Features
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/" title="Topic List" class="md-nav__link">
+      Topic List
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Abipy/" title="Abipy" class="md-nav__link">
+      Abipy
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/APPA/" title="APPA" class="md-nav__link">
+      APPA
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Artificial/" title="Artificial" class="md-nav__link">
+      Artificial
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/AtomManipulator/" title="AtomManipulator" class="md-nav__link">
+      AtomManipulator
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/AtomTypes/" title="AtomTypes" class="md-nav__link">
+      AtomTypes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Bader/" title="Bader" class="md-nav__link">
+      Bader
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Band2eps/" title="Band2eps" class="md-nav__link">
+      Band2eps
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Berry/" title="Berry" class="md-nav__link">
+      Berry
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/BandOcc/" title="BandOcc" class="md-nav__link">
+      BandOcc
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/BSE/" title="BSE" class="md-nav__link">
+      BSE
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/BoundingProcess/" title="BoundingProcess" class="md-nav__link">
+      BoundingProcess
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ConstrainedDFT/" title="ConstrainedDFT" class="md-nav__link">
+      ConstrainedDFT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ConstrainedPol/" title="ConstrainedPol" class="md-nav__link">
+      ConstrainedPol
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Control/" title="Control" class="md-nav__link">
+      Control
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Coulomb/" title="Coulomb" class="md-nav__link">
+      Coulomb
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/CrossingBarriers/" title="CrossingBarriers" class="md-nav__link">
+      CrossingBarriers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/CRPA/" title="CRPA" class="md-nav__link">
+      CRPA
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/crystal/" title="Crystal" class="md-nav__link">
+      Crystal
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/DFT+U/" title="DFT+U" class="md-nav__link">
+      DFT+U
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/DeltaSCF/" title="DeltaSCF" class="md-nav__link">
+      DeltaSCF
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/DensityPotential/" title="DensityPotential" class="md-nav__link">
+      DensityPotential
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Dev/" title="Dev" class="md-nav__link">
+      Dev
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/DFPT/" title="DFPT" class="md-nav__link">
+      DFPT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/DMFT/" title="DMFT" class="md-nav__link">
+      DMFT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/DynamicsMultibinit/" title="DynamicsMultibinit" class="md-nav__link">
+      DynamicsMultibinit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/EffectiveMass/" title="EffectiveMass" class="md-nav__link">
+      EffectiveMass
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/EFG/" title="EFG" class="md-nav__link">
+      EFG
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Elastic/" title="Elastic" class="md-nav__link">
+      Elastic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ElPhonInt/" title="ElPhonInt" class="md-nav__link">
+      ElPhonInt
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ElPhonTransport/" title="ElPhonTransport" class="md-nav__link">
+      ElPhonTransport
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ElecDOS/" title="ElecDOS" class="md-nav__link">
+      ElecDOS
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ElecBandStructure/" title="ElecBandStructure" class="md-nav__link">
+      ElecBandStructure
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/FileFormats/" title="FileFormats" class="md-nav__link">
+      FileFormats
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/FitProcess/" title="FitProcess" class="md-nav__link">
+      FitProcess
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ForcesStresses/" title="ForcesStresses" class="md-nav__link">
+      ForcesStresses
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/FrequencyMeshMBPT/" title="FrequencyMeshMBPT" class="md-nav__link">
+      FrequencyMeshMBPT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/GeoConstraints/" title="GeoConstraints" class="md-nav__link">
+      GeoConstraints
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/GeoOpt/" title="GeoOpt" class="md-nav__link">
+      GeoOpt
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Git/" title="Git" class="md-nav__link">
+      Git
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/GSintroduction/" title="GSintroduction" class="md-nav__link">
+      GSintroduction
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/GW/" title="GW" class="md-nav__link">
+      GW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/GWls/" title="GWls" class="md-nav__link">
+      GWls
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Hybrids/" title="Hybrids" class="md-nav__link">
+      Hybrids
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/k-points/" title="K points" class="md-nav__link">
+      K points
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/LatticeModel/" title="LatticeModel" class="md-nav__link">
+      LatticeModel
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/LDAminushalf/" title="LDAminushalf" class="md-nav__link">
+      LDAminushalf
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/LOTF/" title="LOTF" class="md-nav__link">
+      LOTF
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/longwave/" title="Longwave" class="md-nav__link">
+      Longwave
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Macroave/" title="Macroave" class="md-nav__link">
+      Macroave
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/MagField/" title="MagField" class="md-nav__link">
+      MagField
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/MagMom/" title="MagMom" class="md-nav__link">
+      MagMom
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/MolecularDynamics/" title="MolecularDynamics" class="md-nav__link">
+      MolecularDynamics
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/multidtset/" title="Multidtset" class="md-nav__link">
+      Multidtset
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/nonlinear/" title="Nonlinear" class="md-nav__link">
+      Nonlinear
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Optic/" title="Optic" class="md-nav__link">
+      Optic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Output/" title="Output" class="md-nav__link">
+      Output
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/parallelism/" title="Parallelism" class="md-nav__link">
+      Parallelism
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/PAW/" title="PAW" class="md-nav__link">
+      PAW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/PIMD/" title="PIMD" class="md-nav__link">
+      PIMD
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Planewaves/" title="Planewaves" class="md-nav__link">
+      Planewaves
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Phonons/" title="Phonons" class="md-nav__link">
+      Phonons
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/PhononBands/" title="PhononBands" class="md-nav__link">
+      PhononBands
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/PhononWidth/" title="PhononWidth" class="md-nav__link">
+      PhononWidth
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/PortabilityNonRegression/" title="PortabilityNonRegression" class="md-nav__link">
+      PortabilityNonRegression
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/positron/" title="Positron" class="md-nav__link">
+      Positron
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/printing/" title="Printing" class="md-nav__link">
+      Printing
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/PseudosPAW/" title="PseudosPAW" class="md-nav__link">
+      PseudosPAW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/q-points/" title="Q points" class="md-nav__link">
+      Q points
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/RandStopPow/" title="RandStopPow" class="md-nav__link">
+      RandStopPow
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Recursion/" title="Recursion" class="md-nav__link">
+      Recursion
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/RPACorrEn/" title="RPACorrEn" class="md-nav__link">
+      RPACorrEn
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/SCFControl/" title="SCFControl" class="md-nav__link">
+      SCFControl
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/SCFAlgorithms/" title="SCFAlgorithms" class="md-nav__link">
+      SCFAlgorithms
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/SelfEnergy/" title="SelfEnergy" class="md-nav__link">
+      SelfEnergy
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/SmartSymm/" title="SmartSymm" class="md-nav__link">
+      SmartSymm
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/spinpolarisation/" title="Spinpolarisation" class="md-nav__link">
+      Spinpolarisation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/SpinDynamicsMultibinit/" title="SpinDynamicsMultibinit" class="md-nav__link">
+      SpinDynamicsMultibinit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/STM/" title="STM" class="md-nav__link">
+      STM
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Susceptibility/" title="Susceptibility" class="md-nav__link">
+      Susceptibility
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/TDDFT/" title="TDDFT" class="md-nav__link">
+      TDDFT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/a-TDEP/" title="a TDEP" class="md-nav__link">
+      a TDEP
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/TDepES/" title="TDepES" class="md-nav__link">
+      TDepES
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Temperature/" title="Temperature" class="md-nav__link">
+      Temperature
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/TransPath/" title="TransPath" class="md-nav__link">
+      TransPath
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/TuningSpeedMem/" title="TuningSpeedMem" class="md-nav__link">
+      TuningSpeedMem
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Unfolding/" title="Unfolding" class="md-nav__link">
+      Unfolding
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/UnitCell/" title="UnitCell" class="md-nav__link">
+      UnitCell
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/vdw/" title="Vdw" class="md-nav__link">
+      Vdw
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Verification/" title="Verification" class="md-nav__link">
+      Verification
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Wannier/" title="Wannier" class="md-nav__link">
+      Wannier
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Wavelets/" title="Wavelets" class="md-nav__link">
+      Wavelets
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/xc/" title="Xc" class="md-nav__link">
+      Xc
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/external_resources/" title="External Resources" class="md-nav__link">
+      External Resources
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Variables
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Variables
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/" title="All Variables" class="md-nav__link">
+      All Variables
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-2" type="checkbox" id="nav-3-2">
+    
+    <label class="md-nav__link" for="nav-3-2">
+      Abinit
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-2">
+        Abinit
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/basic/" title="Basic" class="md-nav__link">
+      Basic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/bse/" title="Bethe-Salpeter" class="md-nav__link">
+      Bethe-Salpeter
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/dev/" title="Developers" class="md-nav__link">
+      Developers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/dmft/" title="DMFT" class="md-nav__link">
+      DMFT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/eph/" title="Electron-Phonon" class="md-nav__link">
+      Electron-Phonon
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/ffield/" title="Varff" class="md-nav__link">
+      Varff
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/files/" title="File-handling" class="md-nav__link">
+      File-handling
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/geo/" title="Geometry" class="md-nav__link">
+      Geometry
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/gstate/" title="Ground-State" class="md-nav__link">
+      Ground-State
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/gw/" title="GW" class="md-nav__link">
+      GW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/internal/" title="Internal" class="md-nav__link">
+      Internal
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/paral/" title="Parallelism" class="md-nav__link">
+      Parallelism
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/paw/" title="PAW" class="md-nav__link">
+      PAW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/dfpt/" title="DFPT" class="md-nav__link">
+      DFPT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/rlx/" title="Relaxation" class="md-nav__link">
+      Relaxation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/vdw/" title="VdW" class="md-nav__link">
+      VdW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/w90/" title="Wannier90" class="md-nav__link">
+      Wannier90
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/anaddb/" title="Anaddb" class="md-nav__link">
+      Anaddb
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/multibinit/" title="Multibinit" class="md-nav__link">
+      Multibinit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/optic/" title="Optic" class="md-nav__link">
+      Optic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/atdep/" title="a-TDEP" class="md-nav__link">
+      a-TDEP
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/aim/" title="Aim" class="md-nav__link">
+      Aim
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/external_parameters/" title="External Parameters" class="md-nav__link">
+      External Parameters
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/varset_stats/" title="Statistics" class="md-nav__link">
+      Statistics
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
+    
+    <label class="md-nav__link" for="nav-4">
+      Tutorial
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        Tutorial
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../compilation/" title="Building Abinit" class="md-nav__link">
+      Building Abinit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-3" type="checkbox" id="nav-4-3">
+    
+    <label class="md-nav__link" for="nav-4-3">
+      Base Tutorials
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-3">
+        Base Tutorials
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../base1/" title="Base1" class="md-nav__link">
+      Base1
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../base2/" title="Base2" class="md-nav__link">
+      Base2
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../base3/" title="Base3" class="md-nav__link">
+      Base3
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../base4/" title="Base4" class="md-nav__link">
+      Base4
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../spin/" title="Spin" class="md-nav__link">
+      Spin
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-4" type="checkbox" id="nav-4-4">
+    
+    <label class="md-nav__link" for="nav-4-4">
+      PAW
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-4">
+        PAW
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../paw1/" title="PAW1" class="md-nav__link">
+      PAW1
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../paw2/" title="PAW2" class="md-nav__link">
+      PAW2
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../paw3/" title="PAW3" class="md-nav__link">
+      PAW3
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-5" type="checkbox" id="nav-4-5">
+    
+    <label class="md-nav__link" for="nav-4-5">
+      DFT_PLUS_U
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-5">
+        DFT_PLUS_U
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../dftu/" title="Dftu" class="md-nav__link">
+      Dftu
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../udet/" title="Udet" class="md-nav__link">
+      Udet
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../ucalc_crpa/" title="Ucalc crpa" class="md-nav__link">
+      Ucalc crpa
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-6" type="checkbox" id="nav-4-6">
+    
+    <label class="md-nav__link" for="nav-4-6">
+      DFPT
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-6">
+        DFPT
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rf1/" title="RF1" class="md-nav__link">
+      RF1
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rf2/" title="RF2" class="md-nav__link">
+      RF2
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../elastic/" title="Elastic" class="md-nav__link">
+      Elastic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../ffield/" title="Ffield" class="md-nav__link">
+      Ffield
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../nlo/" title="Nlo" class="md-nav__link">
+      Nlo
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../dmft/" title="DMFT" class="md-nav__link">
+      DMFT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-8" type="checkbox" id="nav-4-8">
+    
+    <label class="md-nav__link" for="nav-4-8">
+      EPH
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-8">
+        EPH
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../eph_intro/" title="Eph intro" class="md-nav__link">
+      Eph intro
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../eph4mob/" title="Eph4mob" class="md-nav__link">
+      Eph4mob
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../eph4zpr/" title="Eph4zpr" class="md-nav__link">
+      Eph4zpr
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-9" type="checkbox" id="nav-4-9">
+    
+    <label class="md-nav__link" for="nav-4-9">
+      EPH-legacy
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-9">
+        EPH-legacy
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../eph/" title="Eph" class="md-nav__link">
+      Eph
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../tdepes/" title="Tdepes" class="md-nav__link">
+      Tdepes
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-10" type="checkbox" id="nav-4-10">
+    
+    <label class="md-nav__link" for="nav-4-10">
+      Many-Body
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-10">
+        Many-Body
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../gw1/" title="GW1" class="md-nav__link">
+      GW1
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../gw2/" title="GW2" class="md-nav__link">
+      GW2
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../bse/" title="Bethe-Salpeter" class="md-nav__link">
+      Bethe-Salpeter
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-11" type="checkbox" id="nav-4-11">
+    
+    <label class="md-nav__link" for="nav-4-11">
+      Parallelism
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-11">
+        Parallelism
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../basepar/" title="Base" class="md-nav__link">
+      Base
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../paral_gspw/" title="GSPW" class="md-nav__link">
+      GSPW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../paral_gswvl/" title="GSWVL" class="md-nav__link">
+      GSWVL
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../paral_dfpt/" title="DFPT" class="md-nav__link">
+      DFPT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../paral_images/" title="Images" class="md-nav__link">
+      Images
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../paral_mbt/" title="Many-Body" class="md-nav__link">
+      Many-Body
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../paral_moldyn/" title="Moldyn" class="md-nav__link">
+      Moldyn
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-12" type="checkbox" id="nav-4-12">
+    
+    <label class="md-nav__link" for="nav-4-12">
+      Multibinit
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-12">
+        Multibinit
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../lattice_model/" title="Lattice Model" class="md-nav__link">
+      Lattice Model
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../spin_model/" title="Spin Model" class="md-nav__link">
+      Spin Model
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../cut3d/" title="Cut3d" class="md-nav__link">
+      Cut3d
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../fold2bloch/" title="Fold2bloch" class="md-nav__link">
+      Fold2bloch
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../nuc/" title="Nuc" class="md-nav__link">
+      Nuc
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../optic/" title="Optic" class="md-nav__link">
+      Optic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../positron/" title="Positron" class="md-nav__link">
+      Positron
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../tddft/" title="Tddft" class="md-nav__link">
+      Tddft
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="toc">
+        Wannier90
+      </label>
+    
+    <a href="./" title="Wannier90" class="md-nav__link md-nav__link--active">
+      Wannier90
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-wannier90-interface-tutorial" title="The Wannier90 interface tutorial" class="md-nav__link">
+    The Wannier90 interface tutorial
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary-of-wannier90-in-abinit" title="Summary of Wannier90 in ABINIT" class="md-nav__link">
+    Summary of Wannier90 in ABINIT
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-first-example-silicon" title="A first example: silicon" class="md-nav__link">
+    A first example: silicon
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#visualize-the-wannier-functions" title="Visualize the Wannier functions" class="md-nav__link">
+    Visualize the Wannier functions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-paw-case" title="The PAW case" class="md-nav__link">
+    The PAW case
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#defining-the-initial-projections" title="Defining the initial projections" class="md-nav__link">
+    Defining the initial projections
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#more-on-wannier90-abinit" title="More on Wannier90 + ABINIT" class="md-nav__link">
+    More on Wannier90 + ABINIT
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      Theory
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        Theory
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/geometry/" title="Geometry" class="md-nav__link">
+      Geometry
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/spherical_harmonics/" title="Spherical Harmonics" class="md-nav__link">
+      Spherical Harmonics
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/wavefunctions/" title="Wavefunctions" class="md-nav__link">
+      Wavefunctions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/noncollinear/" title="Noncollinear" class="md-nav__link">
+      Noncollinear
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/pseudopotentials/" title="Pseudopotentials" class="md-nav__link">
+      Pseudopotentials
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/mbt/" title="Many-Body Perturbation Theory" class="md-nav__link">
+      Many-Body Perturbation Theory
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/bse/" title="Bethe-Salpeter" class="md-nav__link">
+      Bethe-Salpeter
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/documents/" title="Documents" class="md-nav__link">
+      Documents
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/acknowledgments/" title="Acknowledgments" class="md-nav__link">
+      Acknowledgments
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/bibliography/" title="Bibliography" class="md-nav__link">
+      Bibliography
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      Developers
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        Developers
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/git_and_gitlab/" title="Git and Gitlab" class="md-nav__link">
+      Git and Gitlab
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/developers_howto/" title="HowTo for developers" class="md-nav__link">
+      HowTo for developers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/abimkdocs/" title="Abimkdocs" class="md-nav__link">
+      Abimkdocs
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/markdown/" title="Markdown" class="md-nav__link">
+      Markdown
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6-5" type="checkbox" id="nav-6-5">
+    
+    <label class="md-nav__link" for="nav-6-5">
+      Test Suite
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-6-5">
+        Test Suite
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/testsuite/" title="Test list" class="md-nav__link">
+      Test list
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/testsuite_howto/" title="Test Suite Howto" class="md-nav__link">
+      Test Suite Howto
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/new_testsuite/" title="YAML-based test suite Howto" class="md-nav__link">
+      YAML-based test suite Howto
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/yaml_tools_api/" title="YAML-based test suite Python tools and API" class="md-nav__link">
+      YAML-based test suite Python tools and API
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/XgType/" title="XgType" class="md-nav__link">
+      XgType
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6-7" type="checkbox" id="nav-6-7">
+    
+    <label class="md-nav__link" for="nav-6-7">
+      Pseudos
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-6-7">
+        Pseudos
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/psp1_info/" title="psp1" class="md-nav__link">
+      psp1
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/psp3_info/" title="psp3" class="md-nav__link">
+      psp3
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/psp45_info/" title="psp45" class="md-nav__link">
+      psp45
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/psp5spinorbit_info/" title="psp5" class="md-nav__link">
+      psp5
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/psp6_info/" title="psp6" class="md-nav__link">
+      psp6
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/psp8_info/" title="psp8" class="md-nav__link">
+      psp8
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/codestats/" title="Code stats" class="md-nav__link">
+      Code stats
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/autoconf_examples/" title="Autoconf_examples" class="md-nav__link">
+      Autoconf_examples
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/testlink/" title="Test Page for linkcheck" class="md-nav__link">
+      Test Page for linkcheck
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+    
+    <label class="md-nav__link" for="nav-7">
+      About
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        About
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../about/release-notes/" title="Release Notes" class="md-nav__link">
+      Release Notes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../about/contributing/" title="Contributing" class="md-nav__link">
+      Contributing
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../about/history/" title="History" class="md-nav__link">
+      History
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../about/license/" title="License" class="md-nav__link">
+      License
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-wannier90-interface-tutorial" title="The Wannier90 interface tutorial" class="md-nav__link">
+    The Wannier90 interface tutorial
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary-of-wannier90-in-abinit" title="Summary of Wannier90 in ABINIT" class="md-nav__link">
+    Summary of Wannier90 in ABINIT
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-first-example-silicon" title="A first example: silicon" class="md-nav__link">
+    A first example: silicon
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#visualize-the-wannier-functions" title="Visualize the Wannier functions" class="md-nav__link">
+    Visualize the Wannier functions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-paw-case" title="The PAW case" class="md-nav__link">
+    The PAW case
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#defining-the-initial-projections" title="Defining the initial projections" class="md-nav__link">
+    Defining the initial projections
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#more-on-wannier90-abinit" title="More on Wannier90 + ABINIT" class="md-nav__link">
+    More on Wannier90 + ABINIT
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+
+                
+                  <a href="https://github.com/abinit/abinit/edit/master/doc/tutorial/wannier90.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="tutorial-on-the-use-of-wannier90-library">Tutorial on the use of Wannier90 library<a class="headerlink" href="#tutorial-on-the-use-of-wannier90-library" title="Permanent link">&para;</a></h1>
+<h2 id="the-wannier90-interface-tutorial">The Wannier90 interface tutorial<a class="headerlink" href="#the-wannier90-interface-tutorial" title="Permanent link">&para;</a></h2>
+<p>This tutorial aims at showing how to use the Wannier90 interface to compute
+Maximally Localized Wannier Functions (MLWFs).</p>
+<p>You will learn how to get MLWFs with ABINIT and Wannier90 and what are the
+basic variables to govern the numerical efficiency.</p>
+<p>This tutorial should take about 1 hour and it is important to note that the examples in this tutorial
+are not converged, they are just examples to show how to use the code.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Supposing you made your own installation of ABINIT, the input files to run the examples
+are in the <em>~abinit/tests/</em> directory where <em>~abinit</em> is the <strong>absolute path</strong> of the abinit top-level directory.
+If you have NOT made your own install, ask your system administrator where to find the package,
+especially the executable and test files.</p>
+<p>In case you work on your own PC or workstation, to make things easier, we suggest you define
+some handy environment variables by executing the following lines in the terminal:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">ABI_HOME</span><span class="o">=</span>Replace_with_absolute_path_to_abinit_top_level_dir <span class="c1"># Change this line</span>
+<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="nv">$ABI_HOME</span>/src/98_main/:<span class="nv">$PATH</span>      <span class="c1"># Do not change this line: path to executable</span>
+<span class="nb">export</span> <span class="nv">ABI_TESTS</span><span class="o">=</span><span class="nv">$ABI_HOME</span>/tests/             <span class="c1"># Do not change this line: path to tests dir</span>
+<span class="nb">export</span> <span class="nv">ABI_PSPDIR</span><span class="o">=</span><span class="nv">$ABI_TESTS</span>/Psps_for_tests/  <span class="c1"># Do not change this line: path to pseudos dir</span>
+</code></pre></div>
+<p>Examples in this tutorial use these shell variables: copy and paste
+the code snippets into the terminal (<strong>remember to set ABI_HOME first!</strong>) or, alternatively,
+source the <code>set_abienv.sh</code> script located in the <em>~abinit</em> directory:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">source</span> ~abinit/set_abienv.sh
+</code></pre></div>
+<p>The &lsquo;export PATH&rsquo; line adds the directory containing the executables to your <a href="http://www.linfo.org/path_env_var.html">PATH</a>
+so that you can invoke the code by simply typing <em>abinit</em> in the terminal instead of providing the absolute path.</p>
+<p>To execute the tutorials, create a working directory (<code>Work*</code>) and
+copy there the input files of the lesson.</p>
+<p>Most of the tutorials do not rely on parallelism (except specific <a class="wikilink lesson-wikilink" href="../basepar">tutorials on parallelism</a>).
+However you can run most of the tutorial examples in parallel with MPI, see the <a class="wikilink topic-wikilink" data-content="How to set parameters for a parallel calculation" data-placement="auto right" data-toggle="popover" data-trigger="hover focus" href="../../topics/parallelism">topic on parallelism</a>.</p>
+</div>
+<h2 id="summary-of-wannier90-in-abinit">Summary of Wannier90 in ABINIT<a class="headerlink" href="#summary-of-wannier90-in-abinit" title="Permanent link">&para;</a></h2>
+<p>Wannier90 is a code that computes MLWFs (see <a href="http://www.wannier.org">www.wannier.org</a> ).
+Wannier90 uses the methodology introduced by N. Marzari and D. Vanderbilt in 1997 and it is
+highly recommended to read the following papers to understand its basics:
+<a class="wikilink citation-wikilink" data-content="Maximally localized generalized Wannier functions for composite energy bands" data-placement="auto right" data-toggle="popover" data-trigger="hover focus" href="../../theory/bibliography#marzari1997">[Marzari1997]</a> and <a class="wikilink citation-wikilink" data-content="Maximally localized Wannier functions for entangled energy bands" data-placement="auto right" data-toggle="popover" data-trigger="hover focus" href="../../theory/bibliography#souza2002a">[Souza2002a]</a>.</p>
+<p>Wannier functions (WFs) can be obtained from Bloch states by means of the formulas 1-3 of <a class="wikilink citation-wikilink" data-content="Maximally localized Wannier functions for entangled energy bands" data-placement="auto right" data-toggle="popover" data-trigger="hover focus" href="../../theory/bibliography#souza2002a">[Souza2002a]</a>.
+As you may note there is a freedom of choice in the Bloch orbital&rsquo;s phase which is reflected
+in the shape and the spatial extent of the WF.
+This means that for different phases there will be WFs with different spatial localizations.</p>
+<p>To obtain the MLWFs we minimize the spread of the WF with respect to the choice of phase.
+This is done by using a steepest-descent algorithm, see section D of <a class="wikilink citation-wikilink" data-content="Maximally localized generalized Wannier functions for composite energy bands" data-placement="auto right" data-toggle="popover" data-trigger="hover focus" href="../../theory/bibliography#marzari1997">[Marzari1997]</a>.
+After a ground state calculation the Wannier90 code will obtain the MLWFs
+requiring just two ingredients:</p>
+<ul>
+<li>
+<p>The overlaps <span><span class="MathJax_Preview">M_{mn} = \langle u_{mk} | u_{nk+b} \rangle</span><script type="math/tex">M_{mn} = \langle u_{mk} | u_{nk+b} \rangle</script></span> between the cell periodic part
+  of the Bloch states <span><span class="MathJax_Preview">|u_{nk}\rangle</span><script type="math/tex">|u_{nk}\rangle</script></span>. See Eq. 25 of <a class="wikilink citation-wikilink" data-content="Maximally localized generalized Wannier functions for composite energy bands" data-placement="auto right" data-toggle="popover" data-trigger="hover focus" href="../../theory/bibliography#marzari1997">[Marzari1997]</a>).</p>
+</li>
+<li>
+<p>As a starting guess the projection, <span><span class="MathJax_Preview">A_{mn} = \langle \psi_{mk} | g_{n} \rangle</span><script type="math/tex">A_{mn} = \langle \psi_{mk} | g_{n} \rangle</script></span>,
+  of the Bloch states <span><span class="MathJax_Preview">|\psi_{nk} \rangle</span><script type="math/tex">|\psi_{nk} \rangle</script></span> onto trial
+  localized orbitals <span><span class="MathJax_Preview">|g_{n}\rangle</span><script type="math/tex">|g_{n}\rangle</script></span> (See section D of <a class="wikilink citation-wikilink" data-content="Maximally localized Wannier functions for entangled energy bands" data-placement="auto right" data-toggle="popover" data-trigger="hover focus" href="../../theory/bibliography#souza2002a">[Souza2002a]</a>)</p>
+</li>
+</ul>
+<p>What ABINIT does is to take the Bloch functions from a ground state calculation
+and compute these two ingredients. Then, Wannier90 is executed. Wannier90 is
+included as a library in ABINIT and the process is automatic, so that in a
+single run you can do both the ground state calculation and the computation of MLWFs.</p>
+<h2 id="a-first-example-silicon">A first example: silicon<a class="headerlink" href="#a-first-example-silicon" title="Permanent link">&para;</a></h2>
+<p>Before starting make sure that you compiled abinit enabling Wannier90.
+You may have to recompile the code with</p>
+<div class="highlight"><pre><span></span><code>configure --with-config-file=myconf.ac9
+</code></pre></div>
+<p>where <em>myconf.ac9</em> defines:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">#Install prefix of the PSML I/O library (e.g.</span>
+<span class="c1">#                          /usr/local).</span>
+<span class="nv">with_wannier90</span><span class="o">=</span><span class="s2">&quot;/usr/local&quot;</span>
+</code></pre></div>
+<p>Now we will compute a set of MLWFs for silicon.
+We are going to extract the Wannier functions corresponding to the four valence states of silicon.</p>
+<p><em>Before beginning, you might consider to work in a different sub-directory as
+for the other tutorials. Why not Work_w90?</em>
+Then copy the files <em>tw90_1.abi</em> and <em>wannier90.win</em> from
+the <em>$ABI_TESTS/tutoplugs/Input</em> directory to <em>Work_w90</em>:</p>
+<div class="codehilite"><pre><span></span><code>cd $ABI_TESTS/tutoplugs/Input
+mkdir Work_w90
+cd Work_w90
+cp ../tw90_1.abi .
+</code></pre></div>
+
+<p>Wannier90 also uses a secondary input file called <em>wannier90.win</em>.
+Therefore, you must include this file in the folder:</p>
+<div class="codehilite"><pre><span></span><code>cp ../wannier90.win .
+</code></pre></div>
+
+<p>Now you are ready to run abinit. Please type in:</p>
+<div class="codehilite"><pre><span></span><code>abinit  tw90_1.abi &gt; log 2&gt; err &amp;
+</code></pre></div>
+
+<p>Let&rsquo;s examine the input file <em>tw90_1.abi</em>, while the calculation is running.</p>
+<div class="text-center"><button type="button" id="uuid-f879ed28-83ab-42d1-8b44-4a1ebd4f90d0" class="btn btn-default btn-labeled">
+  <span class="btn-label"><i class="fa fa-window-restore" aria-hidden="true"></i></span>View tests/tutoplugs/Input/tw90_1.abi
+</button></div>
+<div id="uuid-10f70201-1706-45b9-ab98-ebad7d03b13c" class="my_dialog" title="tests/tutoplugs/Input/tw90_1.abi" hidden><div><div class="codehilite small-text"><pre><span></span>    ndtset      <span class="m">2</span>
+<span class="c1"># Silicon structure</span>
+     acell     <span class="m">10</span>.263  <span class="m">10</span>.263  <span class="m">10</span>.263
+     rprim      <span class="m">0</span>.00   <span class="m">0</span>.50   <span class="m">0</span>.50
+                <span class="m">0</span>.50   <span class="m">0</span>.00   <span class="m">0</span>.50
+                <span class="m">0</span>.50   <span class="m">0</span>.50   <span class="m">0</span>.00
+     natom      <span class="m">2</span>
+      xred      <span class="m">0</span>.00   <span class="m">0</span>.00   <span class="m">0</span>.00
+                <span class="m">0</span>.25   <span class="m">0</span>.25   <span class="m">0</span>.25
+    ntypat      <span class="m">1</span>
+     typat      <span class="m">1</span>      <span class="m">1</span>
+     znucl     <span class="m">14</span>.00
+ symmorphi      <span class="m">0</span>
+
+<span class="c1"># enforce calculation of forces at each SCF step</span>
+ optforces <span class="m">1</span>
+
+<span class="c1"># Plane wave basis</span>
+      ecut      <span class="m">8</span>.00               <span class="c1">#low ecut since this is a sample case</span>
+
+<span class="c1"># kpoint grid</span>
+     ngkpt      <span class="m">2</span> <span class="m">2</span> <span class="m">2</span>               <span class="c1">#grid of 2x2x2 kpoints</span>
+                                    <span class="c1">#this is too low, you can increase it</span>
+   nshiftk      <span class="m">1</span>                   <span class="c1">#just one shift is supported by wannier90 </span>
+    shiftk      <span class="m">0</span>.00   <span class="m">0</span>.00   <span class="m">0</span>.00  <span class="c1">#no shift</span>
+
+<span class="c1"># Self-consistent run to get the density</span>
+     nstep1   <span class="m">100</span>                  
+    tolvrs1    <span class="m">1</span>.00d-10 <span class="c1">#Tolerance for convergence</span>
+     nband1    <span class="m">5</span>
+    prtden1    <span class="m">1</span>
+    diemac1    <span class="m">12</span>.0     <span class="c1">#Preconditioner for scf</span>
+    kptopt1    <span class="m">1</span>
+    istwfk1    <span class="m">3</span>*1     <span class="c1">#Controls the form of the wavefunctions</span>
+
+<span class="c1"># Second: Wannier90</span>
+     iscf2 -2   <span class="c1">#nscf run</span>
+    nstep2 <span class="m">0</span>      <span class="c1">#just read the old wave functions</span>
+   tolwfr2 <span class="m">1</span>.e-10 <span class="c1">#dummy here</span>
+   getwfk2 <span class="m">1</span>   
+   getden2 <span class="m">1</span>   <span class="c1"># Usual file handling data</span>
+  prtwant2 <span class="m">2</span>   <span class="c1"># Call to Wannier90</span>
+    nband2 <span class="m">4</span>  
+   istwfk2 <span class="m">8</span>*1 <span class="c1">#Controls the form of the wavefunctions</span>
+   kptopt2 <span class="m">3</span>   <span class="c1"># Option for the automatic generation of k points</span>
+w90prtunk2 <span class="m">1</span>   <span class="c1">#Prints UNK files (for plotting the Wannier functions)</span>
+
+
+ pp_dirpath <span class="s2">&quot;</span><span class="nv">$ABI_PSPDIR</span><span class="s2">&quot;</span>
+ pseudos <span class="s2">&quot;Pseudodojo_nc_sr_04_pw_standard_psp8/Si.psp8&quot;</span>
+
+<span class="c1">##############################################################</span>
+<span class="c1"># This section is used only for regression testing of ABINIT #</span>
+<span class="c1">##############################################################</span>
+<span class="c1">#%%&lt;BEGIN TEST_INFO&gt;</span>
+<span class="c1">#%% [setup]</span>
+<span class="c1">#%% executable = abinit</span>
+<span class="c1">#%% [shell]</span>
+<span class="c1">#%% pre_commands = iw_cp wannier90.win tw90_1o_DS2_w90.win</span>
+<span class="c1">#%% [files]</span>
+<span class="c1">#%% files_to_test = </span>
+<span class="c1">#%%    tw90_1.abo, tolnlines=5, tolabs=7.00e-05, tolrel=1.10e+00, fld_options=-medium</span>
+<span class="c1">#%% [paral_info]</span>
+<span class="c1">#%% max_nprocs = 1</span>
+<span class="c1">#%% [extra_info]</span>
+<span class="c1">#%% authors = Unknown</span>
+<span class="c1">#%% keywords = </span>
+<span class="c1">#%% description = Test interface with Wannier90 (NC pseudopotentials)</span>
+<span class="c1">#%%&lt;END TEST_INFO&gt;</span>
+</pre></div>
+</div></div>
+
+<script> $(function() { abidocs_jqueryui_dialog("#uuid-10f70201-1706-45b9-ab98-ebad7d03b13c", "#uuid-f879ed28-83ab-42d1-8b44-4a1ebd4f90d0") }); </script>
+
+<p>The input file should look familiar to you. It is indeed the primitive cell of silicon.
+It has two data sets: first a SCF calculation and then a NSCF calculation which
+will call the Wannier90 library. The only new input variable is <a class="wikilink codevar-wikilink" href="../../variables/files#prtwant">prtwant</a>
+which has to be set to 2 in order to use the Wannier90 utility.</p>
+<p>Now lets look at the second input file <em>wannier90.win</em>.</p>
+<div class="text-center"><button type="button" id="uuid-282dc09d-1495-49e9-893e-b03f5fb90f89" class="btn btn-default btn-labeled">
+  <span class="btn-label"><i class="fa fa-window-restore" aria-hidden="true"></i></span>View tests/tutoplugs/Input/wannier90.win
+</button></div>
+<div id="uuid-9a435dbc-6141-4108-955a-461837822d3d" class="my_dialog" title="tests/tutoplugs/Input/wannier90.win" hidden><div><pre class="small-text">
+num_wann 4
+num_iter 200
+
+!plotting
+wannier_plot =true
+
+</pre>
+</div></div>
+
+<script> $(function() { abidocs_jqueryui_dialog("#uuid-9a435dbc-6141-4108-955a-461837822d3d", "#uuid-282dc09d-1495-49e9-893e-b03f5fb90f89") }); </script>
+
+<p>This is a mandatory input file required by the Wannier90 library.
+There are many variables that can be defined inside this file.
+In our case we used <strong>num_wann</strong> and <strong>num_iter</strong>.
+These variables are used in the minimization of the spread
+to obtain the MLWF. In particular, <strong>num_wann</strong> defines the number of Wannier
+functions to extract while <strong>num_iter</strong> sets the maximum number of iterations. There
+are also variables to govern the disentanglement procedure outlined in <a class="wikilink citation-wikilink" data-content="Maximally localized Wannier functions for entangled energy bands" data-placement="auto right" data-toggle="popover" data-trigger="hover focus" href="../../theory/bibliography#souza2002a">[Souza2002a]</a>
+which are not used in this simple case. The complete list of input variables
+can be found in the Wannier90 user guide (see <a href="http://www.wannier.org">www.wannier.org</a>).</p>
+<p>We can now examine the log file. After the convergence of the SCF cycle is
+reached. We can see that the Wannier90 library is called. You will find the following lines:</p>
+<div class="codehilite"><pre><span></span><code>  <span class="nv">Calculation</span> <span class="nv">of</span> <span class="nv">overlap</span> <span class="nv">and</span> <span class="k">call</span> <span class="nl">to</span> <span class="nv">Wannier90</span> <span class="nv">library</span>
+  <span class="nv">to</span> <span class="nv">obtain</span> <span class="nv">Maximally</span> <span class="nv">Localized</span> <span class="nv">Wannier</span> <span class="nv">functions</span>
+  <span class="o">-</span> <span class="nv">wannier90</span>.<span class="nv">win</span> <span class="nv">is</span> <span class="nv">a</span> <span class="nv">mandatory</span> <span class="nv">secondary</span> <span class="nv">input</span>
+  <span class="o">-</span> <span class="nv">wannier90</span>.<span class="nv">wout</span> <span class="nv">is</span> <span class="nv">the</span> <span class="nv">output</span> <span class="k">for</span> <span class="nv">the</span> <span class="nv">library</span>
+  <span class="o">-</span> <span class="nv">wannier90</span>.<span class="nv">amn</span> <span class="nv">contains</span> <span class="nv">projections</span>
+  <span class="o">-</span> <span class="nv">wannier90random</span>.<span class="nv">amn</span> <span class="nv">contains</span> <span class="k">random</span> <span class="nv">projections</span>
+  <span class="o">-</span> <span class="nv">wannier90</span>.<span class="nv">mmn</span> <span class="nv">contains</span> <span class="nv">the</span> <span class="nv">overlap</span>
+  <span class="o">-</span> <span class="nv">wannier90</span>.<span class="nv">eig</span> <span class="nv">contains</span> <span class="nv">the</span> <span class="nv">eigenvalues</span>
+</code></pre></div>
+
+<p>This is an explanation of the input and output files for the Wannier90
+library. As you can see many new files were created. The input files for
+Wannier90 which were created by ABINIT are:</p>
+<dl>
+<dt><strong>wannier90random.amn</strong></dt>
+<dd>Contains a list of projections to be used as a starting guess of the WF.
+This is the <span><span class="MathJax_Preview">A_{mn}</span><script type="math/tex">A_{mn}</script></span> matrix which was mentioned before in this tutorial.</dd>
+<dt><strong>wannier90.eig</strong></dt>
+<dd>Contains a list of eigenvalues for each k-point and band.</dd>
+<dt><strong>wannier90.mmn</strong></dt>
+<dd>Contains the overlaps between the cell periodic part of the Bloch states.
+This is the M_mn matrix mentioned before in this tutorial.</dd>
+<dt><strong>UNK</strong></dt>
+<dd>Files containing the wavefunction in real space for every k-point.
+Once these files were computed by ABINIT the Wannier90 library was used.
+The output files of Wannier90 are:</dd>
+<dt><strong>wannier90.wout</strong></dt>
+<dd>This is the main output file of the library.
+You should read it carefully to see the details of the calculation.</dd>
+<dt><strong>wannier90.chk</strong></dt>
+<dd>This file is required to restart a calculation is case you use Wannier90 in standalone mode.
+In our case it is not used.</dd>
+</dl>
+<p>To obtain information about the steepest-descent minimization just issue:</p>
+<div class="codehilite"><pre><span></span><code>grep CONV tw90_1o_DS2_w90.wout
+</code></pre></div>
+
+<p>You will obtain a table of the following form:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"> </span><span class="nb">+--------------------------------------------------------------------+</span><span class="nv">&lt;</span><span class="nb">--</span><span class="c"> CONV</span>
+<span class="c"> | Iter  Delta Spread     RMS Gradient      Spread (Ang^2)      Time  |</span><span class="nv">&lt;</span><span class="nb">--</span><span class="c"> CONV</span>
+<span class="c"> </span><span class="nb">+--------------------------------------------------------------------+</span><span class="nv">&lt;</span><span class="nb">--</span><span class="c"> CONV</span>
+<span class="c">      0     0</span><span class="nt">.</span><span class="c">438E</span><span class="nb">+</span><span class="c">02     0</span><span class="nt">.</span><span class="c">0000000000       43</span><span class="nt">.</span><span class="c">7939618280       0</span><span class="nt">.</span><span class="c">08  </span><span class="nv">&lt;</span><span class="nb">--</span><span class="c"> CONV</span>
+<span class="c">      1    </span><span class="nb">-</span><span class="c">0</span><span class="nt">.</span><span class="c">946E</span><span class="nb">+</span><span class="c">01    10</span><span class="nt">.</span><span class="c">5484513508       34</span><span class="nt">.</span><span class="c">3387915333       0</span><span class="nt">.</span><span class="c">09  </span><span class="nv">&lt;</span><span class="nb">--</span><span class="c"> CONV</span>
+</code></pre></div>
+
+<p>You can verify that the final spread you get is around 4.0 Å<span><span class="MathJax_Preview">^2</span><script type="math/tex">^2</script></span>.</p>
+<p>Similarly to obtain information about the disentanglement procedure (not used in this example)
+just type:</p>
+<div class="codehilite"><pre><span></span><code>grep DIS wannier90.wout
+</code></pre></div>
+
+<p>You will obtain a table of the following form:</p>
+<div class="codehilite"><pre><span></span><code><span class="c"> </span><span class="nb">+---------------------------------------------------------------------+</span><span class="nv">&lt;</span><span class="nb">--</span><span class="c"> DIS</span>
+<span class="c"> |  Iter     Omega_I(i</span><span class="nb">-</span><span class="c">1)      Omega_I(i)      Delta (frac</span><span class="nt">.</span><span class="c">)    Time   |</span><span class="nv">&lt;</span><span class="nb">--</span><span class="c"> DIS</span>
+<span class="c"> </span><span class="nb">+---------------------------------------------------------------------+</span><span class="nv">&lt;</span><span class="nb">--</span><span class="c"> DIS</span>
+</code></pre></div>
+
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If <a href="https://github.com/abinit/abipy">AbiPy</a>  is installed on your machine, you can use the <a href="http://abinit.github.io/abipy/scripts/abiopen.html">abiopen</a>  script
+with the <code>wout</code> command and the <code>--expose</code> option to visualize the iterations</p>
+<div class="codehilite"><pre><span></span><code>abiopen.py tw90_1o_DS2_w90.wout --expose -sns
+</code></pre></div>
+
+<p><img alt="" src="../wannier90_assets/abiopen_tw90_1o_DS2_w90.png" /></p>
+</div>
+<h3 id="visualize-the-wannier-functions">Visualize the Wannier functions<a class="headerlink" href="#visualize-the-wannier-functions" title="Permanent link">&para;</a></h3>
+<p>You can see the Wannier functions in <a href="http://www.xcrysden.org/">XCrysDen</a>  format. Just type:</p>
+<div class="codehilite"><pre><span></span><code>xcrysden --xsf tw90_1o_DS2_w90_00001.xsf
+</code></pre></div>
+
+<p>To see the isosurface click on: Tools-&gt;Data Grid -&gt; OK
+And modify the isovalue, put, for instance, 0.3 and check the option &ldquo;Render &plusmn; isovalue&rdquo; then click on OK
+Alternatively, one can read the xsf file with <a href="http://jp-minerals.org/vesta/en/">vesta</a> .
+MacOsx users can use the command line:</p>
+<div class="codehilite"><pre><span></span><code>open tw90_1o_DS2_w90_00003.xsf -a vesta
+</code></pre></div>
+
+<p>to invoke vesta directly from the terminal:</p>
+<p><img alt="" src="../wannier90_assets/tw90_1o_DS2_w90_00001.png" /></p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<ul>
+<li>
+<p>It is important to set <a class="wikilink codevar-wikilink" href="../../variables/dev#istwfk">istwfk</a> equal to 1 for every k-point avoiding using symmetries.
+  The reason is that the formalism used to extract the MLWF assumes that you have a uniform grid of k-points.
+  See section IV of <a class="wikilink citation-wikilink" data-content="Maximally localized generalized Wannier functions for composite energy bands" data-placement="auto right" data-toggle="popover" data-trigger="hover focus" href="../../theory/bibliography#marzari1997">[Marzari1997]</a>.</p>
+</li>
+<li>
+<p>The number of Wannier functions to extract should be minor or equal to the number of bands.
+  If <em>nband &gt; nwan</em> then the disentanglement routines will be called.</p>
+</li>
+<li>
+<p>The number of k-points should be equal to ngkpt(1)*ngkpt(2)*ngkpt(3).
+  This is achieved by using the input variables <a class="wikilink codevar-wikilink" href="../../variables/basic#kptopt">kptopt</a>= 3, <a class="wikilink codevar-wikilink" href="../../variables/basic#ngkpt">ngkpt</a> and <a class="wikilink codevar-wikilink" href="../../variables/basic#nshiftk">nshiftk</a>= 1.</p>
+</li>
+<li>
+<p>The prefix of all wannier90 files in this sample case is <em>wannier90</em>.
+  Other possible prefixes are w90_ and <strong>abo</strong> __w90_ , where <strong>abo</strong> is the fourth line on your .file file.
+  To setup the prefix, ABINIT will first look for a file named <strong>abo</strong>
+  __w90.win_ if it is not found then it will look for <em>w90.win</em> and finally for <em>wannier90.win</em>.</p>
+</li>
+</ul>
+</div>
+<h2 id="the-paw-case">The PAW case<a class="headerlink" href="#the-paw-case" title="Permanent link">&para;</a></h2>
+<p>Before starting it is assumed that you have already completed the tutorials <a href="../paw1">PAW1</a> and <a href="../paw2">PAW2</a>.</p>
+<p>For silicon, we just have to add the variable <a class="wikilink codevar-wikilink" href="../../variables/paw#pawecutdg">pawecutdg</a> and the PAW Atomic Data is included in the pseudopotential file.
+An example has already been prepared.</p>
+<p>Just copy the file  <em>tw90_2.abi</em> into <em>Work_w90</em>:</p>
+<div class="codehilite"><pre><span></span><code>cp ../tw90_2.abi .
+</code></pre></div>
+
+<p>We are going to reuse the wannier90.win of the previous example.
+Now, just run abinit again</p>
+<div class="codehilite"><pre><span></span><code>abinit tw90_2.abi &gt; log 2&gt; err &amp;
+</code></pre></div>
+
+<p>As it is expected, the results should be similar than those of the PW case.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>For the PAW case the UNK files are not those of the real
+wavefunctions. The contribution inside the spheres is not computed, however,
+they can be used to plot the Wannier functions.</p>
+</div>
+<h2 id="defining-the-initial-projections">Defining the initial projections<a class="headerlink" href="#defining-the-initial-projections" title="Permanent link">&para;</a></h2>
+<p>Up to now we have obtained the MLWF for the four valence bands of silicon. It
+is important to note that for valence states the MLWF can be obtained starting
+from a random initial position. However, for conduction states we have to give
+a very accurate starting guess to get the MLWF.</p>
+<p>We are going to extract the <span><span class="MathJax_Preview">sp^3</span><script type="math/tex">sp^3</script></span> hybrid orbitals of Silane SiH<span><span class="MathJax_Preview">_4</span><script type="math/tex">_4</script></span>. You can start
+by copying from the tests/tutoplugs directory the following files:</p>
+<div class="codehilite"><pre><span></span><code>cp ../tw90_3.abi .
+cp ../tw90_3o_DS2_w90.win .
+</code></pre></div>
+
+<p>Now run abinit</p>
+<div class="codehilite"><pre><span></span><code>abinit  tw90_3.abi &gt; log 2&gt; err &amp;
+</code></pre></div>
+
+<p>While it is running, we can start to examine the input files.
+Open the main input file <em>tw90_3.abi</em>. The file is divided into three datasets.</p>
+<div class="text-center"><button type="button" id="uuid-3392d15c-fb52-407c-b2bc-460a04bebff3" class="btn btn-default btn-labeled">
+  <span class="btn-label"><i class="fa fa-window-restore" aria-hidden="true"></i></span>View tests/tutoplugs/Input/tw90_3.abi
+</button></div>
+<div id="uuid-afa5d206-0f19-4e26-8838-58d081f272e3" class="my_dialog" title="tests/tutoplugs/Input/tw90_3.abi" hidden><div><div class="codehilite small-text"><pre><span></span><span class="c1">#########################################################</span>
+<span class="c1"># Silane SiH4</span>
+<span class="c1">#########################################################</span>
+
+ndtset <span class="m">2</span>
+
+<span class="c1">#########################################################</span>
+<span class="c1"># First dataset: SCF</span>
+<span class="c1">#########################################################</span>
+  nstep1 <span class="m">200</span>
+ tolvrs1 <span class="m">1</span>.0d-10
+ kptopt1 <span class="m">1</span>        <span class="c1"># Option for the automatic generation of k points</span>
+ kptrlen1  <span class="m">20</span>
+ istwfk1 <span class="m">1</span>      <span class="c1">#Controls the form of the wavefunctions     </span>
+ diemac <span class="m">2</span> 
+ prtden1 <span class="m">1</span>   getden1 <span class="m">0</span>   getwfk1 <span class="m">0</span>    <span class="c1"># Usual file handling data</span>
+
+
+<span class="c1">#########################################################</span>
+<span class="c1"># Second: Wannier90 </span>
+<span class="c1">#########################################################</span>
+     iscf2 -2      <span class="c1">#non self-consistent field calculation </span>
+    nstep2 <span class="m">0</span>       <span class="c1"># zero steps, it will just read the previous wave function  </span>
+   tolwfr2 <span class="m">1</span>.e-20  <span class="c1">#dummy here</span>
+   getwfk2 <span class="m">1</span>       <span class="c1"># Get wavefunction of dataset 1</span>
+   getden2 <span class="m">1</span>       <span class="c1"># Get density file of dataset 1</span>
+   istwfk2 <span class="m">8</span>*1     <span class="c1"># Controls the form of the wavefunctions</span>
+   kptopt2 <span class="m">3</span>       <span class="c1"># Option for the automatic generation of k points</span>
+    nband2 <span class="m">4</span>
+<span class="c1">#wannier90 related variables</span>
+  prtwant2 <span class="m">2</span>      <span class="c1"># keyword for a wannier90 calculation</span>
+w90prtunk2 <span class="m">1</span>      <span class="c1"># print UNK files</span>
+w90iniprj2 <span class="m">2</span>      <span class="c1"># initial projections are defined in wannier90.win</span>
+
+<span class="c1">#########################################################</span>
+<span class="c1"># Data common to all datasets</span>
+<span class="c1">#########################################################</span>
+
+<span class="c1">#kpoint grid</span>
+  ngkpt2 <span class="m">2</span> <span class="m">2</span> <span class="m">2</span>     <span class="c1"># 2*2*2 kpoints in the full Brillouin zone</span>
+                   <span class="c1"># we need a homogeneous grid to get the Wannier functions</span>
+                   <span class="c1">#</span>
+nshiftk2 <span class="m">1</span>         
+ shiftk2 <span class="m">0</span>.0 <span class="m">0</span>.0 <span class="m">0</span>.0
+
+<span class="c1">#Definition of the unit cell</span>
+<span class="c1">#Molecule: 9.36 in x, 7.0104 in and 0.1 in z (Bohrs)</span>
+acell <span class="m">12</span> <span class="m">12</span> <span class="m">12</span>  <span class="c1">#12 Bohrs</span>
+rprim  <span class="m">1</span>.0  <span class="m">0</span>.0  <span class="m">0</span>.0
+       <span class="m">0</span>.0  <span class="m">1</span>.0  <span class="m">0</span>.0
+       <span class="m">0</span>.0  <span class="m">0</span>.0  <span class="m">1</span>.0
+
+<span class="c1">#Definition of the atom types</span>
+ntypat <span class="m">2</span> 
+znucl <span class="m">14</span> <span class="m">1</span>
+
+<span class="c1"># enforce calculation of forces at each SCF step</span>
+ optforces <span class="m">1</span>
+
+<span class="c1">#Definition of the atoms</span>
+natom <span class="m">5</span>
+typat <span class="m">1</span> <span class="m">2</span> <span class="m">2</span> <span class="m">2</span> <span class="m">2</span>
+xcart
+    <span class="m">0</span>.00000000E+00    <span class="m">0</span>.00000000E+00    <span class="m">0</span>.00000000E+00
+    <span class="m">0</span>.19965920E+01    <span class="m">0</span>.19965920E+01    <span class="m">0</span>.19965920E+01
+    <span class="m">0</span>.19965920E+01   -0.19965920E+01   -0.19965920E+01
+   -0.19965920E+01    <span class="m">0</span>.19965920E+01   -0.19965920E+01
+   -0.19965920E+01   -0.19965920E+01    <span class="m">0</span>.19965920E+01
+
+
+<span class="c1">#Definition of the planewave basis set</span>
+ecut  <span class="m">8</span>       <span class="c1"># Maximal kinetic energy cut-off, in Hartree</span>
+              <span class="c1"># This is too low too</span>
+
+
+
+ pp_dirpath <span class="s2">&quot;</span><span class="nv">$ABI_PSPDIR</span><span class="s2">&quot;</span>
+ pseudos <span class="s2">&quot;Pseudodojo_nc_sr_04_pw_standard_psp8/Si.psp8, Pseudodojo_nc_sr_04_pw_standard_psp8/H.psp8&quot;</span>
+
+<span class="c1">##############################################################</span>
+<span class="c1"># This section is used only for regression testing of ABINIT #</span>
+<span class="c1">##############################################################</span>
+<span class="c1">#%%&lt;BEGIN TEST_INFO&gt;</span>
+<span class="c1">#%% [setup]</span>
+<span class="c1">#%% executable = abinit</span>
+<span class="c1">#%% [shell]</span>
+<span class="c1">#%% pre_commands = </span>
+<span class="c1">#%%    iw_cp tw90_3o_DS2_w90.win tw90_3o_DS2_w90.win</span>
+<span class="c1">#%% [files]</span>
+<span class="c1">#%% files_to_test = </span>
+<span class="c1">#%%  tw90_3.abo,  tolnlines=   12,   tolabs=  3.00e-04,   tolrel=  2.00e-02, fld_options = -medium</span>
+<span class="c1">#%% extra_inputs = </span>
+<span class="c1">#%% [paral_info]</span>
+<span class="c1">#%% max_nprocs = 1</span>
+<span class="c1">#%% [extra_info]</span>
+<span class="c1">#%% authors = Unknown</span>
+<span class="c1">#%% keywords = NC</span>
+<span class="c1">#%% description = Silane SiH4. Generation of Wannier functions via Wannier90 code.</span>
+<span class="c1">#%%&lt;END TEST_INFO&gt;</span>
+</pre></div>
+</div></div>
+
+<script> $(function() { abidocs_jqueryui_dialog("#uuid-afa5d206-0f19-4e26-8838-58d081f272e3", "#uuid-3392d15c-fb52-407c-b2bc-460a04bebff3") }); </script>
+
+<p>First a SCF calculation is done. What follows is a NSCF calculation including
+more bands. Finally, in the third dataset we just read the wavefunction from
+the previous one and the Wannier90 library is called. <strong>w90iniprj</strong> is a keyword
+used to indicate that the initial projections will be given in the <strong>.win</strong> file.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You may notice that the <strong>.win</strong> file is now called <em>tw90_3o_DS2_w90.win</em>.
+It has the following form: <em>prefix_dataset_w90.win</em>, where the prefix is taken from
+the third line of your .file file. and dataset is the dataset number
+at which you call Wannier90 (dataset 2 in this example).</p>
+</div>
+<p>Now open the <strong>.win</strong> file. The initial projections will be the <span><span class="MathJax_Preview">sp^3</span><script type="math/tex">sp^3</script></span> hybrid
+orbitals centered in the position of the silicon atom.
+This is written explicitly as:</p>
+<div class="codehilite"><pre><span></span><code><span class="nv">begin</span> <span class="nv">projections</span>
+<span class="nv">Si</span>:<span class="nv">sp3</span>
+<span class="k">end</span> <span class="nv">projections</span>
+</code></pre></div>
+
+<p>There is an enormous freedom of choice for the initial projections. For
+instance, you can define the centers in Cartesian coordinates or rotate the
+axis. Please refer to the Wannier90 user guide and see the part related to
+projections (see <a href="http://www.wannier.org">www.wannier90.org</a>).</p>
+<h2 id="more-on-wannier90-abinit">More on Wannier90 + ABINIT<a class="headerlink" href="#more-on-wannier90-abinit" title="Permanent link">&para;</a></h2>
+<p>Now we will redo the silicon case but defining different initial projections.</p>
+<p>This calculation will be more time consuming, so you can start by running the
+calculation while reading:</p>
+<div class="codehilite"><pre><span></span><code>cp ../tw90_4.abi .
+cp ../tw90_4o_DS3_w90.win .
+abinit  tw90_4.abi &gt; log 2&gt; err &amp;
+</code></pre></div>
+
+<p><strong>Initial projections:</strong></p>
+<p>In this example we extract sp<span><span class="MathJax_Preview">^3</span><script type="math/tex">^3</script></span> orbitals centered on the silicon atoms. But you
+could also extract bonding and anti-bonding orbitals by uncommenting and
+commenting the required lines as it is indicated in <em>tw90_4o_DS3_w90.win</em>.</p>
+<p>You can see that we are using <strong>r=4</strong> in the initial projections block. This
+is to indicate that the radial part will be a Gaussian function whose width
+can be controlled by the value of the variable <strong>zona</strong>. The main advantage over
+radial functions in the form of hydrogenic orbitals is that the time to write
+the .amn file will be reduced.</p>
+<p><strong>Interpolated band structure</strong></p>
+<p>We are going to run Wannier90 in standalone mode. Just comment out the following
+lines of the <strong>.win</strong> file:</p>
+<div class="codehilite"><pre><span></span><code>postproc_setup = .true.   !used to write .nnkp file at first run
+num_iter = 100
+</code></pre></div>
+
+<p>And uncomment the following two lines:</p>
+<div class="codehilite"><pre><span></span><code><span class="sx">!restart = plot</span><span class="w"></span>
+<span class="sx">!bands_plot = .true.</span><span class="w"></span>
+</code></pre></div>
+
+<p>Now run Wannier90:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">$</span><span class="n">ABI_HOME</span><span class="o">/</span><span class="n">fallbacks</span><span class="o">/</span><span class="n">exports</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">wannier90</span><span class="o">.</span><span class="n">x</span><span class="o">-</span><span class="n">abinit</span> <span class="n">tw90_4o_DS3_w90</span>
+</code></pre></div>
+
+<p>The interpolated band structure is in <em>tw90_4o_DS3_w90_band.dat</em></p>
+<p>To plot the bands, open <a href="http://www.gnuplot.info/">gnuplot</a>  in the terminal and type:</p>
+<div class="highlight"><pre><span></span><code><span class="k">load</span> <span class="s">&quot;tw90_4o_DS3_w90_band.gnu&quot;</span>
+</code></pre></div>
+<p><img alt="" src="../wannier90_assets/load_tw90_4o_DS3_w90_band.png" /></p>
+                
+                  
+                
+              
+
+<!-- 
+add dropdown button with toolbar (based on https://bootsnipp.com/snippets/featured/inbox-by-gmail)
+and return to Top button (based on https://codepen.io/rdallaire/pen/apoyx)
+-->
+<div class="md-container">
+  <div class="row">
+    <div id="inbox">
+      <div class="fab btn-group show-on-hover dropup">
+        <div data-toggle="tooltip" data-placement="left" title="Menu" style="margin-left: 42px;">
+          <button id="return-to-top" type="button" class="btn btn-primary btn-io dropdown-toggle" data-toggle="dropdown">
+            <span class="fa-stack fa-2x">
+                <i class="fa fa-circle fa-stack-2x fab-backdrop"></i>
+                <i class="fa fa-chevron-up fa-stack-1x fa-inverse fab-primary"></i>
+                <i class="fa fa-map-signs fa-stack-1x fa-inverse fab-secondary"></i>
+            </span>
+          </button>
+        </div>
+        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+        
+        
+          <li><a href="../../about/release-notes/" data-toggle="tooltip" data-placement="left" 
+                  title="About"><i class="fa fa-info-circle"></i></a></li>
+        
+          <li><a href="../../developers/git_and_gitlab/" data-toggle="tooltip" data-placement="left" 
+                  title="Developers"><i class="fa fa-terminal"></i></a></li>
+        
+          <li><a href="../../theory/geometry/" data-toggle="tooltip" data-placement="left" 
+                  title="Theory"><i class="fa fa-book"></i></a></li>
+        
+          <li><a href="../" data-toggle="tooltip" data-placement="left" 
+                  title="Tutorial"><i class="fa fa-graduation-cap"></i></a></li>
+        
+          <li><a href="../../variables/" data-toggle="tooltip" data-placement="left" 
+                  title="Variables"><i class="fa fa-file-text-o"></i></a></li>
+        
+          <li><a href="../../topics/features/" data-toggle="tooltip" data-placement="left" 
+                  title="Topics"><i class="fa fa-question"></i></a></li>
+        
+          <li><a href="../.." data-toggle="tooltip" data-placement="left" 
+                  title="User Guide"><i class="fa fa-user-circle-o"></i></a></li>
+        
+        <!--
+        Example: 
+        <li><a href="/index.html" data-toggle="tooltip" data-placement="left" title="User-Guide">
+              <i class="fa fa-user-circle-o"></i></a></li>
+        -->
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+              
+                
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+    <!-- Add tabs to footer -->
+    
+        
+
+  
+
+<nav class="md-tabs md-tabs--active" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../.." title="User Guide" class="md-tabs__link">
+          User Guide
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../topics/features/" title="Topics" class="md-tabs__link">
+          Topics
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../variables/" title="Variables" class="md-tabs__link">
+          Variables
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../" title="Tutorial" class="md-tabs__link md-tabs__link--active">
+          Tutorial
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../theory/geometry/" title="Theory" class="md-tabs__link">
+          Theory
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../developers/git_and_gitlab/" title="Developers" class="md-tabs__link">
+          Developers
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../about/release-notes/" title="About" class="md-tabs__link">
+          About
+        </a>
+      
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+    
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../tddft/" title="Tddft" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Tddft
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../../theory/geometry/" title="Geometry" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Geometry
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+            <center>Abinit version 9.4.0</center>
+        
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2020-2021 The Abinit Group (T. Rangel)
+          </div>
+        
+        powered by
+        <a href="http://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+  <div class="md-footer-social">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+      <a href="https://github.com/abinit/abinit" class="md-footer-social__link fa fa-github-alt"></a>
+    
+      <a href="https://twitter.com/hashtag/abinit" class="md-footer-social__link fa fa-twitter"></a>
+    
+      <a href="http://www.facebook.com/abinit.org" class="md-footer-social__link fa fa-facebook"></a>
+    
+      <a href="https://www.youtube.com/watch?v=gcbfb_Mteo4" class="md-footer-social__link fa fa-youtube"></a>
+    
+  </div>
+
+      
+    </div>
+  </div>
+</footer>
+      
+
+    </div>
+    
+      <script src="../../assets/javascripts/application.02434462.js"></script>
+      
+      <script>app.initialize({version:"0.17.5",url:{base:"../.."}})</script>
+      
+        <script src="../../extra_javascript/jquery.dialogextend.min.js"></script>
+      
+        <script src="../../extra_javascript/abidocs.js"></script>
+      
+    
+    
+      
+        <script>!function(e,a,t,n,o,c,i){e.GoogleAnalyticsObject=o,e.ga=e.ga||function(){(e.ga.q=e.ga.q||[]).push(arguments)},e.ga.l=1*new Date,c=a.createElement(t),i=a.getElementsByTagName(t)[0],c.async=1,c.src="https://www.google-analytics.com/analytics.js",i.parentNode.insertBefore(c,i)}(window,document,"script",0,"ga"),ga("create","UA-116681470-1","docs.abinit.org"),ga("set","anonymizeIp",!0),ga("send","pageview");var links=document.getElementsByTagName("a");if(Array.prototype.map.call(links,function(e){e.host!=document.location.host&&e.addEventListener("click",function(){var a=e.getAttribute("data-md-action")||"follow";ga("send","event","outbound",a,e.href)})}),document.forms.search){var query=document.forms.search.query;query.addEventListener("blur",function(){if(this.value){var e=document.location.pathname;ga("send","pageview",e+"?q="+this.value)}})}</script>
+      
+    
+  </body>
+</html>

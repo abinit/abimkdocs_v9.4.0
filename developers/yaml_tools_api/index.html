@@ -1,0 +1,4850 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="Tools available for YAML based tests">
+      
+      
+        <link rel="canonical" href="https://docs.abinit.org/developers/yaml_tools_api/">
+      
+      
+        <meta name="author" content="The Abinit group">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../images/favicon.ico">
+      <meta name="generator" content="mkdocs-0.17.5, mkdocs-material-2.6.6">
+    
+    
+      
+        <title>YAML-based test suite Python tools and API - abinit</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application.78aab2dc.css">
+      
+        <link rel="stylesheet" href="../../assets/stylesheets/application-palette.6079476c.css">
+      
+    
+    
+    
+      <script src="../../assets/javascripts/modernizr.1aa3b519.js"></script>
+    
+
+    <!-- Jquery from Google CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Load Jquery UI -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <!-- Handle jQuery plugin naming conflict between jQuery UI and Bootstrap 
+    https://stackoverflow.com/questions/13731400/jqueryui-tooltips-are-competing-with-twitter-bootstrap
+    -->
+    <script>
+      $.widget.bridge('uibutton', $.ui.button);
+      $.widget.bridge('uitooltip', $.ui.tooltip);
+    </script>
+
+    <!--
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/pepper-grinder/jquery-ui.css">
+    -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <!-- Bootstrap theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.0/build/css/themes/bootstrap.min.css"/>
+
+    <!-- Bootstrap http://getbootstrap.com/getting-started/ -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" 
+    integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
+    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous">
+    </script>
+
+    <!-- font-awesome -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    
+
+    <!--Pace support. http://github.hubspot.com/pace/ -->
+    <script>
+        paceOptions = {
+            ajax: true,      // disabled
+            document: true,  // activated
+            eventLag: false  // disabled
+            //target: 'article'
+            //elements: {selectors: ['.my-page']}
+        };
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/white/pace-theme-big-counter.min.css" />
+    <!--
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/white/pace-theme-bounce.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-corner-indicator.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-flat-top.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-loading-bar.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-center-atom.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-flash.min.css" />
+    -->
+
+    <!-- MathJax support
+    <script type="text/javascript" async 
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script> 
+    -->
+    <!--
+    This is compatible with plotly.
+    -->
+    <script type="text/javascript" async 
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_SVG">
+    </script> 
+
+    <!--
+    Configure MathJax to produce automatic equation numbers http://docs.mathjax.org/en/latest/tex.html
+    -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        //jax: ["input/TeX","output/HTML-CSS"],
+        //tex2jax: {inlineMath: [['$','$']]},
+        //displayAlign: "center",
+        TeX: {
+            equationNumbers: { autoNumber: "AMS" },
+            extensions: ["AMSmath.js", "boldsymbol.js"],
+            Macros: {
+                "*": "{\\dagger}",
+                "ra": "{\\rangle}",
+                "la": "{\\langle}",
+                // Workaround for bm package. See https://github.com/mathjax/MathJax/issues/1219
+                bm: ["{\\boldsymbol #1}",1],
+                // Mathcal symbols
+                mcL: "{\\mathcal{L}}",
+                mcG: "{\\mathcal{G}}",
+                mcR: "{\\mathcal{R}}",
+                mcS: "{\\mathcal{S}}",
+                mcC: "{\\mathcal{C}}",
+                mcO: "{\\mathcal{O}}",
+                // Acronyms
+                KS: "{\\text{KS}}",
+                eph: "{\\text{e-ph}}",
+                ee: "{\\text{e-e}}",
+                phph: "{\\text{ph-ph}}",
+                FM: "{\\text{FM}}",
+                DW: "{\\text{DW}}",
+                QP: "{\\text{QP}}",
+                BZ: "{\\text{BZ}}",
+                sign: "{\\text{sign}}",
+                xc: "{\\text{xc}}",
+                tchi: "{\\tilde\\chi}",
+                // Symbols commonly used (k-points, eigenvalues ...)
+                rr: "{\\bf r}",
+                RR: "{\\bf R}",
+                tt: "{\\bf t}",
+                GG: "{\\bf G}",
+                kk: "{\\bf k}",
+                qq: "{\\bf q}",
+                kq: "{\\kk + \\qq}",
+                qG: "{\\bf q + G}",
+                kG: "{\\bf k + G}",
+                kmq: "{\\kk - \\qq}",
+                kpq: "{\\kk + \\qq}",
+                kpG: "{\\kk + \\GG}",
+                qpG: "{\\qq + \\GG}",
+                nk: "{n \\kk}",
+                enk: "{\\varepsilon_\\nk}",
+                emkq: "{\\varepsilon_{m\\kk+\\qq}}",
+                qnu: "{\\qq \\nu}",
+                wqnu: "{\\omega_{\\qnu}}",
+                vnk: "{\\mathbf{v}_{n\\kk}}",
+                vmkq: "{\\mathbf{v}_{m\\kk+\\qq}}",
+                vnka: "{\\mathrm{v}_{n\\kk,\\alpha}}",
+                vnkb: "{\\mathrm{v}_{n\\kk,\\beta}}",
+                ef: "{\\varepsilon_F}",
+                // EPH quantities
+                gkkp: "{g_{mn\\nu}(\\kk,\\qq)}",
+                gkq: "{g_{mn\\nu}(\\kk,\\qq)}",
+                //\newcommand{\gkkpL}{g_{mn\nu}^\Lc(\kb,\qb)}
+                // Many-body theory
+                Go: "{G_0}",
+                Wo: "{W_0}",
+                Ueff: "{U_{\\text{eff}}}",
+                // Greek symbols + tilde version
+                ee: "{\\epsilon}",
+                tee: "{\\tilde{\\epsilon}}",
+                ww: "{\\omega}",
+                tww: "{\\tilde\\omega}",
+                dd: "{\\,\\text{d}}",
+                vxc: "{v_\\xc}",
+                // symrel
+                Ri: "{\\mcR^{-1}}",
+                Rit: "{\\mcR^{-1\\tau}}",
+                // symrec
+                Si: "{\\mcS^{-1}}}",
+                Sit: "{\\Si^\\tau}}",
+                // partial and functional derivative.
+                PDER: ["{\\dfrac{\\partial #1}{\\partial #2}}", 2],
+                FDER: ["{\\dfrac{\\delta #1}{\\delta #2}}", 2],
+                // PAW
+                tPsi: "{\\tilde\\Psi}",
+                tpsi: "{\\tilde\\psi}",
+                tPhi: "{\\tilde\\Phi}",
+                tphi: "{\\tilde\\phi}",
+                tprj: "{\\tilde p}"
+            }
+          }
+      });
+    </script>
+
+    <!-- See http://docs.mathjax.org/en/latest/start.html 
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js", "MathMenu.js", "MathZoom.js"],
+        jax: ["input/TeX", "output/HTML-CSS", "output/NativeMML],
+        tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+            processEscapes: true
+        },
+        "HTML-CSS": { availableFonts: ["TeX"] }
+      });
+    </script>
+    -->
+
+    
+    
+    
+
+    <!-- Introjs for Guided Tour -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.7.0/intro.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.7.0/introjs.min.css" />
+
+    <!-- Load fonts used for input variables -->
+    <!--
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu+Mono" rel="stylesheet">
+    -->
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+
+    
+      <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+      
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    
+    
+      <link rel="stylesheet" href="../../css/extra.css">
+    
+      <link rel="stylesheet" href="../../css/gallery.css">
+    
+      <link rel="stylesheet" href="../../css/my_codehilite.css">
+    
+    
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="deep-orange" data-md-color-accent="deep-orange">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="drawer">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
+    <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
+    
+      <a href="#yaml-based-test-suite-fortran-and-python-api" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="https://www.abinit.org" title="abinit" class="md-header-nav__button md-logo">
+          
+            <img src="../../images/logo-abinit-2015.png" width="48" height="48">
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <span class="md-flex__ellipsis md-header-nav__title">
+          
+            
+              
+                <span class="md-header-nav__parent">
+                  Developers
+                </span>
+              
+                <span class="md-header-nav__parent">
+                  Test Suite
+                </span>
+              
+            
+            YAML-based test suite Python tools and API
+          
+        </span>
+      </div>
+      <!-- Guided Tour with introjs. Add glow effect to button only if homepage -->
+      <div class="md-flex__cell md-flex__cell--shrink">
+           
+          
+          <a href="#" class="btn btn-xs btn-default  " id="guided-tour-button" title="Guided Tour" 
+              onclick="abidocs_guidedtour()">
+           <span class="fa fa-info-circle"></span></a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.com/abinit/abinit/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      github-abinit
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+      <div class="md-flex__cell md-flex__cell--shrink" id="previous_published_versions">
+        <div class="dropdown">
+          <button class="btn btn-basic btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
+            9.4.0
+          <span class="caret"></span></button>
+          <ul class="dropdown-menu">
+            
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+        
+
+  
+
+<nav class="md-tabs md-tabs--active" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../.." title="User Guide" class="md-tabs__link">
+          User Guide
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../topics/features/" title="Topics" class="md-tabs__link">
+          Topics
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../variables/" title="Variables" class="md-tabs__link">
+          Variables
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../tutorial/" title="Tutorial" class="md-tabs__link">
+          Tutorial
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../theory/geometry/" title="Theory" class="md-tabs__link">
+          Theory
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../git_and_gitlab/" title="Developers" class="md-tabs__link md-tabs__link--active">
+          Developers
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../about/release-notes/" title="About" class="md-tabs__link">
+          About
+        </a>
+      
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="drawer">
+    <span class="md-nav__button md-logo">
+      
+        <img src="../../images/logo-abinit-2015.png" width="24" height="24">
+      
+    </span>
+    abinit
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/abinit/abinit/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      github-abinit
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1">
+    
+    <label class="md-nav__link" for="nav-1">
+      User Guide
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-1">
+        User Guide
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="NewUser" class="md-nav__link">
+      NewUser
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/abinit/" title="Abinit" class="md-nav__link">
+      Abinit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/aim/" title="Aim" class="md-nav__link">
+      Aim
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/anaddb/" title="Anaddb" class="md-nav__link">
+      Anaddb
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/cut3d/" title="Cut3d" class="md-nav__link">
+      Cut3d
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/fold2bloch/" title="Fold2Bloch" class="md-nav__link">
+      Fold2Bloch
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/mrgddb/" title="Mrgddb" class="md-nav__link">
+      Mrgddb
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/mrgscr/" title="Mrgscr" class="md-nav__link">
+      Mrgscr
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/multibinit/" title="Multibinit" class="md-nav__link">
+      Multibinit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/optic/" title="Optic" class="md-nav__link">
+      Optic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/respfn/" title="Respfn" class="md-nav__link">
+      Respfn
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/spacegroup/" title="Spacegroup" class="md-nav__link">
+      Spacegroup
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/a-TDEP/" title="a-TDEP" class="md-nav__link">
+      a-TDEP
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1-14" type="checkbox" id="nav-1-14">
+    
+    <label class="md-nav__link" for="nav-1-14">
+      Installation
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-1-14">
+        Installation
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../installation/" title="HowTo" class="md-nav__link">
+      HowTo
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../INSTALL_MacOS/" title="MacOS" class="md-nav__link">
+      MacOS
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../INSTALL_Ubuntu/" title="Ubuntu" class="md-nav__link">
+      Ubuntu
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../INSTALL_CentOS/" title="CentOS" class="md-nav__link">
+      CentOS
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../INSTALL_EasyBuild/" title="EasyBuild" class="md-nav__link">
+      EasyBuild
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../INSTALL_gpu/" title="GPUs" class="md-nav__link">
+      GPUs
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Topics
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Topics
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/features/" title="Features" class="md-nav__link">
+      Features
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/" title="Topic List" class="md-nav__link">
+      Topic List
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Abipy/" title="Abipy" class="md-nav__link">
+      Abipy
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/APPA/" title="APPA" class="md-nav__link">
+      APPA
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Artificial/" title="Artificial" class="md-nav__link">
+      Artificial
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/AtomManipulator/" title="AtomManipulator" class="md-nav__link">
+      AtomManipulator
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/AtomTypes/" title="AtomTypes" class="md-nav__link">
+      AtomTypes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Bader/" title="Bader" class="md-nav__link">
+      Bader
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Band2eps/" title="Band2eps" class="md-nav__link">
+      Band2eps
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Berry/" title="Berry" class="md-nav__link">
+      Berry
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/BandOcc/" title="BandOcc" class="md-nav__link">
+      BandOcc
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/BSE/" title="BSE" class="md-nav__link">
+      BSE
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/BoundingProcess/" title="BoundingProcess" class="md-nav__link">
+      BoundingProcess
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ConstrainedDFT/" title="ConstrainedDFT" class="md-nav__link">
+      ConstrainedDFT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ConstrainedPol/" title="ConstrainedPol" class="md-nav__link">
+      ConstrainedPol
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Control/" title="Control" class="md-nav__link">
+      Control
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Coulomb/" title="Coulomb" class="md-nav__link">
+      Coulomb
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/CrossingBarriers/" title="CrossingBarriers" class="md-nav__link">
+      CrossingBarriers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/CRPA/" title="CRPA" class="md-nav__link">
+      CRPA
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/crystal/" title="Crystal" class="md-nav__link">
+      Crystal
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/DFT+U/" title="DFT+U" class="md-nav__link">
+      DFT+U
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/DeltaSCF/" title="DeltaSCF" class="md-nav__link">
+      DeltaSCF
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/DensityPotential/" title="DensityPotential" class="md-nav__link">
+      DensityPotential
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Dev/" title="Dev" class="md-nav__link">
+      Dev
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/DFPT/" title="DFPT" class="md-nav__link">
+      DFPT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/DMFT/" title="DMFT" class="md-nav__link">
+      DMFT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/DynamicsMultibinit/" title="DynamicsMultibinit" class="md-nav__link">
+      DynamicsMultibinit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/EffectiveMass/" title="EffectiveMass" class="md-nav__link">
+      EffectiveMass
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/EFG/" title="EFG" class="md-nav__link">
+      EFG
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Elastic/" title="Elastic" class="md-nav__link">
+      Elastic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ElPhonInt/" title="ElPhonInt" class="md-nav__link">
+      ElPhonInt
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ElPhonTransport/" title="ElPhonTransport" class="md-nav__link">
+      ElPhonTransport
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ElecDOS/" title="ElecDOS" class="md-nav__link">
+      ElecDOS
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ElecBandStructure/" title="ElecBandStructure" class="md-nav__link">
+      ElecBandStructure
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/FileFormats/" title="FileFormats" class="md-nav__link">
+      FileFormats
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/FitProcess/" title="FitProcess" class="md-nav__link">
+      FitProcess
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ForcesStresses/" title="ForcesStresses" class="md-nav__link">
+      ForcesStresses
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/FrequencyMeshMBPT/" title="FrequencyMeshMBPT" class="md-nav__link">
+      FrequencyMeshMBPT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/GeoConstraints/" title="GeoConstraints" class="md-nav__link">
+      GeoConstraints
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/GeoOpt/" title="GeoOpt" class="md-nav__link">
+      GeoOpt
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Git/" title="Git" class="md-nav__link">
+      Git
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/GSintroduction/" title="GSintroduction" class="md-nav__link">
+      GSintroduction
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/GW/" title="GW" class="md-nav__link">
+      GW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/GWls/" title="GWls" class="md-nav__link">
+      GWls
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Hybrids/" title="Hybrids" class="md-nav__link">
+      Hybrids
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/k-points/" title="K points" class="md-nav__link">
+      K points
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/LatticeModel/" title="LatticeModel" class="md-nav__link">
+      LatticeModel
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/LDAminushalf/" title="LDAminushalf" class="md-nav__link">
+      LDAminushalf
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/LOTF/" title="LOTF" class="md-nav__link">
+      LOTF
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/longwave/" title="Longwave" class="md-nav__link">
+      Longwave
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Macroave/" title="Macroave" class="md-nav__link">
+      Macroave
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/MagField/" title="MagField" class="md-nav__link">
+      MagField
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/MagMom/" title="MagMom" class="md-nav__link">
+      MagMom
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/MolecularDynamics/" title="MolecularDynamics" class="md-nav__link">
+      MolecularDynamics
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/multidtset/" title="Multidtset" class="md-nav__link">
+      Multidtset
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/nonlinear/" title="Nonlinear" class="md-nav__link">
+      Nonlinear
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Optic/" title="Optic" class="md-nav__link">
+      Optic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Output/" title="Output" class="md-nav__link">
+      Output
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/parallelism/" title="Parallelism" class="md-nav__link">
+      Parallelism
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/PAW/" title="PAW" class="md-nav__link">
+      PAW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/PIMD/" title="PIMD" class="md-nav__link">
+      PIMD
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Planewaves/" title="Planewaves" class="md-nav__link">
+      Planewaves
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Phonons/" title="Phonons" class="md-nav__link">
+      Phonons
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/PhononBands/" title="PhononBands" class="md-nav__link">
+      PhononBands
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/PhononWidth/" title="PhononWidth" class="md-nav__link">
+      PhononWidth
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/PortabilityNonRegression/" title="PortabilityNonRegression" class="md-nav__link">
+      PortabilityNonRegression
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/positron/" title="Positron" class="md-nav__link">
+      Positron
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/printing/" title="Printing" class="md-nav__link">
+      Printing
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/PseudosPAW/" title="PseudosPAW" class="md-nav__link">
+      PseudosPAW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/q-points/" title="Q points" class="md-nav__link">
+      Q points
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/RandStopPow/" title="RandStopPow" class="md-nav__link">
+      RandStopPow
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Recursion/" title="Recursion" class="md-nav__link">
+      Recursion
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/RPACorrEn/" title="RPACorrEn" class="md-nav__link">
+      RPACorrEn
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/SCFControl/" title="SCFControl" class="md-nav__link">
+      SCFControl
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/SCFAlgorithms/" title="SCFAlgorithms" class="md-nav__link">
+      SCFAlgorithms
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/SelfEnergy/" title="SelfEnergy" class="md-nav__link">
+      SelfEnergy
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/SmartSymm/" title="SmartSymm" class="md-nav__link">
+      SmartSymm
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/spinpolarisation/" title="Spinpolarisation" class="md-nav__link">
+      Spinpolarisation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/SpinDynamicsMultibinit/" title="SpinDynamicsMultibinit" class="md-nav__link">
+      SpinDynamicsMultibinit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/STM/" title="STM" class="md-nav__link">
+      STM
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Susceptibility/" title="Susceptibility" class="md-nav__link">
+      Susceptibility
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/TDDFT/" title="TDDFT" class="md-nav__link">
+      TDDFT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/a-TDEP/" title="a TDEP" class="md-nav__link">
+      a TDEP
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/TDepES/" title="TDepES" class="md-nav__link">
+      TDepES
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Temperature/" title="Temperature" class="md-nav__link">
+      Temperature
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/TransPath/" title="TransPath" class="md-nav__link">
+      TransPath
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/TuningSpeedMem/" title="TuningSpeedMem" class="md-nav__link">
+      TuningSpeedMem
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Unfolding/" title="Unfolding" class="md-nav__link">
+      Unfolding
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/UnitCell/" title="UnitCell" class="md-nav__link">
+      UnitCell
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/vdw/" title="Vdw" class="md-nav__link">
+      Vdw
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Verification/" title="Verification" class="md-nav__link">
+      Verification
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Wannier/" title="Wannier" class="md-nav__link">
+      Wannier
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Wavelets/" title="Wavelets" class="md-nav__link">
+      Wavelets
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/xc/" title="Xc" class="md-nav__link">
+      Xc
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/external_resources/" title="External Resources" class="md-nav__link">
+      External Resources
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Variables
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Variables
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/" title="All Variables" class="md-nav__link">
+      All Variables
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-2" type="checkbox" id="nav-3-2">
+    
+    <label class="md-nav__link" for="nav-3-2">
+      Abinit
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-2">
+        Abinit
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/basic/" title="Basic" class="md-nav__link">
+      Basic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/bse/" title="Bethe-Salpeter" class="md-nav__link">
+      Bethe-Salpeter
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/dev/" title="Developers" class="md-nav__link">
+      Developers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/dmft/" title="DMFT" class="md-nav__link">
+      DMFT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/eph/" title="Electron-Phonon" class="md-nav__link">
+      Electron-Phonon
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/ffield/" title="Varff" class="md-nav__link">
+      Varff
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/files/" title="File-handling" class="md-nav__link">
+      File-handling
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/geo/" title="Geometry" class="md-nav__link">
+      Geometry
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/gstate/" title="Ground-State" class="md-nav__link">
+      Ground-State
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/gw/" title="GW" class="md-nav__link">
+      GW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/internal/" title="Internal" class="md-nav__link">
+      Internal
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/paral/" title="Parallelism" class="md-nav__link">
+      Parallelism
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/paw/" title="PAW" class="md-nav__link">
+      PAW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/dfpt/" title="DFPT" class="md-nav__link">
+      DFPT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/rlx/" title="Relaxation" class="md-nav__link">
+      Relaxation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/vdw/" title="VdW" class="md-nav__link">
+      VdW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/w90/" title="Wannier90" class="md-nav__link">
+      Wannier90
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/anaddb/" title="Anaddb" class="md-nav__link">
+      Anaddb
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/multibinit/" title="Multibinit" class="md-nav__link">
+      Multibinit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/optic/" title="Optic" class="md-nav__link">
+      Optic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/atdep/" title="a-TDEP" class="md-nav__link">
+      a-TDEP
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/aim/" title="Aim" class="md-nav__link">
+      Aim
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/external_parameters/" title="External Parameters" class="md-nav__link">
+      External Parameters
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/varset_stats/" title="Statistics" class="md-nav__link">
+      Statistics
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      Tutorial
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        Tutorial
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/compilation/" title="Building Abinit" class="md-nav__link">
+      Building Abinit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-3" type="checkbox" id="nav-4-3">
+    
+    <label class="md-nav__link" for="nav-4-3">
+      Base Tutorials
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-3">
+        Base Tutorials
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/base1/" title="Base1" class="md-nav__link">
+      Base1
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/base2/" title="Base2" class="md-nav__link">
+      Base2
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/base3/" title="Base3" class="md-nav__link">
+      Base3
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/base4/" title="Base4" class="md-nav__link">
+      Base4
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/spin/" title="Spin" class="md-nav__link">
+      Spin
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-4" type="checkbox" id="nav-4-4">
+    
+    <label class="md-nav__link" for="nav-4-4">
+      PAW
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-4">
+        PAW
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/paw1/" title="PAW1" class="md-nav__link">
+      PAW1
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/paw2/" title="PAW2" class="md-nav__link">
+      PAW2
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/paw3/" title="PAW3" class="md-nav__link">
+      PAW3
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-5" type="checkbox" id="nav-4-5">
+    
+    <label class="md-nav__link" for="nav-4-5">
+      DFT_PLUS_U
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-5">
+        DFT_PLUS_U
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/dftu/" title="Dftu" class="md-nav__link">
+      Dftu
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/udet/" title="Udet" class="md-nav__link">
+      Udet
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/ucalc_crpa/" title="Ucalc crpa" class="md-nav__link">
+      Ucalc crpa
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-6" type="checkbox" id="nav-4-6">
+    
+    <label class="md-nav__link" for="nav-4-6">
+      DFPT
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-6">
+        DFPT
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/rf1/" title="RF1" class="md-nav__link">
+      RF1
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/rf2/" title="RF2" class="md-nav__link">
+      RF2
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/elastic/" title="Elastic" class="md-nav__link">
+      Elastic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/ffield/" title="Ffield" class="md-nav__link">
+      Ffield
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/nlo/" title="Nlo" class="md-nav__link">
+      Nlo
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/dmft/" title="DMFT" class="md-nav__link">
+      DMFT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-8" type="checkbox" id="nav-4-8">
+    
+    <label class="md-nav__link" for="nav-4-8">
+      EPH
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-8">
+        EPH
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/eph_intro/" title="Eph intro" class="md-nav__link">
+      Eph intro
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/eph4mob/" title="Eph4mob" class="md-nav__link">
+      Eph4mob
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/eph4zpr/" title="Eph4zpr" class="md-nav__link">
+      Eph4zpr
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-9" type="checkbox" id="nav-4-9">
+    
+    <label class="md-nav__link" for="nav-4-9">
+      EPH-legacy
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-9">
+        EPH-legacy
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/eph/" title="Eph" class="md-nav__link">
+      Eph
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/tdepes/" title="Tdepes" class="md-nav__link">
+      Tdepes
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-10" type="checkbox" id="nav-4-10">
+    
+    <label class="md-nav__link" for="nav-4-10">
+      Many-Body
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-10">
+        Many-Body
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/gw1/" title="GW1" class="md-nav__link">
+      GW1
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/gw2/" title="GW2" class="md-nav__link">
+      GW2
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/bse/" title="Bethe-Salpeter" class="md-nav__link">
+      Bethe-Salpeter
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-11" type="checkbox" id="nav-4-11">
+    
+    <label class="md-nav__link" for="nav-4-11">
+      Parallelism
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-11">
+        Parallelism
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/basepar/" title="Base" class="md-nav__link">
+      Base
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/paral_gspw/" title="GSPW" class="md-nav__link">
+      GSPW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/paral_gswvl/" title="GSWVL" class="md-nav__link">
+      GSWVL
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/paral_dfpt/" title="DFPT" class="md-nav__link">
+      DFPT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/paral_images/" title="Images" class="md-nav__link">
+      Images
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/paral_mbt/" title="Many-Body" class="md-nav__link">
+      Many-Body
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/paral_moldyn/" title="Moldyn" class="md-nav__link">
+      Moldyn
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-12" type="checkbox" id="nav-4-12">
+    
+    <label class="md-nav__link" for="nav-4-12">
+      Multibinit
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-12">
+        Multibinit
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/lattice_model/" title="Lattice Model" class="md-nav__link">
+      Lattice Model
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/spin_model/" title="Spin Model" class="md-nav__link">
+      Spin Model
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/cut3d/" title="Cut3d" class="md-nav__link">
+      Cut3d
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/fold2bloch/" title="Fold2bloch" class="md-nav__link">
+      Fold2bloch
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/nuc/" title="Nuc" class="md-nav__link">
+      Nuc
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/optic/" title="Optic" class="md-nav__link">
+      Optic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/positron/" title="Positron" class="md-nav__link">
+      Positron
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/tddft/" title="Tddft" class="md-nav__link">
+      Tddft
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorial/wannier90/" title="Wannier90" class="md-nav__link">
+      Wannier90
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      Theory
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        Theory
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/geometry/" title="Geometry" class="md-nav__link">
+      Geometry
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/spherical_harmonics/" title="Spherical Harmonics" class="md-nav__link">
+      Spherical Harmonics
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/wavefunctions/" title="Wavefunctions" class="md-nav__link">
+      Wavefunctions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/noncollinear/" title="Noncollinear" class="md-nav__link">
+      Noncollinear
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/pseudopotentials/" title="Pseudopotentials" class="md-nav__link">
+      Pseudopotentials
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/mbt/" title="Many-Body Perturbation Theory" class="md-nav__link">
+      Many-Body Perturbation Theory
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/bse/" title="Bethe-Salpeter" class="md-nav__link">
+      Bethe-Salpeter
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/documents/" title="Documents" class="md-nav__link">
+      Documents
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/acknowledgments/" title="Acknowledgments" class="md-nav__link">
+      Acknowledgments
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/bibliography/" title="Bibliography" class="md-nav__link">
+      Bibliography
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6" checked>
+    
+    <label class="md-nav__link" for="nav-6">
+      Developers
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        Developers
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../git_and_gitlab/" title="Git and Gitlab" class="md-nav__link">
+      Git and Gitlab
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../developers_howto/" title="HowTo for developers" class="md-nav__link">
+      HowTo for developers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../abimkdocs/" title="Abimkdocs" class="md-nav__link">
+      Abimkdocs
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../markdown/" title="Markdown" class="md-nav__link">
+      Markdown
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6-5" type="checkbox" id="nav-6-5" checked>
+    
+    <label class="md-nav__link" for="nav-6-5">
+      Test Suite
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-6-5">
+        Test Suite
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../testsuite/" title="Test list" class="md-nav__link">
+      Test list
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../testsuite_howto/" title="Test Suite Howto" class="md-nav__link">
+      Test Suite Howto
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../new_testsuite/" title="YAML-based test suite Howto" class="md-nav__link">
+      YAML-based test suite Howto
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="toc">
+        YAML-based test suite Python tools and API
+      </label>
+    
+    <a href="./" title="YAML-based test suite Python tools and API" class="md-nav__link md-nav__link--active">
+      YAML-based test suite Python tools and API
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#fortran-api" title="Fortran API" class="md-nav__link">
+    Fortran API
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-a-new-document-in-fortran" title="Creating a new document in Fortran" class="md-nav__link">
+    Creating a new document in Fortran
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#python-api" title="Python API" class="md-nav__link">
+    Python API
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fldiff-algorithm" title="fldiff algorithm" class="md-nav__link">
+    fldiff algorithm
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interface-with-the-pyyaml-library" title="Interface with the PyYAML library" class="md-nav__link">
+    Interface with the PyYAML library
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#yaml-based-testing-logic" title="YAML-based testing logic" class="md-nav__link">
+    YAML-based testing logic
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-extend-the-test-suite" title="How to extend the test suite" class="md-nav__link">
+    How to extend the test suite
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#main-entry-points" title="Main entry points" class="md-nav__link">
+    Main entry points
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tag-registration-and-classes-implicit-methods-and-attributes" title="Tag registration and classes implicit methods and attributes" class="md-nav__link">
+    Tag registration and classes implicit methods and attributes
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-tag-registration-tools" title="Basic tag registration tools" class="md-nav__link">
+    Basic tag registration tools
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implicit-methods-and-attributes" title="Implicit methods and attributes" class="md-nav__link">
+    Implicit methods and attributes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#constraints-and-parameters-registration" title="Constraints and parameters registration" class="md-nav__link">
+    Constraints and parameters registration
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#add-a-new-parameter" title="Add a new parameter" class="md-nav__link">
+    Add a new parameter
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-a-constraint" title="Adding a constraint" class="md-nav__link">
+    Adding a constraint
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-add-a-new-tag" title="How to add a new tag" class="md-nav__link">
+    How to add a new tag
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recommend-conventions-for-yaml-documents" title="Recommend conventions for Yaml documents" class="md-nav__link">
+    Recommend conventions for Yaml documents
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../XgType/" title="XgType" class="md-nav__link">
+      XgType
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6-7" type="checkbox" id="nav-6-7">
+    
+    <label class="md-nav__link" for="nav-6-7">
+      Pseudos
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-6-7">
+        Pseudos
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../psp1_info/" title="psp1" class="md-nav__link">
+      psp1
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../psp3_info/" title="psp3" class="md-nav__link">
+      psp3
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../psp45_info/" title="psp45" class="md-nav__link">
+      psp45
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../psp5spinorbit_info/" title="psp5" class="md-nav__link">
+      psp5
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../psp6_info/" title="psp6" class="md-nav__link">
+      psp6
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../psp8_info/" title="psp8" class="md-nav__link">
+      psp8
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../codestats/" title="Code stats" class="md-nav__link">
+      Code stats
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../autoconf_examples/" title="Autoconf_examples" class="md-nav__link">
+      Autoconf_examples
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../testlink/" title="Test Page for linkcheck" class="md-nav__link">
+      Test Page for linkcheck
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+    
+    <label class="md-nav__link" for="nav-7">
+      About
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        About
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../about/release-notes/" title="Release Notes" class="md-nav__link">
+      Release Notes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../about/contributing/" title="Contributing" class="md-nav__link">
+      Contributing
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../about/history/" title="History" class="md-nav__link">
+      History
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../about/license/" title="License" class="md-nav__link">
+      License
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#fortran-api" title="Fortran API" class="md-nav__link">
+    Fortran API
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-a-new-document-in-fortran" title="Creating a new document in Fortran" class="md-nav__link">
+    Creating a new document in Fortran
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#python-api" title="Python API" class="md-nav__link">
+    Python API
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fldiff-algorithm" title="fldiff algorithm" class="md-nav__link">
+    fldiff algorithm
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interface-with-the-pyyaml-library" title="Interface with the PyYAML library" class="md-nav__link">
+    Interface with the PyYAML library
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#yaml-based-testing-logic" title="YAML-based testing logic" class="md-nav__link">
+    YAML-based testing logic
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-extend-the-test-suite" title="How to extend the test suite" class="md-nav__link">
+    How to extend the test suite
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#main-entry-points" title="Main entry points" class="md-nav__link">
+    Main entry points
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tag-registration-and-classes-implicit-methods-and-attributes" title="Tag registration and classes implicit methods and attributes" class="md-nav__link">
+    Tag registration and classes implicit methods and attributes
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-tag-registration-tools" title="Basic tag registration tools" class="md-nav__link">
+    Basic tag registration tools
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implicit-methods-and-attributes" title="Implicit methods and attributes" class="md-nav__link">
+    Implicit methods and attributes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#constraints-and-parameters-registration" title="Constraints and parameters registration" class="md-nav__link">
+    Constraints and parameters registration
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#add-a-new-parameter" title="Add a new parameter" class="md-nav__link">
+    Add a new parameter
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-a-constraint" title="Adding a constraint" class="md-nav__link">
+    Adding a constraint
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-add-a-new-tag" title="How to add a new tag" class="md-nav__link">
+    How to add a new tag
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recommend-conventions-for-yaml-documents" title="Recommend conventions for Yaml documents" class="md-nav__link">
+    Recommend conventions for Yaml documents
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+
+                
+                  <a href="https://github.com/abinit/abinit/edit/master/doc/developers/yaml_tools_api.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="yaml-based-test-suite-fortran-and-python-api">YAML-based test suite: Fortran and Python API<a class="headerlink" href="#yaml-based-test-suite-fortran-and-python-api" title="Permanent link">&para;</a></h1>
+<p>This page gives an overview of the internal implementation in order 
+to facilitate future developments and extensions.
+In the first part we discuss how to write new Yaml documents using the low-level Fortran API.
+In the second part, we describe the python implementation and the steps required to 
+register a new Yaml document in the framework.
+Finally, we provide recommendations for the name of the variables used in Yaml documents in 
+order to improve readability and facilitate the integration between Yaml documents and the python code.</p>
+<h2 id="fortran-api">Fortran API<a class="headerlink" href="#fortran-api" title="Permanent link">&para;</a></h2>
+<p>The low-level Fortran API consists of the following modules:</p>
+<dl>
+<dt><strong>m_pair_list.F90</strong>:</dt>
+<dd>
+<p>a Fortran module for constructing dictionaries mapping strings to values.
+  Internally, the dictionary is implemented in C in terms of a list of key-value pairs.
+  The pair list can dynamically hold either real, integer or string values.
+  It implements the basic getter and setter methods and an iterator system to allow looping
+  over the key-value pairs easily in Fortran.
+  <!--
+  Lists have been chosen over hash tables because, in this particular context,
+  performance is not critical and the O(n) cost required to locate a key is negligible
+  given that there will never be a lot of elements in the table.
+  -->
+</p>
+</dd>
+<dt><strong>m_stream_string.F90</strong>:</dt>
+<dd>
+<p>a Fortran module providing tools to manipulate variable length
+  strings with a file like interface (<strong>stream</strong> object)</p>
+</dd>
+<dt><strong>m_yaml_out.F90:</strong></dt>
+<dd>
+<p>a Fortran module to easily output YAML documents from Fortran.
+  This module represents the main entry point for client code and may be used
+  to implement methods to output Fortran objects.
+  It provides basic routines to produce YAML documents based on a mapping at the root
+  and containing well formatted (as human readable as possible and valid YAML) 1D and 2D arrays of numbers
+  (integer or real), key-value mapping (using pair lists), list of key-value
+  mapping and scalar fields.
+  Routines support tags for specifying special data structures.</p>
+</dd>
+<dt><strong>m_neat.F90</strong> (NEw Abinit Test system):</dt>
+<dd>
+<p>a higher level module providing Fortran procedures to create specific
+  documents associated to important physical properties. Currently routines
+  for total energy components and ground state results are implemented.</p>
+</dd>
+</dl>
+<!--
+A more detailed example is provided [below](#creating-a-new-document-in-fortran).
+The new infrastructure has been designed with extensibility and ease-of-use in mind.
+-->
+<p>From the perspective of the developer, adding a new YAML document requires three steps:</p>
+<ol>
+<li>
+<p>Implement the output of the YAML document in Fortran using the pre-existent API.
+   Associate a <strong>unique tag</strong> to the new document. The tag identify the document and
+   its structure.</p>
+</li>
+<li>
+<p>register the tag and the associated class in the python code. 
+   Further details about this procedure can be found below.</p>
+</li>
+<li>
+<p>Create a YAML configuration file defining the quantities that should be compared
+   with the corresponding tolerances.</p>
+</li>
+</ol>
+<p>An example will help clarify. Let&rsquo;s assume we want to implement the output of
+the <code>!Etot</code> document with the different components of the total free energy.</p>
+<!--
+The workflow is split in two parts. The idea is to separate the computation
+from the composition of the document, and separate the composition of the
+document from the actual rendering.
+-->
+<p>The Fortran code that builds the list of (key, values) entries will look like:
+<strong>MG: The Fortran examples should be refactored and merged with the text in Creating a new document in Fortran</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c">! Import modules</span>
+<span class="k">use </span><span class="n">m_neat</span><span class="p">,</span> <span class="k">only</span><span class="p">:</span> <span class="n">neat_etot</span>
+<span class="k">use </span><span class="n">m_pair_list</span><span class="p">,</span> <span class="k">only</span><span class="p">:</span> <span class="n">pair_list</span>
+
+<span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span> <span class="kd">::</span> <span class="n">etot</span>
+<span class="k">type</span><span class="p">(</span><span class="n">pair_list</span><span class="p">)</span> <span class="kd">::</span> <span class="n">e_components</span>  <span class="c">! List of (key, value) entries</span>
+
+<span class="k">call </span><span class="n">e_components</span><span class="p">%</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;comment&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="s2">&quot;Total energie and its components&quot;</span><span class="p">)</span>
+<span class="k">call </span><span class="n">e_components</span><span class="p">%</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;Total Energy&quot;</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="n">etot</span><span class="p">)</span>
+
+<span class="c">! footer of the routine, once all data have been stored</span>
+<span class="k">call </span><span class="n">neat_etot</span><span class="p">(</span><span class="n">e_components</span><span class="p">,</span> <span class="n">unit</span><span class="p">)</span>
+</code></pre></div>
+<p>In <em>47_neat/m_neat.F90</em> we will implement <em>neat_etot</em>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">subroutine </span><span class="n">neat_etot</span><span class="p">(</span><span class="n">components</span><span class="p">,</span> <span class="n">unit</span><span class="p">)</span>
+
+<span class="k">type</span><span class="p">(</span><span class="n">pair_list</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">components</span>
+<span class="kt">integer</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">unit</span>
+
+<span class="k">call </span><span class="n">yaml_single_dict</span><span class="p">(</span><span class="s2">&quot;Etot&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">components</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="p">&amp;</span>
+                      <span class="k">file</span><span class="o">=</span><span class="n">unit</span><span class="p">,</span> <span class="n">real_fmt</span><span class="o">=</span><span class="s1">&#39;(ES20.13)&#39;</span><span class="p">)</span>
+ <span class="c">!</span>
+ <span class="c">! 35 -&gt; max size of the labels, needed to extract from the pairlist,</span>
+ <span class="c">! 500 -&gt; max size of the strings, needed to extract the comment</span>
+ <span class="c">!</span>
+ <span class="c">! width -&gt; width of the field name side, permit a nice alignment of the values</span>
+
+<span class="k">end subroutine </span><span class="n">neat_etot</span>
+</code></pre></div>
+<h3 id="creating-a-new-document-in-fortran">Creating a new document in Fortran<a class="headerlink" href="#creating-a-new-document-in-fortran" title="Permanent link">&para;</a></h3>
+<p>Developers are invited to browse the sources of <code>m_neat</code> and <code>m_yaml_out</code> to
+have a comprehensive overview of the available tools. Indeed the routines are
+documented and commented and creating a hand-written reference is likely to go
+out of sync quicker than on-site documentation. Here we show a little example to
+give the feeling of the process.</p>
+<p>The simplest way to create a YAML document have been introduced above with the
+use of <code>yaml_single_dict</code>. However this method is limited to scalars only. It is
+possible to put 1D and 2D arrays, dictionaries and even tabular data.
+The best way to create a new document is to have a routine <code>neat_my_new_document</code> 
+that will take all required data in argument and will do all the formatting work at once.
+This routine will declare a <code>stream_string</code> object to build the YAML document
+inside, open the document with <code>yaml_open_doc</code>, fill it, close it with
+<code>yaml_close_doc</code> and finally print it with <code>wrtout_stream</code>.
+Here come a basic skeleton of <code>neat</code> routine:</p>
+<div class="highlight"><pre><span></span><code><span class="k">subroutine </span><span class="n">neat_my_new_document</span><span class="p">(</span><span class="n">data_1</span><span class="p">,</span> <span class="n">data_2</span><span class="p">,...</span> <span class="p">,</span> <span class="n">iout</span><span class="p">)</span>
+  <span class="c">! declare your pieces of data... (arrays, numbers, pair_list...)</span>
+  <span class="p">...</span>
+  <span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">iout</span>  <span class="c">! this is the output file descriptor</span>
+<span class="c">!Local variables-------------------------------</span>
+  <span class="k">type</span><span class="p">(</span><span class="n">stream_string</span><span class="p">)</span> <span class="kd">::</span> <span class="n">stream</span>
+
+  <span class="c">! open the document</span>
+  <span class="k">call </span><span class="n">yaml_open_doc</span><span class="p">(</span><span class="s1">&#39;my label&#39;</span><span class="p">,</span> <span class="s1">&#39;some comments on the document&#39;</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="n">stream</span><span class="p">)</span>
+
+  <span class="c">! fill the document</span>
+  <span class="p">...</span>
+
+  <span class="c">! close and output the document</span>
+  <span class="k">call </span><span class="n">yaml_close_doc</span><span class="p">(</span><span class="n">stream</span><span class="o">=</span><span class="n">stream</span><span class="p">)</span>
+  <span class="k">call </span><span class="n">wrtout_stream</span><span class="p">(</span><span class="n">stream</span><span class="p">,</span> <span class="n">iout</span><span class="p">)</span>
+
+<span class="k">end subroutine </span><span class="n">neat_my_new_document</span>
+</code></pre></div>
+<p>Suppose we want a 2D matrix of real number with the tag <code>!NiceMatrix</code> in our document
+for the field name &lsquo;that matrix&rsquo; we will add the following to the middle section:</p>
+<div class="highlight"><pre><span></span><code><span class="k">call </span><span class="n">yaml_add_real2d</span><span class="p">(</span><span class="s1">&#39;that matrix&#39;</span><span class="p">,</span> <span class="n">dimension_1</span><span class="p">,</span> <span class="n">dimension_2</span><span class="p">,</span> <span class="n">mat_data</span><span class="p">,</span> <span class="p">&amp;</span>
+                     <span class="n">tag</span><span class="o">=</span><span class="s1">&#39;NiceMatrix&#39;</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="n">stream</span><span class="p">)</span>
+</code></pre></div>
+<p>Other <code>m_yaml_out</code> routines provide a similar interface: first the label, then the
+data and its structural metadata, then a bunch of optional arguments for
+formatting, adding tags, tweaking spacing etc.</p>
+<h2 id="python-api">Python API<a class="headerlink" href="#python-api" title="Permanent link">&para;</a></h2>
+<!--
+Roughly speaking, one can group the python modules into three different parts:
+
+- the *fldiff* algorithm
+- the interface with the PyYAML library and the parsing of the output data
+- the parsing of the YAML configuration file and the testing logic
+-->
+
+<ul>
+<li>
+<p>The fldiff algorithm has been slightly modified to extract YAML
+  documents from the output file and store them for later treatment.</p>
+</li>
+<li>
+<p>Newt tools have been written to facilitate the creation of new python classes
+  corresponding to YAML tags for implementing new logic operating on the extracted data.
+  These tools are very easy to use via class decorators.</p>
+</li>
+<li>
+<p>These tools have been used to create basic classes for futures tags, among
+  other classes that directly convert YAML list of numbers into NumPy arrays.
+  These classes may be used as examples for the creation of further tags.</p>
+</li>
+<li>
+<p>A parser for test configuration have been added and all facilities to do
+  tests are in place.</p>
+</li>
+<li>
+<p>A command line tool <code>testtools.py</code> to allow doing different manual actions
+  (see Test CLI)</p>
+</li>
+</ul>
+<h3 id="fldiff-algorithm">fldiff algorithm<a class="headerlink" href="#fldiff-algorithm" title="Permanent link">&para;</a></h3>
+<p>The machinery used to extract data from the output file is defined in <em>~abinit/tests/pymods/data_extractor.py</em>. 
+This module takes cares of the identification of the YAML documents inside the output file including 
+the treatment of the meta-characters found in the first column following the original fldiff.pl implementation.</p>
+<p><em>~abinit/tests/pymods/fldiff.py</em> is the main driver called by <em>testsuite.py</em>.
+This part implements the legacy fldiff algorithm and uses the objects defined in <em>yaml_tools</em>
+to perform the YAML-based tests and produce the final report.</p>
+<h3 id="interface-with-the-pyyaml-library">Interface with the PyYAML library<a class="headerlink" href="#interface-with-the-pyyaml-library" title="Permanent link">&para;</a></h3>
+<p>The interface with the PyYAML library is implemented in <em>~abinit/tests/pymods/yaml_tools/</em>.
+The <code>__init__.py</code> module exposes the public API that consists in:</p>
+<ul>
+<li>the <code>yaml_parse</code> function that parses documents from the output files</li>
+<li>the <code>Document</code> class that gives an interface to an extracted document with its metadata.</li>
+</ul>
+<!--
+- flags `is_available` (`True` if both PyYAML and Numpy are available) and
+  `has_pandas` (`True` if Pandas is available)
+-->
+
+<ul>
+<li><em>register_tag.py</em> defines tools to register tags.
+   See below for further details.</li>
+</ul>
+<h3 id="yaml-based-testing-logic">YAML-based testing logic<a class="headerlink" href="#yaml-based-testing-logic" title="Permanent link">&para;</a></h3>
+<p>The logic used to parse configuration files is defined in <em>meta_conf_parser.py</em>. 
+It contains the creation of config trees, the logic to register constraints and
+parameters and the logic to apply constraints.
+The <code>Constraint</code> class hosts the code to build a constraint, to identify candidates
+to its application and to apply it. The identification is based on the type of the
+candidate which is compared to a reference type or as set of types.</p>
+<h2 id="how-to-extend-the-test-suite">How to extend the test suite<a class="headerlink" href="#how-to-extend-the-test-suite" title="Permanent link">&para;</a></h2>
+<h3 id="main-entry-points">Main entry points<a class="headerlink" href="#main-entry-points" title="Permanent link">&para;</a></h3>
+<p>There are three main entry points to the system that are discussed in order of increasing complexity.
+The first one is the YAML configuration file.
+It does not require any Python knowledge, only a basic comprehension of the conventions
+used for writing tests. Being fully <em>declarative</em> (no logic) it should be quite easy
+to learn its usage from the available examples.
+The second one is the <em>~abinit/tests/pymods/yaml_tests/conf_parser.py</em> file. It
+contains the declarations of the available constraints and parameters. A basic
+python understanding is required in order to modify this file. Comments and doc strings
+should help users to grasp the meaning of this file. More details available
+<a href="../yaml_tools_api#constraints-and-parameters-registration">in this section</a>.
+The third one is the file <em>~abinit/tests/pymods/yaml_tests/structures/</em>. It
+defines the structures used by the YAML parser when encountering a tag (starting
+with !), or in some cases when reaching a given pattern (<strong>undef</strong> for example).
+The <em>structures</em> directory is a package organised by features (ex: there is a
+file <em>structures/ground_state.py</em>). Each file define structures for a given
+feature. All files are imported by the main script <code>structures/__init__.py</code>.
+Even if the abstraction layer on top of the <em>yaml</em> module should help, it is
+better to have a good understanding of more &ldquo;advanced&rdquo; python concepts like
+<em>inheritance</em>, <em>decorators</em>, <em>classmethod</em> etc.</p>
+<h2 id="tag-registration-and-classes-implicit-methods-and-attributes">Tag registration and classes implicit methods and attributes<a class="headerlink" href="#tag-registration-and-classes-implicit-methods-and-attributes" title="Permanent link">&para;</a></h2>
+<h3 id="basic-tag-registration-tools">Basic tag registration tools<a class="headerlink" href="#basic-tag-registration-tools" title="Permanent link">&para;</a></h3>
+<p>The <em>register_tag.py</em> module defines python decorators that are used to build python classes 
+associated to Yaml documents.</p>
+<dl>
+<dt><code>yaml_map</code></dt>
+<dd>Registers a structure based on a YAML mapping. The class must provide a
+  method <code>from_map</code> that receives a <code>dict</code> object as argument and returns an instance of
+  the class. <code>from_map</code> should be a class method, but might be a normal method if
+  the constructor accepts zero arguments.</dd>
+<dt><code>yaml_seq</code></dt>
+<dd>Register a structure based on a YAML sequence/list. The class must provide
+  a <code>from_seq</code> method that takes a <code>list</code> as input and returns an instance of the class.</dd>
+<dt><code>yaml_scalar</code></dt>
+<dd>Register a structure based on a YAML scalar/anything that does not fit in the
+  two other types but can be a string. The class must provide a <code>from_scalar</code>
+  method that takes a <code>string</code> in argument and returns an instance of the class. It
+  is useful to have complex parsing. A practical case is the CSV table parsed by pandas.</dd>
+<dt><code>yaml_implicit_scalar</code></dt>
+<dd>Provide the possibility to have special parsing without explicit tags. The
+  class it is applied to should meet the same requirements than for <code>yaml_scalar</code>
+  but should also provide a class attribute named <code>yaml_pattern</code>. It can be either
+  a string or a compile regex and it should match the expected structure of the
+  scalar.</dd>
+<dt><code>auto_map</code></dt>
+<dd>Provide a basic general purpose interface for map objects:
+  - dict-like interface inherited from <code>BaseDictWrapper</code> (<code>get</code>, <code>__contains__</code>,
+    <code>__getitem__</code>, <code>__setitem__</code>, <code>__delitem__</code>, <code>__iter__</code>, <code>keys</code> and <code>items</code>)
+  - a <code>from_map</code> method that accept any key from the dictionary and add them as
+  attributes.
+  - a <code>__repr__</code> method that show all attributes</dd>
+<dt><code>yaml_auto_map</code></dt>
+<dd>equivalent to <code>auto_map</code> followed by <code>yaml_map</code></dd>
+<dt><code>yaml_not_available_tag</code></dt>
+<dd>This is a normal function (not a decorator) that take a tag name and a message as
+  arguments and will register the tag but will raise a warning each time the tag
+  is used. An optional third argument <code>fatal</code> replace the warning by an error if
+  set to <code>True</code>.</dd>
+</dl>
+<h3 id="implicit-methods-and-attributes">Implicit methods and attributes<a class="headerlink" href="#implicit-methods-and-attributes" title="Permanent link">&para;</a></h3>
+<p>Some class attributes and methods are used here and there in the tester logic
+when available. They are never required but can change some behaviour when provided.</p>
+<dl>
+<dt><code>_is_base_array</code> Boolean class attribute</dt>
+<dd>Assert that the object derived from <code>BaseArray</code> when set to <code>True</code> (<code>isinstance</code>
+  is not reliable because of the manipulation of the <code>sys.path</code>)</dd>
+<dt><code>_not_available</code> Boolean class attribute</dt>
+<dd>set to <code>True</code> in object returned when a tag is registered with
+  <code>yaml_not_available_tag</code> to make all constraints fail with a more
+  useful message.</dd>
+<dt><code>is_dict_like</code> Boolean class attribute</dt>
+<dd>Assert that the object provide a full <code>dict</code> like interface when set to
+  <code>True</code>. Used in <code>BaseDictWrapper</code>.</dd>
+<dt><code>__iter__</code> method</dt>
+<dd>Standard python implicit method for iterables. If an object has it the test
+  driver will crawl its elements.</dd>
+<dt><code>get_children</code> method</dt>
+<dd>Easy way to allow the test driver to crawl the children of the object.
+  It does not take any argument and return a dictionary <code>{child_name: child_object ...}</code>.</dd>
+<dt><code>has_no_child</code>  Boolean class attribute</dt>
+<dd>Prevent the test driver to crawl the children even if it has an <code>__iter__</code>
+  method (not needed for strings).</dd>
+<dt><code>short_str</code> method</dt>
+<dd>Used (if available) when the string representation of the object is too long
+  for error messages. It should return a string representing the object and not
+  too long. There is no constraints on the output length but one should keep
+  things readable.</dd>
+</dl>
+<h2 id="constraints-and-parameters-registration">Constraints and parameters registration<a class="headerlink" href="#constraints-and-parameters-registration" title="Permanent link">&para;</a></h2>
+<h3 id="add-a-new-parameter">Add a new parameter<a class="headerlink" href="#add-a-new-parameter" title="Permanent link">&para;</a></h3>
+<p>To have the parser recognise a new token as a parameter, one should edit the
+<em>~abinit/tests/pymods/conf_parser.py</em>.</p>
+<p>The <code>conf_parser</code> variable in this file have a method <code>parameter</code> to register a
+new parameter. Arguments are the following:</p>
+<ul>
+<li><code>token</code>: mandatory, the name used in configuration for this parameter</li>
+<li><code>default</code>: optional (<code>None</code>), the default value used when the parameter is
+  not available in the configuration.</li>
+<li><code>value_type</code>: optional (<code>float</code>), the expected type of the value found in
+  the configuration.</li>
+<li><code>inherited</code>: optional (<code>True</code>), whether or not an explicit value in the
+  configuration should be propagated to deeper levels.</li>
+</ul>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">conf_parser</span><span class="o">.</span><span class="n">parameter</span><span class="p">(</span><span class="s1">&#39;tol_eq&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span> <span class="n">inherited</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="adding-a-constraint">Adding a constraint<a class="headerlink" href="#adding-a-constraint" title="Permanent link">&para;</a></h3>
+<p>To have the parser recognise a new token as a constraint, one should also edit
+<em>~abinit/tests/pymods/conf_parser.py</em>.</p>
+<p><code>conf_parser</code> has a method <code>constraint</code> to register a new constraint. It is
+supposed to be used as a decorator (on a function) that takes keywords arguments. 
+The arguments are all optional and are the following:</p>
+<ul>
+<li><code>name</code>: (<code>str</code>) the name to be used in config files. If not
+  specified, the name of the function is used.</li>
+<li><code>value_type</code>: (<code>float</code>) the expected type of the value found in the
+  configuration.</li>
+<li><code>inherited</code>: (<code>True</code>), whether or not the constraint should be propagated to
+  deeper levels.</li>
+<li><code>apply_to</code>: (<code>'number'</code>), the type of data this constraint can be applied to.
+  This can be a type or one of the special strings (<code>'number'</code>, <code>'real'</code>,
+  <code>'integer'</code>, <code>'complex'</code>, <code>'Array'</code> (refer to numpy arrays), <code>'this'</code>) <code>'this'</code>
+  is used when the constraint should be applied to the structure where it is
+  defined and not be inherited.</li>
+<li><code>use_params</code>: (<code>[]</code>) a list of names of parameters to be passed as argument to
+  the test function.</li>
+<li><code>exclude</code>: (<code>set()</code>) a set of names of constraints that should not be applied
+  when this one is.</li>
+<li><code>handle_undef</code>: (<code>True</code>) whether or not the special value <code>undef</code>
+  should be handled before calling the test function.
+  If <code>True</code> and a <code>undef</code> value is present in the data the test will fail or
+succeed depending on the value of the special parameter <code>allow_undef</code>.
+  If <code>False</code>, <code>undef</code> values won&rsquo;t be checked. They are equivalent to <em>NaN</em>.</li>
+</ul>
+<p>The decorated function contains the actual test code. It should return <code>True</code> if
+the test succeed and either <code>False</code> or an instance of <code>FailDetail</code> (from
+<em>common.py</em>) if the test failed.</p>
+<p>If the test is simple enough one should use <code>False</code>.  However if the
+test is compound of several non-trivial checks <code>FailDetail</code> come in handy to
+tell the user which part failed. When you want to signal a failed test and
+explaining what happened return <code>FailDetail('some explanations')</code>. The message
+passed to <code>FailDetail</code> will be transmitted to the final report for the user.</p>
+<p>Example with <code>FailDetail</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@conf_parser</span><span class="o">.</span><span class="n">constraint</span><span class="p">(</span><span class="n">exclude</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;ceil&#39;</span><span class="p">,</span> <span class="s1">&#39;tol_abs&#39;</span><span class="p">,</span> <span class="s1">&#39;tol_rel&#39;</span><span class="p">,</span> <span class="s1">&#39;ignore&#39;</span><span class="p">})</span>
+<span class="k">def</span> <span class="nf">tol</span><span class="p">(</span><span class="n">tolv</span><span class="p">,</span> <span class="n">ref</span><span class="p">,</span> <span class="n">tested</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Valid if both relative and absolute differences between the values</span>
+<span class="sd">        are below the given tolerance.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">ref</span><span class="p">)</span> <span class="o">+</span> <span class="nb">abs</span><span class="p">(</span><span class="n">tested</span><span class="p">)</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">elif</span> <span class="nb">abs</span><span class="p">(</span><span class="n">ref</span> <span class="o">-</span> <span class="n">tested</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">ref</span><span class="p">)</span> <span class="o">+</span> <span class="nb">abs</span><span class="p">(</span><span class="n">tested</span><span class="p">))</span> <span class="o">&gt;=</span> <span class="n">tolv</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">FailDetail</span><span class="p">(</span><span class="s1">&#39;Relative error above tolerance.&#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">abs</span><span class="p">(</span><span class="n">ref</span> <span class="o">-</span> <span class="n">tested</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">tolv</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">FailDetail</span><span class="p">(</span><span class="s1">&#39;Absolute error above tolerance.&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+</code></pre></div>
+<h3 id="how-to-add-a-new-tag">How to add a new tag<a class="headerlink" href="#how-to-add-a-new-tag" title="Permanent link">&para;</a></h3>
+<p>Pyyaml offer the possibility to directly convert YAML documents to a
+Python class using tags. To register a new tag, edit the file <code>~abinit/tests/pymods/yaml_tools/structures.py</code>. 
+In this file there are several
+classes that are <em>decorated</em> with one of <code>@yaml_map</code>, <code>@yaml_scalar</code>, <code>@yaml_seq</code> or <code>@yaml_auto_map</code>.
+These <a href="https://realpython.com/primer-on-python-decorators/">decorators</a> are the functions that actually
+register the class as a known tag.
+Whether you should use one or another depend on the organization of the data in the YAML document.
+Is it a dictionary, a scalar or a list/sequence ?</p>
+<p>In the majority of the cases, one wants the <code>tester</code> to browse the children of the structure and apply
+the relevant constraints on it and to access attributes through their original name
+from the data. In this case, the simpler way to register a new tag is to use
+<code>yaml_auto_map</code>. For example to register a tag Etot that simply register all
+fields from the data tree and let the tester check them with <code>tol_abs</code> or
+<code>tol_rel</code> we would put the following in <em>~abinit/tests/pymods/yaml_tools/structures/ground_state.py</em>:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@yaml_auto_map</span>
+<span class="k">class</span> <span class="nc">Etot</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">pass</span>
+</code></pre></div>
+<p>Now the name of the class &ldquo;Etot&rdquo; is associated with a tag recognized by the YAML
+parser.</p>
+<p><code>yaml_auto_map</code> does several things for us:</p>
+<ul>
+<li>it gives the class a <code>dict</code> like interface by defining relevant methods, which
+  allows the <code>tester</code> to browse the children</li>
+<li>it registers the tag in the YAML parser</li>
+<li>it automatically registers all attributes found in the data tree as attributes
+  of the class instance. These attributes are accessible through the attribute
+  syntax (ex: <code>my_object.my_attribute_unit</code>) with a normalized name (basically remove
+  characters that cannot be in a python identifier like spaces and punctuation characters)
+  or through the dictionary syntax with their original name (ex: <code>my_object['my attribute (unit)']</code>)</li>
+</ul>
+<p>Sometimes one wants more control over the building of the class instance.
+This is what <code>yaml_map</code> is for.
+Let suppose we still want to register tag but we want to select only a subset of
+the components for example. We will use <code>yaml_map</code> to gives us control over the
+building of the instance. This is done by implementing the <code>from_map</code> class
+method (a class method is a method that is called from the class instead of
+being called from an instance). This method take in argument a dictionary built
+from the data tree by the YAML parser and should return an instance of our class.</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@yaml_map</span>
+<span class="k">class</span> <span class="nc">EnergyTerms</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kin</span><span class="p">,</span> <span class="n">hart</span><span class="p">,</span> <span class="n">xc</span><span class="p">,</span> <span class="n">ew</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kinetic</span> <span class="o">=</span> <span class="n">kin</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hartree</span> <span class="o">=</span> <span class="n">hart</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xc</span> <span class="o">=</span> <span class="n">xc</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ewald</span> <span class="o">=</span> <span class="n">ew</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_map</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+        <span class="c1"># cls is the class (Etot here but it can be</span>
+        <span class="c1"># something else if we subclass Etot)</span>
+        <span class="c1"># d is a dictionary built from the data tree</span>
+
+        <span class="n">kin</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;kinetic&#39;</span><span class="p">]</span>
+        <span class="n">hart</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;hartree&#39;</span><span class="p">]</span>
+        <span class="n">xc</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;xc&#39;</span><span class="p">]</span>
+        <span class="n">ew</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;Ewald energy&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">kin</span><span class="p">,</span> <span class="n">hart</span><span class="p">,</span> <span class="n">xc</span><span class="p">,</span> <span class="n">ew</span><span class="p">)</span>
+</code></pre></div>
+<p>Now we fully control the building of the structure, however we lost the ability
+for the tester to browse the components to check them. If we want to only make
+our custom check it is fine. For example we can define a method
+<code>check_components</code> and use the <code>callback</code> constraint like this:</p>
+<p>In <code>~abinit/tests/pymods/yaml_tools/structure/ground_state.py</code></p>
+<div class="highlight"><pre><span></span><code><span class="nd">@yaml_map</span>
+<span class="k">class</span> <span class="nc">EnergyTerms</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="c1"># same code as the previous example</span>
+
+    <span class="k">def</span> <span class="nf">check_components</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tested</span><span class="p">):</span>
+        <span class="c1"># self will always be the reference object</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kinetic</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">kinetic</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1.0e-10</span>
+            <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hartree</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">hartree</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1.0e-10</span>
+            <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xc</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">xc</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1.0e-10</span>
+            <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ewald</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">ewald</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1.0e-10</span>
+        <span class="p">)</span>
+</code></pre></div>
+<p>In the configuration file</p>
+<div class="highlight"><pre><span></span><code><span class="nt">EnergyTerms</span><span class="p">:</span>
+    <span class="nt">callback</span><span class="p">:</span>
+        <span class="nt">method</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">check_components</span>
+</code></pre></div>
+<p>However it can be better to give back the control to <code>tester</code>. For that purpose
+we can implement the method <code>get_children</code> that should return a dictionary of the
+data to be checked automatically. <code>tester</code> will detect it and use it to check
+what you gave him.</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@yaml_map</span>
+<span class="k">class</span> <span class="nc">EnergyTerms</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="c1"># same code as the previous example</span>
+
+    <span class="k">def</span> <span class="nf">get_children</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s1">&#39;kin&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">kinetic</span><span class="p">,</span>
+            <span class="s1">&#39;hart&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">hartree</span><span class="p">,</span>
+            <span class="s1">&#39;xc&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xc</span><span class="p">,</span>
+            <span class="s1">&#39;ew&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ewald</span>
+        <span class="p">}</span>
+</code></pre></div>
+<p>Now <code>tester</code> will be able to apply <code>tol_abs</code> and friends to the components we gave him.</p>
+<p>If the class has a <strong>complete</strong> dict-like read interface (<code>__iter__</code> yielding
+keys, <code>__contains__</code>, <code>__getitem__</code>, <code>keys</code> and <code>items</code>) then it can have a
+class attribute <code>is_dict_like</code> set to <code>True</code> and it will be treated as any other
+node (it not longer need <code>get_children</code>). <code>yaml_auto_map</code> registered classes
+automatically address these requirements.</p>
+<p><code>yaml_seq</code> is analogous to <code>yaml_map</code> however <code>to_map</code> became <code>to_seq</code> and the
+YAML source data have to match the YAML sequence structure that is either <code>[a, b, c]</code> or</p>
+<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">a</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">b</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">c</span>
+</code></pre></div>
+<p>The argument passed to <code>to_seq</code> is a list. If one wants <code>tester</code> to browse the
+elements of the resulting object one can either implement a <code>get_children</code>
+method or implement the <code>__iter__</code> python special method.</p>
+<p>If for some reason a class have the <code>__iter__</code> method implemented but one does
+<strong>not</strong> want tester to browse its children (<code>BaseArray</code> and its subclasses are
+such a case) one can defined the <code>has_no_child</code> attribute and set it to <code>True</code>.
+Then tester won&rsquo;t try to browse it. Strings are a particular case. They have the
+<code>__iter__</code> method but will never been browsed.</p>
+<p>To associate a tag to anything else than a YAML mapping or sequence one can use
+<code>yaml_scalar</code>. This decorator expect the class to have a method <code>from_scalar</code>
+that takes the raw source as a string in argument and return an instance of the
+class. It can be used to create custom parsers of new number representation.
+For example to create a 3D vector with unit tag:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@yaml_scalar</span>
+<span class="k">class</span> <span class="nc">Vec3Unit</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">unit</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">unit</span> <span class="o">=</span> <span class="n">unit</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_scalar</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">raw</span><span class="p">):</span>
+        <span class="n">sx</span><span class="p">,</span> <span class="n">sy</span><span class="p">,</span> <span class="n">sz</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="n">raw</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>  <span class="c1"># split on blanks</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">sx</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">sy</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">sz</span><span class="p">),</span> <span class="n">unit</span><span class="p">)</span>
+</code></pre></div>
+<p>With that new tag registered the YAML parser will happily parse something like</p>
+<div class="highlight"><pre><span></span><code><span class="nt">kpt</span><span class="p">:</span> <span class="kt">!Vec3Unit</span> <span class="l l-Scalar l-Scalar-Plain">0.5 0.5 0.5 Bohr^-1</span>
+</code></pre></div>
+<p>Finally when the scalar have a easily detectable form one can create an implicit
+scalar. An implicit scalar have the advantage to be detected by the YAML parser
+without the need of writing the tag before as soon as it match a given regular
+expression. For example to parse directly complex numbers we could (naively) do
+the following:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@yaml_implicit_scalar</span>
+<span class="k">class</span> <span class="nc">YAMLComplex</span><span class="p">(</span><span class="nb">complex</span><span class="p">):</span>
+
+    <span class="c1"># A (quite rigid) regular expression matching complex numbers</span>
+    <span class="n">yaml_pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;[+-]?\d+\.\d+) [+-] (\d+\.\d+)i&#39;</span>
+
+    <span class="c1"># this have nothing to do with yam_implicit_scalar, it is just the way to</span>
+    <span class="c1"># create a subclass of a python *native* object</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">complex</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_scalar</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">scal</span><span class="p">):</span>
+        <span class="c1"># few adjustment to match the python restrictions on complex number</span>
+        <span class="c1"># writing</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">scal</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;i&#39;</span><span class="p">,</span> <span class="s1">&#39;j&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">))</span>
+</code></pre></div>
+<h2 id="recommend-conventions-for-yaml-documents">Recommend conventions for Yaml documents<a class="headerlink" href="#recommend-conventions-for-yaml-documents" title="Permanent link">&para;</a></h2>
+<p>This section discusses the basic conventions that should be followed when writing YAML documents in Fortran.
+Note that these conventions are motivated by technical aspects that will facilitate the integration with the
+python language as well as the implementation of post-processing tools.</p>
+<ul>
+<li>
+<p>The tag name should use CamelCase so that one can directly map tag names to python classes
+  that are usually given following this convention (see also <a href="https://www.python.org/dev/peps/pep-0008/">PEP8</a>).</p>
+</li>
+<li>
+<p>The tag name should be self-explanatory.</p>
+</li>
+<li>
+<p>Whenever possible, the keywords should be a <strong>valid python identifier</strong>. This means one should avoid white spaces
+  as much possible and avoid names starting with non-alphabetic characters. White spaces should be replaced by
+  underscores. Prefer lower-case names whenever possible.</p>
+</li>
+<li>
+<p>By default, quantities are supposed to be given in <strong>atomic units</strong>. If the document contains quantities given
+  in other units, we recommended to encode this information in the name using the syntax: <code>foo_eV</code>.</p>
+</li>
+<li>
+<p>Avoid names starting with an underscore because these names are reserved for future additions 
+   in the python infrastructure.</p>
+</li>
+<li>
+<p><code>tol_abs</code>, <code>tol_rel</code>, <code>tol_vec</code>, <code>tol_eq</code>, <code>ceil</code>, <code>ignore</code>, <code>equation</code>, <code>equations</code>, <code>callback</code> and <code>callbacks</code> are reserved 
+   keywords that shall not be used in Yaml documents.</p>
+</li>
+<li>
+<p>The <em>comment</em> field is optional but it is recommended especially when the purpose of the document is not obvious.</p>
+</li>
+</ul>
+<p>An example of well-formed document</p>
+<div class="highlight"><pre><span></span><code><span class="nn">---</span> <span class="kt">!EnergyTerms</span>
+<span class="nt">comment             </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Components of total free energy (in Hartree)</span>
+<span class="nt">kinetic_energy      </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">5.279019930263079807E+00</span>
+<span class="nt">hartree_energy      </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">8.846303409910728499E-01</span>
+<span class="nt">xc_energy           </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">-4.035286123400158687E+00</span>
+<span class="nt">total_energy_eV     </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">-2.756386620520307815E+02</span>
+<span class="nn">...</span>
+</code></pre></div>
+<p>An example of Yaml document that does not follow our guidelines:</p>
+<div class="highlight"><pre><span></span><code><span class="nn">---</span> <span class="kt">!ETOT</span>
+<span class="nt">Kinetic energy      </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">5.279019930263079807E+00</span>
+<span class="nt">Hartree energy      </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">8.846303409910728499E-01</span>
+<span class="nt">_XC energy          </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">-4.035286123400158687E+00</span>
+<span class="nt">Total energy(eV)    </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">-2.756386620520307815E+02</span>
+<span class="nt">equation            </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1 + 1 = 3</span>
+<span class="nn">...</span>
+</code></pre></div>
+<!--
+In a nutshell:
+
+* no savage usage of write statements!
+* In the majority of the cases, YAML documents should be opened and closed in the same routine!
+* To be discussed: `crystal%yaml_write(stream, indent=4)`
+* One should also promote the use of python-friendly keys: white space replaced by underscore, no number as first character,
+  tags should be CamelCase
+* Is Yaml mode supported only for main output files? What happens to the other files in the files\_to\_test section?
+Tags are now mandatory for documents
+* A document with a tag is considered a standardized document i.e. a document for which there's
+  an official commitment from the ABINIT community to maintain backward compatibility.
+  Official YAML documents may be used by third-party software to implement post-processing tools.
+
+
+: The *label* field appears in all data document. It should be a unique identifier
+  at the scale of an _iteration state_. The tag is not necessarily unique, it
+  describes the structure of the document and there is no need to use it unless
+  special logic have to be implemented for the document. 
+-->
+
+<!--
+## Further developments
+
+This new YAML-based infrastructure can be used as building block to implement the
+high-level logic required by more advanced integration tests such as:
+
+Parametrized tests
+
+: Tests in which multiple parameters are changed either at the level of the input variables
+  or at the MPI/OpenMP level.
+  Typical example: running calculations with [[useylm]] in [0, 1] or [[paral_kgb]] = 1 runs
+  with multiple configurations of [[npfft]], [[npband]], [[npkpt]].
+
+Benchmarks
+
+: Tests to monitor the scalability of the code and make sure that serious bottlenecks are not
+  introduced in trunk/develop when important dimension are increased (e.g.
+  [[chksymbreak]] > 0 with [[ngkpt]] > 30\*\*3).
+  Other possible applications: monitor the memory allocated to detect possible regressions.
+
+Interface with AbiPy and Abiflows
+
+: AbiPy has its own set of integration tests but here we mainly focus on the python layer
+  without testing for numerical values.
+  Still it would be nice to check for numerical reproducibility, especially when it comes to
+  workflows that are already used in production for high-throughput applications (e.g. DFPT).
+-->
+                
+                  
+                
+              
+
+<!-- 
+add dropdown button with toolbar (based on https://bootsnipp.com/snippets/featured/inbox-by-gmail)
+and return to Top button (based on https://codepen.io/rdallaire/pen/apoyx)
+-->
+<div class="md-container">
+  <div class="row">
+    <div id="inbox">
+      <div class="fab btn-group show-on-hover dropup">
+        <div data-toggle="tooltip" data-placement="left" title="Menu" style="margin-left: 42px;">
+          <button id="return-to-top" type="button" class="btn btn-primary btn-io dropdown-toggle" data-toggle="dropdown">
+            <span class="fa-stack fa-2x">
+                <i class="fa fa-circle fa-stack-2x fab-backdrop"></i>
+                <i class="fa fa-chevron-up fa-stack-1x fa-inverse fab-primary"></i>
+                <i class="fa fa-map-signs fa-stack-1x fa-inverse fab-secondary"></i>
+            </span>
+          </button>
+        </div>
+        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+        
+        
+          <li><a href="../../about/release-notes/" data-toggle="tooltip" data-placement="left" 
+                  title="About"><i class="fa fa-info-circle"></i></a></li>
+        
+          <li><a href="../git_and_gitlab/" data-toggle="tooltip" data-placement="left" 
+                  title="Developers"><i class="fa fa-terminal"></i></a></li>
+        
+          <li><a href="../../theory/geometry/" data-toggle="tooltip" data-placement="left" 
+                  title="Theory"><i class="fa fa-book"></i></a></li>
+        
+          <li><a href="../../tutorial/" data-toggle="tooltip" data-placement="left" 
+                  title="Tutorial"><i class="fa fa-graduation-cap"></i></a></li>
+        
+          <li><a href="../../variables/" data-toggle="tooltip" data-placement="left" 
+                  title="Variables"><i class="fa fa-file-text-o"></i></a></li>
+        
+          <li><a href="../../topics/features/" data-toggle="tooltip" data-placement="left" 
+                  title="Topics"><i class="fa fa-question"></i></a></li>
+        
+          <li><a href="../.." data-toggle="tooltip" data-placement="left" 
+                  title="User Guide"><i class="fa fa-user-circle-o"></i></a></li>
+        
+        <!--
+        Example: 
+        <li><a href="/index.html" data-toggle="tooltip" data-placement="left" title="User-Guide">
+              <i class="fa fa-user-circle-o"></i></a></li>
+        -->
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+              
+                
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+    <!-- Add tabs to footer -->
+    
+        
+
+  
+
+<nav class="md-tabs md-tabs--active" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../.." title="User Guide" class="md-tabs__link">
+          User Guide
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../topics/features/" title="Topics" class="md-tabs__link">
+          Topics
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../variables/" title="Variables" class="md-tabs__link">
+          Variables
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../tutorial/" title="Tutorial" class="md-tabs__link">
+          Tutorial
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../theory/geometry/" title="Theory" class="md-tabs__link">
+          Theory
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../git_and_gitlab/" title="Developers" class="md-tabs__link md-tabs__link--active">
+          Developers
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../about/release-notes/" title="About" class="md-tabs__link">
+          About
+        </a>
+      
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+    
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../new_testsuite/" title="YAML-based test suite Howto" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                YAML-based test suite Howto
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../XgType/" title="XgType" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                XgType
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+            <center>Abinit version 9.4.0</center>
+        
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2020-2021 The Abinit Group (TC)
+          </div>
+        
+        powered by
+        <a href="http://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+  <div class="md-footer-social">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+      <a href="https://github.com/abinit/abinit" class="md-footer-social__link fa fa-github-alt"></a>
+    
+      <a href="https://twitter.com/hashtag/abinit" class="md-footer-social__link fa fa-twitter"></a>
+    
+      <a href="http://www.facebook.com/abinit.org" class="md-footer-social__link fa fa-facebook"></a>
+    
+      <a href="https://www.youtube.com/watch?v=gcbfb_Mteo4" class="md-footer-social__link fa fa-youtube"></a>
+    
+  </div>
+
+      
+    </div>
+  </div>
+</footer>
+      
+
+    </div>
+    
+      <script src="../../assets/javascripts/application.02434462.js"></script>
+      
+      <script>app.initialize({version:"0.17.5",url:{base:"../.."}})</script>
+      
+        <script src="../../extra_javascript/jquery.dialogextend.min.js"></script>
+      
+        <script src="../../extra_javascript/abidocs.js"></script>
+      
+    
+    
+      
+        <script>!function(e,a,t,n,o,c,i){e.GoogleAnalyticsObject=o,e.ga=e.ga||function(){(e.ga.q=e.ga.q||[]).push(arguments)},e.ga.l=1*new Date,c=a.createElement(t),i=a.getElementsByTagName(t)[0],c.async=1,c.src="https://www.google-analytics.com/analytics.js",i.parentNode.insertBefore(c,i)}(window,document,"script",0,"ga"),ga("create","UA-116681470-1","docs.abinit.org"),ga("set","anonymizeIp",!0),ga("send","pageview");var links=document.getElementsByTagName("a");if(Array.prototype.map.call(links,function(e){e.host!=document.location.host&&e.addEventListener("click",function(){var a=e.getAttribute("data-md-action")||"follow";ga("send","event","outbound",a,e.href)})}),document.forms.search){var query=document.forms.search.query;query.addEventListener("blur",function(){if(this.value){var e=document.location.pathname;ga("send","pageview",e+"?q="+this.value)}})}</script>
+      
+    
+  </body>
+</html>

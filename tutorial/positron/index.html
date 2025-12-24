@@ -1,0 +1,5188 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="Abinit documentation">
+      
+      
+        <link rel="canonical" href="https://docs.abinit.org/tutorial/positron/">
+      
+      
+        <meta name="author" content="The Abinit group">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../images/favicon.ico">
+      <meta name="generator" content="mkdocs-0.17.5, mkdocs-material-2.6.6">
+    
+    
+      
+        <title>Positron - abinit</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application.78aab2dc.css">
+      
+        <link rel="stylesheet" href="../../assets/stylesheets/application-palette.6079476c.css">
+      
+    
+    
+    
+      <script src="../../assets/javascripts/modernizr.1aa3b519.js"></script>
+    
+
+    <!-- Jquery from Google CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Load Jquery UI -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <!-- Handle jQuery plugin naming conflict between jQuery UI and Bootstrap 
+    https://stackoverflow.com/questions/13731400/jqueryui-tooltips-are-competing-with-twitter-bootstrap
+    -->
+    <script>
+      $.widget.bridge('uibutton', $.ui.button);
+      $.widget.bridge('uitooltip', $.ui.tooltip);
+    </script>
+
+    <!--
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/pepper-grinder/jquery-ui.css">
+    -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <!-- Bootstrap theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.0/build/css/themes/bootstrap.min.css"/>
+
+    <!-- Bootstrap http://getbootstrap.com/getting-started/ -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" 
+    integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
+    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous">
+    </script>
+
+    <!-- font-awesome -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    
+
+    <!--Pace support. http://github.hubspot.com/pace/ -->
+    <script>
+        paceOptions = {
+            ajax: true,      // disabled
+            document: true,  // activated
+            eventLag: false  // disabled
+            //target: 'article'
+            //elements: {selectors: ['.my-page']}
+        };
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/white/pace-theme-big-counter.min.css" />
+    <!--
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/white/pace-theme-bounce.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-corner-indicator.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-flat-top.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-loading-bar.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-center-atom.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-flash.min.css" />
+    -->
+
+    <!-- MathJax support
+    <script type="text/javascript" async 
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script> 
+    -->
+    <!--
+    This is compatible with plotly.
+    -->
+    <script type="text/javascript" async 
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_SVG">
+    </script> 
+
+    <!--
+    Configure MathJax to produce automatic equation numbers http://docs.mathjax.org/en/latest/tex.html
+    -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        //jax: ["input/TeX","output/HTML-CSS"],
+        //tex2jax: {inlineMath: [['$','$']]},
+        //displayAlign: "center",
+        TeX: {
+            equationNumbers: { autoNumber: "AMS" },
+            extensions: ["AMSmath.js", "boldsymbol.js"],
+            Macros: {
+                "*": "{\\dagger}",
+                "ra": "{\\rangle}",
+                "la": "{\\langle}",
+                // Workaround for bm package. See https://github.com/mathjax/MathJax/issues/1219
+                bm: ["{\\boldsymbol #1}",1],
+                // Mathcal symbols
+                mcL: "{\\mathcal{L}}",
+                mcG: "{\\mathcal{G}}",
+                mcR: "{\\mathcal{R}}",
+                mcS: "{\\mathcal{S}}",
+                mcC: "{\\mathcal{C}}",
+                mcO: "{\\mathcal{O}}",
+                // Acronyms
+                KS: "{\\text{KS}}",
+                eph: "{\\text{e-ph}}",
+                ee: "{\\text{e-e}}",
+                phph: "{\\text{ph-ph}}",
+                FM: "{\\text{FM}}",
+                DW: "{\\text{DW}}",
+                QP: "{\\text{QP}}",
+                BZ: "{\\text{BZ}}",
+                sign: "{\\text{sign}}",
+                xc: "{\\text{xc}}",
+                tchi: "{\\tilde\\chi}",
+                // Symbols commonly used (k-points, eigenvalues ...)
+                rr: "{\\bf r}",
+                RR: "{\\bf R}",
+                tt: "{\\bf t}",
+                GG: "{\\bf G}",
+                kk: "{\\bf k}",
+                qq: "{\\bf q}",
+                kq: "{\\kk + \\qq}",
+                qG: "{\\bf q + G}",
+                kG: "{\\bf k + G}",
+                kmq: "{\\kk - \\qq}",
+                kpq: "{\\kk + \\qq}",
+                kpG: "{\\kk + \\GG}",
+                qpG: "{\\qq + \\GG}",
+                nk: "{n \\kk}",
+                enk: "{\\varepsilon_\\nk}",
+                emkq: "{\\varepsilon_{m\\kk+\\qq}}",
+                qnu: "{\\qq \\nu}",
+                wqnu: "{\\omega_{\\qnu}}",
+                vnk: "{\\mathbf{v}_{n\\kk}}",
+                vmkq: "{\\mathbf{v}_{m\\kk+\\qq}}",
+                vnka: "{\\mathrm{v}_{n\\kk,\\alpha}}",
+                vnkb: "{\\mathrm{v}_{n\\kk,\\beta}}",
+                ef: "{\\varepsilon_F}",
+                // EPH quantities
+                gkkp: "{g_{mn\\nu}(\\kk,\\qq)}",
+                gkq: "{g_{mn\\nu}(\\kk,\\qq)}",
+                //\newcommand{\gkkpL}{g_{mn\nu}^\Lc(\kb,\qb)}
+                // Many-body theory
+                Go: "{G_0}",
+                Wo: "{W_0}",
+                Ueff: "{U_{\\text{eff}}}",
+                // Greek symbols + tilde version
+                ee: "{\\epsilon}",
+                tee: "{\\tilde{\\epsilon}}",
+                ww: "{\\omega}",
+                tww: "{\\tilde\\omega}",
+                dd: "{\\,\\text{d}}",
+                vxc: "{v_\\xc}",
+                // symrel
+                Ri: "{\\mcR^{-1}}",
+                Rit: "{\\mcR^{-1\\tau}}",
+                // symrec
+                Si: "{\\mcS^{-1}}}",
+                Sit: "{\\Si^\\tau}}",
+                // partial and functional derivative.
+                PDER: ["{\\dfrac{\\partial #1}{\\partial #2}}", 2],
+                FDER: ["{\\dfrac{\\delta #1}{\\delta #2}}", 2],
+                // PAW
+                tPsi: "{\\tilde\\Psi}",
+                tpsi: "{\\tilde\\psi}",
+                tPhi: "{\\tilde\\Phi}",
+                tphi: "{\\tilde\\phi}",
+                tprj: "{\\tilde p}"
+            }
+          }
+      });
+    </script>
+
+    <!-- See http://docs.mathjax.org/en/latest/start.html 
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js", "MathMenu.js", "MathZoom.js"],
+        jax: ["input/TeX", "output/HTML-CSS", "output/NativeMML],
+        tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+            processEscapes: true
+        },
+        "HTML-CSS": { availableFonts: ["TeX"] }
+      });
+    </script>
+    -->
+
+    
+    
+    
+
+    <!-- Introjs for Guided Tour -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.7.0/intro.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.7.0/introjs.min.css" />
+
+    <!-- Load fonts used for input variables -->
+    <!--
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu+Mono" rel="stylesheet">
+    -->
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+
+    
+      <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+      
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    
+    
+      <link rel="stylesheet" href="../../css/extra.css">
+    
+      <link rel="stylesheet" href="../../css/gallery.css">
+    
+      <link rel="stylesheet" href="../../css/my_codehilite.css">
+    
+    
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="deep-orange" data-md-color-accent="deep-orange">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="drawer">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
+    <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
+    
+      <a href="#electron-positron-annihilation" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="https://www.abinit.org" title="abinit" class="md-header-nav__button md-logo">
+          
+            <img src="../../images/logo-abinit-2015.png" width="48" height="48">
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <span class="md-flex__ellipsis md-header-nav__title">
+          
+            
+              
+                <span class="md-header-nav__parent">
+                  Tutorial
+                </span>
+              
+            
+            Positron
+          
+        </span>
+      </div>
+      <!-- Guided Tour with introjs. Add glow effect to button only if homepage -->
+      <div class="md-flex__cell md-flex__cell--shrink">
+           
+          
+          <a href="#" class="btn btn-xs btn-default  " id="guided-tour-button" title="Guided Tour" 
+              onclick="abidocs_guidedtour()">
+           <span class="fa fa-info-circle"></span></a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.com/abinit/abinit/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      github-abinit
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+      <div class="md-flex__cell md-flex__cell--shrink" id="previous_published_versions">
+        <div class="dropdown">
+          <button class="btn btn-basic btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
+            9.4.0
+          <span class="caret"></span></button>
+          <ul class="dropdown-menu">
+            
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+        
+
+  
+
+<nav class="md-tabs md-tabs--active" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../.." title="User Guide" class="md-tabs__link">
+          User Guide
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../topics/features/" title="Topics" class="md-tabs__link">
+          Topics
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../variables/" title="Variables" class="md-tabs__link">
+          Variables
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../" title="Tutorial" class="md-tabs__link md-tabs__link--active">
+          Tutorial
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../theory/geometry/" title="Theory" class="md-tabs__link">
+          Theory
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../developers/git_and_gitlab/" title="Developers" class="md-tabs__link">
+          Developers
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../about/release-notes/" title="About" class="md-tabs__link">
+          About
+        </a>
+      
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="drawer">
+    <span class="md-nav__button md-logo">
+      
+        <img src="../../images/logo-abinit-2015.png" width="24" height="24">
+      
+    </span>
+    abinit
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/abinit/abinit/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      github-abinit
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1">
+    
+    <label class="md-nav__link" for="nav-1">
+      User Guide
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-1">
+        User Guide
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="NewUser" class="md-nav__link">
+      NewUser
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/abinit/" title="Abinit" class="md-nav__link">
+      Abinit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/aim/" title="Aim" class="md-nav__link">
+      Aim
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/anaddb/" title="Anaddb" class="md-nav__link">
+      Anaddb
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/cut3d/" title="Cut3d" class="md-nav__link">
+      Cut3d
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/fold2bloch/" title="Fold2Bloch" class="md-nav__link">
+      Fold2Bloch
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/mrgddb/" title="Mrgddb" class="md-nav__link">
+      Mrgddb
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/mrgscr/" title="Mrgscr" class="md-nav__link">
+      Mrgscr
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/multibinit/" title="Multibinit" class="md-nav__link">
+      Multibinit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/optic/" title="Optic" class="md-nav__link">
+      Optic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/respfn/" title="Respfn" class="md-nav__link">
+      Respfn
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/spacegroup/" title="Spacegroup" class="md-nav__link">
+      Spacegroup
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/a-TDEP/" title="a-TDEP" class="md-nav__link">
+      a-TDEP
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1-14" type="checkbox" id="nav-1-14">
+    
+    <label class="md-nav__link" for="nav-1-14">
+      Installation
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-1-14">
+        Installation
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../installation/" title="HowTo" class="md-nav__link">
+      HowTo
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../INSTALL_MacOS/" title="MacOS" class="md-nav__link">
+      MacOS
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../INSTALL_Ubuntu/" title="Ubuntu" class="md-nav__link">
+      Ubuntu
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../INSTALL_CentOS/" title="CentOS" class="md-nav__link">
+      CentOS
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../INSTALL_EasyBuild/" title="EasyBuild" class="md-nav__link">
+      EasyBuild
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../INSTALL_gpu/" title="GPUs" class="md-nav__link">
+      GPUs
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Topics
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Topics
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/features/" title="Features" class="md-nav__link">
+      Features
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/" title="Topic List" class="md-nav__link">
+      Topic List
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Abipy/" title="Abipy" class="md-nav__link">
+      Abipy
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/APPA/" title="APPA" class="md-nav__link">
+      APPA
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Artificial/" title="Artificial" class="md-nav__link">
+      Artificial
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/AtomManipulator/" title="AtomManipulator" class="md-nav__link">
+      AtomManipulator
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/AtomTypes/" title="AtomTypes" class="md-nav__link">
+      AtomTypes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Bader/" title="Bader" class="md-nav__link">
+      Bader
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Band2eps/" title="Band2eps" class="md-nav__link">
+      Band2eps
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Berry/" title="Berry" class="md-nav__link">
+      Berry
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/BandOcc/" title="BandOcc" class="md-nav__link">
+      BandOcc
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/BSE/" title="BSE" class="md-nav__link">
+      BSE
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/BoundingProcess/" title="BoundingProcess" class="md-nav__link">
+      BoundingProcess
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ConstrainedDFT/" title="ConstrainedDFT" class="md-nav__link">
+      ConstrainedDFT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ConstrainedPol/" title="ConstrainedPol" class="md-nav__link">
+      ConstrainedPol
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Control/" title="Control" class="md-nav__link">
+      Control
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Coulomb/" title="Coulomb" class="md-nav__link">
+      Coulomb
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/CrossingBarriers/" title="CrossingBarriers" class="md-nav__link">
+      CrossingBarriers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/CRPA/" title="CRPA" class="md-nav__link">
+      CRPA
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/crystal/" title="Crystal" class="md-nav__link">
+      Crystal
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/DFT+U/" title="DFT+U" class="md-nav__link">
+      DFT+U
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/DeltaSCF/" title="DeltaSCF" class="md-nav__link">
+      DeltaSCF
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/DensityPotential/" title="DensityPotential" class="md-nav__link">
+      DensityPotential
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Dev/" title="Dev" class="md-nav__link">
+      Dev
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/DFPT/" title="DFPT" class="md-nav__link">
+      DFPT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/DMFT/" title="DMFT" class="md-nav__link">
+      DMFT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/DynamicsMultibinit/" title="DynamicsMultibinit" class="md-nav__link">
+      DynamicsMultibinit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/EffectiveMass/" title="EffectiveMass" class="md-nav__link">
+      EffectiveMass
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/EFG/" title="EFG" class="md-nav__link">
+      EFG
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Elastic/" title="Elastic" class="md-nav__link">
+      Elastic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ElPhonInt/" title="ElPhonInt" class="md-nav__link">
+      ElPhonInt
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ElPhonTransport/" title="ElPhonTransport" class="md-nav__link">
+      ElPhonTransport
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ElecDOS/" title="ElecDOS" class="md-nav__link">
+      ElecDOS
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ElecBandStructure/" title="ElecBandStructure" class="md-nav__link">
+      ElecBandStructure
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/FileFormats/" title="FileFormats" class="md-nav__link">
+      FileFormats
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/FitProcess/" title="FitProcess" class="md-nav__link">
+      FitProcess
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ForcesStresses/" title="ForcesStresses" class="md-nav__link">
+      ForcesStresses
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/FrequencyMeshMBPT/" title="FrequencyMeshMBPT" class="md-nav__link">
+      FrequencyMeshMBPT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/GeoConstraints/" title="GeoConstraints" class="md-nav__link">
+      GeoConstraints
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/GeoOpt/" title="GeoOpt" class="md-nav__link">
+      GeoOpt
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Git/" title="Git" class="md-nav__link">
+      Git
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/GSintroduction/" title="GSintroduction" class="md-nav__link">
+      GSintroduction
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/GW/" title="GW" class="md-nav__link">
+      GW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/GWls/" title="GWls" class="md-nav__link">
+      GWls
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Hybrids/" title="Hybrids" class="md-nav__link">
+      Hybrids
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/k-points/" title="K points" class="md-nav__link">
+      K points
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/LatticeModel/" title="LatticeModel" class="md-nav__link">
+      LatticeModel
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/LDAminushalf/" title="LDAminushalf" class="md-nav__link">
+      LDAminushalf
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/LOTF/" title="LOTF" class="md-nav__link">
+      LOTF
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/longwave/" title="Longwave" class="md-nav__link">
+      Longwave
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Macroave/" title="Macroave" class="md-nav__link">
+      Macroave
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/MagField/" title="MagField" class="md-nav__link">
+      MagField
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/MagMom/" title="MagMom" class="md-nav__link">
+      MagMom
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/MolecularDynamics/" title="MolecularDynamics" class="md-nav__link">
+      MolecularDynamics
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/multidtset/" title="Multidtset" class="md-nav__link">
+      Multidtset
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/nonlinear/" title="Nonlinear" class="md-nav__link">
+      Nonlinear
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Optic/" title="Optic" class="md-nav__link">
+      Optic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Output/" title="Output" class="md-nav__link">
+      Output
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/parallelism/" title="Parallelism" class="md-nav__link">
+      Parallelism
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/PAW/" title="PAW" class="md-nav__link">
+      PAW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/PIMD/" title="PIMD" class="md-nav__link">
+      PIMD
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Planewaves/" title="Planewaves" class="md-nav__link">
+      Planewaves
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Phonons/" title="Phonons" class="md-nav__link">
+      Phonons
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/PhononBands/" title="PhononBands" class="md-nav__link">
+      PhononBands
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/PhononWidth/" title="PhononWidth" class="md-nav__link">
+      PhononWidth
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/PortabilityNonRegression/" title="PortabilityNonRegression" class="md-nav__link">
+      PortabilityNonRegression
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/positron/" title="Positron" class="md-nav__link">
+      Positron
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/printing/" title="Printing" class="md-nav__link">
+      Printing
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/PseudosPAW/" title="PseudosPAW" class="md-nav__link">
+      PseudosPAW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/q-points/" title="Q points" class="md-nav__link">
+      Q points
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/RandStopPow/" title="RandStopPow" class="md-nav__link">
+      RandStopPow
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Recursion/" title="Recursion" class="md-nav__link">
+      Recursion
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/RPACorrEn/" title="RPACorrEn" class="md-nav__link">
+      RPACorrEn
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/SCFControl/" title="SCFControl" class="md-nav__link">
+      SCFControl
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/SCFAlgorithms/" title="SCFAlgorithms" class="md-nav__link">
+      SCFAlgorithms
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/SelfEnergy/" title="SelfEnergy" class="md-nav__link">
+      SelfEnergy
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/SmartSymm/" title="SmartSymm" class="md-nav__link">
+      SmartSymm
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/spinpolarisation/" title="Spinpolarisation" class="md-nav__link">
+      Spinpolarisation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/SpinDynamicsMultibinit/" title="SpinDynamicsMultibinit" class="md-nav__link">
+      SpinDynamicsMultibinit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/STM/" title="STM" class="md-nav__link">
+      STM
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Susceptibility/" title="Susceptibility" class="md-nav__link">
+      Susceptibility
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/TDDFT/" title="TDDFT" class="md-nav__link">
+      TDDFT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/a-TDEP/" title="a TDEP" class="md-nav__link">
+      a TDEP
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/TDepES/" title="TDepES" class="md-nav__link">
+      TDepES
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Temperature/" title="Temperature" class="md-nav__link">
+      Temperature
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/TransPath/" title="TransPath" class="md-nav__link">
+      TransPath
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/TuningSpeedMem/" title="TuningSpeedMem" class="md-nav__link">
+      TuningSpeedMem
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Unfolding/" title="Unfolding" class="md-nav__link">
+      Unfolding
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/UnitCell/" title="UnitCell" class="md-nav__link">
+      UnitCell
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/vdw/" title="Vdw" class="md-nav__link">
+      Vdw
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Verification/" title="Verification" class="md-nav__link">
+      Verification
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Wannier/" title="Wannier" class="md-nav__link">
+      Wannier
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Wavelets/" title="Wavelets" class="md-nav__link">
+      Wavelets
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/xc/" title="Xc" class="md-nav__link">
+      Xc
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/external_resources/" title="External Resources" class="md-nav__link">
+      External Resources
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Variables
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Variables
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/" title="All Variables" class="md-nav__link">
+      All Variables
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-2" type="checkbox" id="nav-3-2">
+    
+    <label class="md-nav__link" for="nav-3-2">
+      Abinit
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-2">
+        Abinit
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/basic/" title="Basic" class="md-nav__link">
+      Basic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/bse/" title="Bethe-Salpeter" class="md-nav__link">
+      Bethe-Salpeter
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/dev/" title="Developers" class="md-nav__link">
+      Developers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/dmft/" title="DMFT" class="md-nav__link">
+      DMFT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/eph/" title="Electron-Phonon" class="md-nav__link">
+      Electron-Phonon
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/ffield/" title="Varff" class="md-nav__link">
+      Varff
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/files/" title="File-handling" class="md-nav__link">
+      File-handling
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/geo/" title="Geometry" class="md-nav__link">
+      Geometry
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/gstate/" title="Ground-State" class="md-nav__link">
+      Ground-State
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/gw/" title="GW" class="md-nav__link">
+      GW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/internal/" title="Internal" class="md-nav__link">
+      Internal
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/paral/" title="Parallelism" class="md-nav__link">
+      Parallelism
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/paw/" title="PAW" class="md-nav__link">
+      PAW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/dfpt/" title="DFPT" class="md-nav__link">
+      DFPT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/rlx/" title="Relaxation" class="md-nav__link">
+      Relaxation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/vdw/" title="VdW" class="md-nav__link">
+      VdW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/w90/" title="Wannier90" class="md-nav__link">
+      Wannier90
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/anaddb/" title="Anaddb" class="md-nav__link">
+      Anaddb
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/multibinit/" title="Multibinit" class="md-nav__link">
+      Multibinit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/optic/" title="Optic" class="md-nav__link">
+      Optic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/atdep/" title="a-TDEP" class="md-nav__link">
+      a-TDEP
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/aim/" title="Aim" class="md-nav__link">
+      Aim
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/external_parameters/" title="External Parameters" class="md-nav__link">
+      External Parameters
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/varset_stats/" title="Statistics" class="md-nav__link">
+      Statistics
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
+    
+    <label class="md-nav__link" for="nav-4">
+      Tutorial
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        Tutorial
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../compilation/" title="Building Abinit" class="md-nav__link">
+      Building Abinit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-3" type="checkbox" id="nav-4-3">
+    
+    <label class="md-nav__link" for="nav-4-3">
+      Base Tutorials
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-3">
+        Base Tutorials
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../base1/" title="Base1" class="md-nav__link">
+      Base1
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../base2/" title="Base2" class="md-nav__link">
+      Base2
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../base3/" title="Base3" class="md-nav__link">
+      Base3
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../base4/" title="Base4" class="md-nav__link">
+      Base4
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../spin/" title="Spin" class="md-nav__link">
+      Spin
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-4" type="checkbox" id="nav-4-4">
+    
+    <label class="md-nav__link" for="nav-4-4">
+      PAW
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-4">
+        PAW
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../paw1/" title="PAW1" class="md-nav__link">
+      PAW1
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../paw2/" title="PAW2" class="md-nav__link">
+      PAW2
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../paw3/" title="PAW3" class="md-nav__link">
+      PAW3
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-5" type="checkbox" id="nav-4-5">
+    
+    <label class="md-nav__link" for="nav-4-5">
+      DFT_PLUS_U
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-5">
+        DFT_PLUS_U
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../dftu/" title="Dftu" class="md-nav__link">
+      Dftu
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../udet/" title="Udet" class="md-nav__link">
+      Udet
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../ucalc_crpa/" title="Ucalc crpa" class="md-nav__link">
+      Ucalc crpa
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-6" type="checkbox" id="nav-4-6">
+    
+    <label class="md-nav__link" for="nav-4-6">
+      DFPT
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-6">
+        DFPT
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rf1/" title="RF1" class="md-nav__link">
+      RF1
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rf2/" title="RF2" class="md-nav__link">
+      RF2
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../elastic/" title="Elastic" class="md-nav__link">
+      Elastic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../ffield/" title="Ffield" class="md-nav__link">
+      Ffield
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../nlo/" title="Nlo" class="md-nav__link">
+      Nlo
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../dmft/" title="DMFT" class="md-nav__link">
+      DMFT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-8" type="checkbox" id="nav-4-8">
+    
+    <label class="md-nav__link" for="nav-4-8">
+      EPH
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-8">
+        EPH
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../eph_intro/" title="Eph intro" class="md-nav__link">
+      Eph intro
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../eph4mob/" title="Eph4mob" class="md-nav__link">
+      Eph4mob
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../eph4zpr/" title="Eph4zpr" class="md-nav__link">
+      Eph4zpr
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-9" type="checkbox" id="nav-4-9">
+    
+    <label class="md-nav__link" for="nav-4-9">
+      EPH-legacy
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-9">
+        EPH-legacy
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../eph/" title="Eph" class="md-nav__link">
+      Eph
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../tdepes/" title="Tdepes" class="md-nav__link">
+      Tdepes
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-10" type="checkbox" id="nav-4-10">
+    
+    <label class="md-nav__link" for="nav-4-10">
+      Many-Body
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-10">
+        Many-Body
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../gw1/" title="GW1" class="md-nav__link">
+      GW1
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../gw2/" title="GW2" class="md-nav__link">
+      GW2
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../bse/" title="Bethe-Salpeter" class="md-nav__link">
+      Bethe-Salpeter
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-11" type="checkbox" id="nav-4-11">
+    
+    <label class="md-nav__link" for="nav-4-11">
+      Parallelism
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-11">
+        Parallelism
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../basepar/" title="Base" class="md-nav__link">
+      Base
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../paral_gspw/" title="GSPW" class="md-nav__link">
+      GSPW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../paral_gswvl/" title="GSWVL" class="md-nav__link">
+      GSWVL
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../paral_dfpt/" title="DFPT" class="md-nav__link">
+      DFPT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../paral_images/" title="Images" class="md-nav__link">
+      Images
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../paral_mbt/" title="Many-Body" class="md-nav__link">
+      Many-Body
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../paral_moldyn/" title="Moldyn" class="md-nav__link">
+      Moldyn
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-12" type="checkbox" id="nav-4-12">
+    
+    <label class="md-nav__link" for="nav-4-12">
+      Multibinit
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-12">
+        Multibinit
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../lattice_model/" title="Lattice Model" class="md-nav__link">
+      Lattice Model
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../spin_model/" title="Spin Model" class="md-nav__link">
+      Spin Model
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../cut3d/" title="Cut3d" class="md-nav__link">
+      Cut3d
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../fold2bloch/" title="Fold2bloch" class="md-nav__link">
+      Fold2bloch
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../nuc/" title="Nuc" class="md-nav__link">
+      Nuc
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../optic/" title="Optic" class="md-nav__link">
+      Optic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="toc">
+        Positron
+      </label>
+    
+    <a href="./" title="Positron" class="md-nav__link md-nav__link--active">
+      Positron
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#calculation-of-positron-lifetime-and-momentum-distribution-in-silicon" title="Calculation of positron lifetime and momentum distribution in silicon" class="md-nav__link">
+    Calculation of positron lifetime and momentum distribution in silicon
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#computing-the-positron-lifetime-in-si-lattice" title="Computing the positron lifetime in Si lattice" class="md-nav__link">
+    Computing the positron lifetime in Si lattice
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#computing-the-positron-lifetime-in-a-si-monovacancy" title="Computing the positron lifetime in a Si monovacancy" class="md-nav__link">
+    Computing the positron lifetime in a Si monovacancy
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performing-a-self-consistent-electron-positron-calculation-for-a-si-vacancy" title="Performing a self-consistent electron-positron calculation for a Si vacancy" class="md-nav__link">
+    Performing a self-consistent electron-positron calculation for a Si vacancy
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#relaxing-the-vacancy-according-to-forces-due-to-electrons-and-the-positron" title="Relaxing the vacancy according to forces due to electrons and the positron" class="md-nav__link">
+    Relaxing the vacancy according to forces due to electrons and the positron
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#computing-the-electron-positron-momentum-distribution-doppler-spectrum-of-a-si-lattice" title="Computing the electron-positron momentum distribution (Doppler spectrum) of a Si lattice" class="md-nav__link">
+    Computing the electron-positron momentum distribution (Doppler spectrum) of a Si lattice
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#studying-the-effect-of-the-paw-dataset-completeness" title="Studying the effect of the PAW dataset completeness" class="md-nav__link">
+    Studying the effect of the PAW dataset completeness
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../tddft/" title="Tddft" class="md-nav__link">
+      Tddft
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../wannier90/" title="Wannier90" class="md-nav__link">
+      Wannier90
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      Theory
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        Theory
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/geometry/" title="Geometry" class="md-nav__link">
+      Geometry
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/spherical_harmonics/" title="Spherical Harmonics" class="md-nav__link">
+      Spherical Harmonics
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/wavefunctions/" title="Wavefunctions" class="md-nav__link">
+      Wavefunctions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/noncollinear/" title="Noncollinear" class="md-nav__link">
+      Noncollinear
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/pseudopotentials/" title="Pseudopotentials" class="md-nav__link">
+      Pseudopotentials
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/mbt/" title="Many-Body Perturbation Theory" class="md-nav__link">
+      Many-Body Perturbation Theory
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/bse/" title="Bethe-Salpeter" class="md-nav__link">
+      Bethe-Salpeter
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/documents/" title="Documents" class="md-nav__link">
+      Documents
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/acknowledgments/" title="Acknowledgments" class="md-nav__link">
+      Acknowledgments
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/bibliography/" title="Bibliography" class="md-nav__link">
+      Bibliography
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      Developers
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        Developers
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/git_and_gitlab/" title="Git and Gitlab" class="md-nav__link">
+      Git and Gitlab
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/developers_howto/" title="HowTo for developers" class="md-nav__link">
+      HowTo for developers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/abimkdocs/" title="Abimkdocs" class="md-nav__link">
+      Abimkdocs
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/markdown/" title="Markdown" class="md-nav__link">
+      Markdown
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6-5" type="checkbox" id="nav-6-5">
+    
+    <label class="md-nav__link" for="nav-6-5">
+      Test Suite
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-6-5">
+        Test Suite
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/testsuite/" title="Test list" class="md-nav__link">
+      Test list
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/testsuite_howto/" title="Test Suite Howto" class="md-nav__link">
+      Test Suite Howto
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/new_testsuite/" title="YAML-based test suite Howto" class="md-nav__link">
+      YAML-based test suite Howto
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/yaml_tools_api/" title="YAML-based test suite Python tools and API" class="md-nav__link">
+      YAML-based test suite Python tools and API
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/XgType/" title="XgType" class="md-nav__link">
+      XgType
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6-7" type="checkbox" id="nav-6-7">
+    
+    <label class="md-nav__link" for="nav-6-7">
+      Pseudos
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-6-7">
+        Pseudos
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/psp1_info/" title="psp1" class="md-nav__link">
+      psp1
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/psp3_info/" title="psp3" class="md-nav__link">
+      psp3
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/psp45_info/" title="psp45" class="md-nav__link">
+      psp45
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/psp5spinorbit_info/" title="psp5" class="md-nav__link">
+      psp5
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/psp6_info/" title="psp6" class="md-nav__link">
+      psp6
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/psp8_info/" title="psp8" class="md-nav__link">
+      psp8
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/codestats/" title="Code stats" class="md-nav__link">
+      Code stats
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/autoconf_examples/" title="Autoconf_examples" class="md-nav__link">
+      Autoconf_examples
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/testlink/" title="Test Page for linkcheck" class="md-nav__link">
+      Test Page for linkcheck
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+    
+    <label class="md-nav__link" for="nav-7">
+      About
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        About
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../about/release-notes/" title="Release Notes" class="md-nav__link">
+      Release Notes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../about/contributing/" title="Contributing" class="md-nav__link">
+      Contributing
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../about/history/" title="History" class="md-nav__link">
+      History
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../about/license/" title="License" class="md-nav__link">
+      License
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#calculation-of-positron-lifetime-and-momentum-distribution-in-silicon" title="Calculation of positron lifetime and momentum distribution in silicon" class="md-nav__link">
+    Calculation of positron lifetime and momentum distribution in silicon
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#computing-the-positron-lifetime-in-si-lattice" title="Computing the positron lifetime in Si lattice" class="md-nav__link">
+    Computing the positron lifetime in Si lattice
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#computing-the-positron-lifetime-in-a-si-monovacancy" title="Computing the positron lifetime in a Si monovacancy" class="md-nav__link">
+    Computing the positron lifetime in a Si monovacancy
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performing-a-self-consistent-electron-positron-calculation-for-a-si-vacancy" title="Performing a self-consistent electron-positron calculation for a Si vacancy" class="md-nav__link">
+    Performing a self-consistent electron-positron calculation for a Si vacancy
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#relaxing-the-vacancy-according-to-forces-due-to-electrons-and-the-positron" title="Relaxing the vacancy according to forces due to electrons and the positron" class="md-nav__link">
+    Relaxing the vacancy according to forces due to electrons and the positron
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#computing-the-electron-positron-momentum-distribution-doppler-spectrum-of-a-si-lattice" title="Computing the electron-positron momentum distribution (Doppler spectrum) of a Si lattice" class="md-nav__link">
+    Computing the electron-positron momentum distribution (Doppler spectrum) of a Si lattice
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#studying-the-effect-of-the-paw-dataset-completeness" title="Studying the effect of the PAW dataset completeness" class="md-nav__link">
+    Studying the effect of the PAW dataset completeness
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+
+                
+                  <a href="https://github.com/abinit/abinit/edit/master/doc/tutorial/positron.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="electron-positron-annihilation">Electron-positron annihilation<a class="headerlink" href="#electron-positron-annihilation" title="Permanent link">&para;</a></h1>
+<h2 id="calculation-of-positron-lifetime-and-momentum-distribution-in-silicon">Calculation of positron lifetime and momentum distribution in silicon<a class="headerlink" href="#calculation-of-positron-lifetime-and-momentum-distribution-in-silicon" title="Permanent link">&para;</a></h2>
+<p>This tutorial aims at showing how to perform <strong>Two-Component Density-Functional
+Theory (TCDFT)</strong> calculations in the PAW framework to obtain the following
+physical properties:</p>
+<ul>
+<li>the positron lifetime in the perfect material,</li>
+<li>the lifetime of a positron localized in a vacancy,</li>
+<li>the electron-positron momentum distribution.</li>
+</ul>
+<p>For the description of the implementation of TCDFT in <code>ABINIT</code> see <a class="wikilink citation-wikilink" data-content="Two-component density functional theory within the projector augmented-wave approach: Accurate and self-consistent computations of positron lifetimes and momentum distributions" data-placement="auto right" data-toggle="popover" data-trigger="hover focus" href="../../theory/bibliography#wiktor2015">[Wiktor2015]</a>.</p>
+<p>The user should be familiar with the four basic tutorials of <code>ABINIT</code> and the <a href="../paw1">first PAW tutorial</a>.</p>
+<p>This tutorial should take about 2 hours.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Supposing you made your own installation of ABINIT, the input files to run the examples
+are in the <em>~abinit/tests/</em> directory where <em>~abinit</em> is the <strong>absolute path</strong> of the abinit top-level directory.
+If you have NOT made your own install, ask your system administrator where to find the package,
+especially the executable and test files.</p>
+<p>In case you work on your own PC or workstation, to make things easier, we suggest you define
+some handy environment variables by executing the following lines in the terminal:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">ABI_HOME</span><span class="o">=</span>Replace_with_absolute_path_to_abinit_top_level_dir <span class="c1"># Change this line</span>
+<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="nv">$ABI_HOME</span>/src/98_main/:<span class="nv">$PATH</span>      <span class="c1"># Do not change this line: path to executable</span>
+<span class="nb">export</span> <span class="nv">ABI_TESTS</span><span class="o">=</span><span class="nv">$ABI_HOME</span>/tests/             <span class="c1"># Do not change this line: path to tests dir</span>
+<span class="nb">export</span> <span class="nv">ABI_PSPDIR</span><span class="o">=</span><span class="nv">$ABI_TESTS</span>/Psps_for_tests/  <span class="c1"># Do not change this line: path to pseudos dir</span>
+</code></pre></div>
+<p>Examples in this tutorial use these shell variables: copy and paste
+the code snippets into the terminal (<strong>remember to set ABI_HOME first!</strong>) or, alternatively,
+source the <code>set_abienv.sh</code> script located in the <em>~abinit</em> directory:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">source</span> ~abinit/set_abienv.sh
+</code></pre></div>
+<p>The &lsquo;export PATH&rsquo; line adds the directory containing the executables to your <a href="http://www.linfo.org/path_env_var.html">PATH</a>
+so that you can invoke the code by simply typing <em>abinit</em> in the terminal instead of providing the absolute path.</p>
+<p>To execute the tutorials, create a working directory (<code>Work*</code>) and
+copy there the input files of the lesson.</p>
+<p>Most of the tutorials do not rely on parallelism (except specific <a class="wikilink lesson-wikilink" href="../basepar">tutorials on parallelism</a>).
+However you can run most of the tutorial examples in parallel with MPI, see the <a class="wikilink topic-wikilink" data-content="How to set parameters for a parallel calculation" data-placement="auto right" data-toggle="popover" data-trigger="hover focus" href="../../topics/parallelism">topic on parallelism</a>.</p>
+</div>
+<h2 id="computing-the-positron-lifetime-in-si-lattice">Computing the positron lifetime in Si lattice<a class="headerlink" href="#computing-the-positron-lifetime-in-si-lattice" title="Permanent link">&para;</a></h2>
+<p><em>Before beginning, you might consider to work in a different subdirectory as
+for the other tutorials. Why not</em> <code>Work_positron</code><em>?</em></p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span> <span class="nv">$ABI_TESTS</span>/tutorial/Input
+mkdir Work_positron
+<span class="nb">cd</span> Work_positron
+cp ../tpositron_1.abi .
+</code></pre></div>
+<p>The tutorial begins with a calculation of the positron lifetime in a silicon lattice.
+In a perfect material the positron is delocalized. We can assume that its
+density approaches zero and that it cannot affect the electron density. We will
+perform a calculation in only two steps:</p>
+<ol>
+<li>Calculation of the ground-state electron density without the positron.</li>
+<li>Calculation of the ground-state positron density in the presence of the electron density from step 1.</li>
+</ol>
+<p>The two densities are used to calculate the positron lifetime, which is
+proportional to the inverse of the overlap of the electron and positron
+densities. This 2-step calculation, considering the <em>zero-positron density
+limit</em>, corresponds to the conventional scheme (CONV).</p>
+<p>In the <code>tpositron_1.abi</code> file, you will find two datasets.</p>
+<div class="text-center"><button type="button" id="uuid-620572b8-be83-4e5b-ae93-4b1abdc6f549" class="btn btn-default btn-labeled">
+  <span class="btn-label"><i class="fa fa-window-restore" aria-hidden="true"></i></span>View tests/tutorial/Input/tpositron_1.abi
+</button></div>
+<div id="uuid-6138d889-91ca-461c-a49e-82c6c6b31037" class="my_dialog" title="tests/tutorial/Input/tpositron_1.abi" hidden><div><div class="codehilite small-text"><pre><span></span><span class="c1"># Input for Positron tutorial</span>
+<span class="c1"># First step of the tutorial on electron-positron annihilation</span>
+<span class="c1"># Positron lifetime calculation within PAW</span>
+<span class="c1"># Si, 2 atoms in the box</span>
+
+<span class="c1">#Define the different datasets</span>
+ndtset <span class="m">2</span>          <span class="c1"># 2 datasets</span>
+
+<span class="c1">#FIRST DATASET</span>
+positron1  <span class="m">0</span>      <span class="c1"># Dataset 1 is a simple electronic GS calculation</span>
+
+<span class="c1">#SECOND DATASET</span>
+positron2  <span class="m">1</span>      <span class="c1"># Dataset 2 is a positronic GS calculation</span>
+getden2    <span class="m">1</span>      <span class="c1">#   in presence of the previous electronic density</span>
+
+kptopt2    <span class="m">0</span>      <span class="c1">#   Use only k=gamma point</span>
+
+ixcpositron2 <span class="m">1</span>    <span class="c1"># We are using the Boronski and Nieminen parametrization</span>
+
+posocc2      <span class="m">1</span>    <span class="c1"># Occupation number for the positron</span>
+                  <span class="c1">#  (should be set &lt;1 for bulk calculation with a small cell).</span>
+                  <span class="c1"># Here the zero positron density limit is used,</span>
+                  <span class="c1">#   so results do not depend on posocc.</span>
+
+
+<span class="c1">#-------------------------------------------------------------------------------</span>
+<span class="c1">#Definition of data common to all datasets</span>
+
+<span class="c1">#Definition of the unit cell</span>
+acell <span class="m">3</span>*5.43 angstrom  <span class="c1"># Lengths of the primitive vectors (exp. param. in angstrom)</span>
+rprim             <span class="c1"># 3 orthogonal primitive vectors (FCC lattice)</span>
+  <span class="m">0</span>.0 <span class="m">1</span>/2 <span class="m">1</span>/2 
+  <span class="m">1</span>/2 <span class="m">0</span>.0 <span class="m">1</span>/2
+  <span class="m">1</span>/2 <span class="m">1</span>/2 <span class="m">0</span>.0
+
+<span class="c1">#Definition of the atom types and pseudopotentials</span>
+ntypat <span class="m">1</span>          <span class="c1"># There is only one type of atom</span>
+znucl <span class="m">14</span>          <span class="c1"># Atomic number of the possible type(s) of atom. Here silicon.</span>
+pp_dirpath <span class="s2">&quot;</span><span class="nv">$ABI_PSPDIR</span><span class="s2">&quot;</span>              <span class="c1"># Path to the directory were</span>
+                                      <span class="c1">#   pseudopotentials for tests are stored</span>
+pseudos <span class="s2">&quot;Pseudodojo_paw_pw_standard/Si.xml&quot;</span> <span class="c1"># Name and location of the pseudopotential</span>
+
+<span class="c1">#Definition of the atoms</span>
+natom <span class="m">2</span>           <span class="c1"># There are two atoms</span>
+typat <span class="m">1</span> <span class="m">1</span>         <span class="c1"># They both are of type 1, that is, Silicon</span>
+xred              <span class="c1"># Location of the atoms:</span>
+  <span class="m">0</span>.0 <span class="m">0</span>.0 <span class="m">0</span>.0     <span class="c1">#  Triplet giving the reduced coordinates of atom 1</span>
+  <span class="m">1</span>/4 <span class="m">1</span>/4 <span class="m">1</span>/4     <span class="c1">#  Triplet giving the reduced coordinates of atom 2</span>
+
+<span class="c1">#Definition of bands and occupation numbers</span>
+nband <span class="m">6</span>           <span class="c1"># Compute 6 bands</span>
+occopt <span class="m">1</span>          <span class="c1"># Automatic generation of occupation numbers, as a semiconductor</span>
+
+<span class="c1">#Numerical parameters of the calculation : planewave basis set and k point grid</span>
+ecut <span class="m">8</span>.           <span class="c1"># Maximal plane-wave kinetic energy cut-off, in Hartree</span>
+pawecutdg <span class="m">15</span>.     <span class="c1"># Max. plane-wave kinetic energy cut-off, in Ha, for the PAW double grid</span>
+kptopt <span class="m">1</span>          <span class="c1"># Automatic generation of k points, taking into account the symmetry</span>
+ngkpt <span class="m">4</span> <span class="m">4</span> <span class="m">4</span>       <span class="c1"># This is a 4x4x4 grid based on the primitive vectors of the recip. space</span>
+nshiftk <span class="m">1</span>         <span class="c1"># We do not shift the grid in order to have Gamma point in it</span>
+shiftk <span class="m">0</span>. <span class="m">0</span>. <span class="m">0</span>.
+
+<span class="c1">#Parameters for the SCF procedure</span>
+nstep <span class="m">50</span>          <span class="c1"># Maximal number of SCF cycles</span>
+tolvrs <span class="m">1</span>.0d-8     <span class="c1"># Will stop when, twice in a row, the difference </span>
+                  <span class="c1"># between two consecutive evaluations of potential residual </span>
+                  <span class="c1"># differ by less than tolvrs </span>
+
+<span class="c1">#Miscelaneous parameters</span>
+prtwf <span class="m">0</span>           <span class="c1"># Do not print wavefunctions</span>
+prtden <span class="m">1</span>          <span class="c1"># Print density (electronic and/or positronic)</span>
+prteig <span class="m">0</span>          <span class="c1"># Do not print eigenvalues</span>
+optforces <span class="m">0</span>       <span class="c1"># Forces computation is not relevant here</span>
+optstress <span class="m">0</span>       <span class="c1"># Stress tensor computation is not relevant here</span>
+
+
+<span class="c1">##############################################################</span>
+<span class="c1"># This section is used only for regression testing of ABINIT #</span>
+<span class="c1">##############################################################</span>
+<span class="c1">#%%&lt;BEGIN TEST_INFO&gt;</span>
+<span class="c1">#%% [setup]</span>
+<span class="c1">#%% executable = abinit</span>
+<span class="c1">#%% [files]</span>
+<span class="c1">#%% files_to_test =</span>
+<span class="c1">#%%   tpositron_1.abo, tolnlines=  0, tolabs= 0.0, tolrel= 0.0, fld_options= -easy</span>
+<span class="c1">#%% [paral_info]</span>
+<span class="c1">#%% max_nprocs = 10</span>
+<span class="c1">#%% [extra_info]</span>
+<span class="c1">#%% authors = J. Wiktor</span>
+<span class="c1">#%% keywords = POSITRON,PAW</span>
+<span class="c1">#%% description =</span>
+<span class="c1">#%%   Input for Positron tutorial</span>
+<span class="c1">#%%   First step of the tutorial on electron-positron annihilation</span>
+<span class="c1">#%%   Positron lifetime calculation within PAW</span>
+<span class="c1">#%%   Si, 2 atoms in the box</span>
+<span class="c1">#%%&lt;END TEST_INFO&gt;</span>
+</pre></div>
+</div></div>
+
+<script> $(function() { abidocs_jqueryui_dialog("#uuid-6138d889-91ca-461c-a49e-82c6c6b31037", "#uuid-620572b8-be83-4e5b-ae93-4b1abdc6f549") }); </script>
+
+<p>The first dataset is a standard ground-state calculation. The second one introduces a positron into
+the system. You can see that in this case we set:</p>
+<div class="codehilite"><pre><span></span><code>  positron2  1      # Dataset 2 is a positronic GS calculation
+  getden2    1      #   in presence of the previous electronic density
+
+  kptopt2    0      #   Use only k=gamma point
+
+  ixcpositron2 1    # We are using the Boronski and Nieminen parametrization
+</code></pre></div>
+
+<p>Here we set <a class="wikilink codevar-wikilink" href="../../variables/gstate#positron">positron</a>=1, which corresponds to a positronic ground-state
+calculation, considering that the electrons are not perturbed by the presence
+of the positron (<em>zero-positron density limit</em>). The electron density is read from the file resulting from
+dataset 1. As we consider the positron to be completely delocalized, we only
+consider the &Gamma; point in the <em>Brillouin</em> zone. The keyword <a class="wikilink codevar-wikilink" href="../../variables/gstate#ixcpositron">ixcpositron</a>
+selects the <strong>electron-positron correlation functional</strong> and <strong>enhancement factor</strong>.
+In this calculation we use the functional parametrized by Boronski and Nieminen
+<a class="wikilink citation-wikilink" data-content="Electron-positron density-functional theory" data-placement="auto right" data-toggle="popover" data-trigger="hover focus" href="../../theory/bibliography#boronski1986">[Boronski1986]</a>, using the data provided by Arponen and Pajanne <a class="wikilink citation-wikilink" data-content="Angular correlation in positron annihilation" data-placement="auto right" data-toggle="popover" data-trigger="hover focus" href="../../theory/bibliography#arponen1979">[Arponen1979]</a>.</p>
+<p>We can now run the calculation. In the working directory
+<code>Work_positron</code>, copy the file <code>tpositron_1.abi</code>.</p>
+<p>Then, issue:</p>
+<div class="codehilite"><pre><span></span><code>abinit tpositron_1.abi &gt;&amp; log
+</code></pre></div>
+
+<p>This calculation should only take a few seconds.</p>
+<p>You can look at the <code>tpositron_1.abo</code> file.
+We find the positron lifetime calculated in the RPA limit:</p>
+<div class="codehilite"><pre><span></span><code>########## Lifetime computation 2
+
+ # Zero-positron density limit of Arponen and Pajanne provided by Boronski &amp; Nieminen
+   Ref.: Boronski and R.M. Nieminen, Phys. Rev. B 34, 3820 (1986)
+ # Enhancement factor of Boronski &amp; Nieminen IN THE RPA LIMIT
+   Ref.: Boronski and R.M. Nieminen, Phys. Rev. B 34, 3820 (1986)
+
+ Positron lifetime                         (ps)   =  2.22879743E+02
+</code></pre></div>
+
+<p>The lifetime of 223 ps agrees well with the value of 225 ps calculated with
+the same number of valence electrons in <a class="wikilink citation-wikilink" data-content="Two-component density functional theory within the projector augmented-wave approach: Accurate and self-consistent computations of positron lifetimes and momentum distributions" data-placement="auto right" data-toggle="popover" data-trigger="hover focus" href="../../theory/bibliography#wiktor2015">[Wiktor2015]</a> and
+with the experimental value of about 219 ps <a class="wikilink citation-wikilink" data-content="Electron-positron momentum distributions and positron lifetime in semiconductors in the generalized gradient approximation" data-placement="auto right" data-toggle="popover" data-trigger="hover focus" href="../../theory/bibliography#panda1997">[Panda1997]</a>.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>If we had not used the &ldquo;zero positron density limit&rdquo; approximation
+(using, for example, another value of <a class="wikilink codevar-wikilink" href="../../variables/gstate#ixcpositron">ixcpositron</a>), we would theoretically
+have needed a box of infinite size for the positron to completely delocalise
+itself in the crystal. This can be avoided by the use of the <a class="wikilink codevar-wikilink" href="../../variables/gstate#posocc">posocc</a> input
+parameter. Numerically, it is equivalent to calculate the density of 1
+positron in a box of size N and that of x positron in a box of size N * x.
+Thus, we can calculate the lifetime of a positron in a primitive cell by
+setting <a class="wikilink codevar-wikilink" href="../../variables/gstate#posocc">posocc</a> to a small value (0.0001 &hellip;). This value must obviously be tested&hellip;</p>
+</div>
+<h2 id="computing-the-positron-lifetime-in-a-si-monovacancy">Computing the positron lifetime in a Si monovacancy<a class="headerlink" href="#computing-the-positron-lifetime-in-a-si-monovacancy" title="Permanent link">&para;</a></h2>
+<p>We will now perform a positron lifetime calculation for a monovacancy in
+silicon in the conventional scheme (which we applied to the perfect lattice
+previously). Note that when the positron localizes inside a vacancy, the
+<em>zero-positron density limit</em> does not apply anymore. However, in some cases, the
+conventional scheme proved to yield results in agreement with experiments.</p>
+<p>For the purpose of this tutorial, we generate a defect in a cell containing
+only 16 atoms. This supercell is too small to get converged results, but the
+calculation is relatively fast.</p>
+<div class="text-center"><button type="button" id="uuid-37692609-4653-490f-93a1-f929a92dbc5f" class="btn btn-default btn-labeled">
+  <span class="btn-label"><i class="fa fa-window-restore" aria-hidden="true"></i></span>View tests/tutorial/Input/tpositron_2.abi
+</button></div>
+<div id="uuid-384f9c6f-aec3-44fe-8a96-9b945feab5ac" class="my_dialog" title="tests/tutorial/Input/tpositron_2.abi" hidden><div><div class="codehilite small-text"><pre><span></span><span class="c1"># Input for Positron tutorial</span>
+<span class="c1"># Second step of the tutorial on electron-positron annihilation</span>
+<span class="c1"># Positron lifetime calculation within PAW</span>
+<span class="c1"># Si monovacancy, &quot;conventional&quot; scheme</span>
+
+<span class="c1">#Define the different datasets</span>
+ndtset <span class="m">2</span>          <span class="c1"># 2 datasets</span>
+
+<span class="c1">#FIRST DATASET</span>
+positron1  <span class="m">0</span>      <span class="c1"># Dataset 1 is a simple electronic GS calculation</span>
+
+<span class="c1">#SECOND DATASET</span>
+positron2  <span class="m">1</span>      <span class="c1"># Dataset 2 is a positronic GS calculation</span>
+getden2    <span class="m">1</span>      <span class="c1">#   in presence of the previous electronic density</span>
+
+kptopt2    <span class="m">0</span>      <span class="c1">#   Use only k=gamma point</span>
+
+ixcpositron2 <span class="m">1</span>    <span class="c1"># We are using the Boronski and Nieminen parametrization</span>
+
+posocc2      <span class="m">1</span>    <span class="c1"># Occupation number for the positron</span>
+                  <span class="c1">#  (should be set &lt;1 for bulk calculation with a small cell).</span>
+                  <span class="c1"># Here the zero positron density limit is used,</span>
+                  <span class="c1">#   so results do not depend on posocc.</span>
+
+
+<span class="c1">#-------------------------------------------------------------------------------</span>
+<span class="c1">#Definition of data common to all datasets</span>
+
+<span class="c1">#Definition of the unit cell</span>
+acell <span class="m">3</span>*5.43 angstrom  <span class="c1"># Lengths of the primitive vectors (exp. param. in angstrom)</span>
+rprim             <span class="c1"># 3 orthogonal primitive vectors (FCC lattice, non primitive cell)</span>
+  <span class="m">0</span>.0 <span class="m">1</span>.0 <span class="m">1</span>.0
+  <span class="m">1</span>.0 <span class="m">0</span>.0 <span class="m">1</span>.0
+  <span class="m">1</span>.0 <span class="m">1</span>.0 <span class="m">0</span>.0
+chkprim <span class="m">0</span>         <span class="c1"># Do not stop if cell is not primitive</span>
+
+<span class="c1">#Definition of the atom types and pseudopotentials</span>
+ntypat <span class="m">1</span>          <span class="c1"># There is only one type of atom</span>
+znucl <span class="m">14</span>          <span class="c1"># Atomic number of the possible type(s) of atom. Here silicon.</span>
+pp_dirpath <span class="s2">&quot;</span><span class="nv">$ABI_PSPDIR</span><span class="s2">&quot;</span>              <span class="c1"># Path to the directory were</span>
+                                      <span class="c1">#   pseudopotentials for tests are stored</span>
+pseudos <span class="s2">&quot;Pseudodojo_paw_pw_standard/Si.xml&quot;</span> <span class="c1"># Name and location of the pseudopotential</span>
+
+<span class="c1">#Definition of the atoms</span>
+natom <span class="m">15</span>          <span class="c1"># There are 15 atoms</span>
+typat <span class="m">15</span>*1        <span class="c1"># They all are of type 1, that is, Silicon</span>
+xred              <span class="c1"># Location of the 15 atoms (one triplet per atom):</span>
+  <span class="m">0</span>.0   <span class="m">0</span>.0   <span class="m">0</span>.0
+  <span class="m">0</span>.0   <span class="m">0</span>.0   <span class="m">0</span>.5
+  <span class="m">0</span>.0   <span class="m">0</span>.5   <span class="m">0</span>.0
+  <span class="m">0</span>.5   <span class="m">0</span>.0   <span class="m">0</span>.0
+  <span class="m">0</span>.0   <span class="m">0</span>.5   <span class="m">0</span>.5
+  <span class="m">0</span>.5   <span class="m">0</span>.0   <span class="m">0</span>.5
+  <span class="m">0</span>.5   <span class="m">0</span>.5   <span class="m">0</span>.0
+  <span class="m">0</span>.5   <span class="m">0</span>.5   <span class="m">0</span>.5
+  <span class="m">0</span>.125 <span class="m">0</span>.125 <span class="m">0</span>.125
+  <span class="m">0</span>.125 <span class="m">0</span>.125 <span class="m">0</span>.625
+  <span class="m">0</span>.125 <span class="m">0</span>.625 <span class="m">0</span>.125
+  <span class="m">0</span>.625 <span class="m">0</span>.125 <span class="m">0</span>.125
+  <span class="m">0</span>.125 <span class="m">0</span>.625 <span class="m">0</span>.625
+  <span class="m">0</span>.625 <span class="m">0</span>.125 <span class="m">0</span>.625
+  <span class="m">0</span>.625 <span class="m">0</span>.625 <span class="m">0</span>.125
+<span class="c1"># 0.625 0.625 0.625  # We remove one Si atom</span>
+
+<span class="c1">#Definition of bands and occupation numbers</span>
+nband <span class="m">36</span>          <span class="c1"># Compute 36 bands</span>
+occopt <span class="m">1</span>          <span class="c1"># Automatic generation of occupation numbers, as a semiconductor</span>
+
+<span class="c1">#Numerical parameters of the calculation : planewave basis set and k point grid</span>
+ecut <span class="m">8</span>.           <span class="c1"># Maximal plane-wave kinetic energy cut-off, in Hartree</span>
+pawecutdg <span class="m">15</span>.     <span class="c1"># Max. plane-wave kinetic energy cut-off, in Ha, for the PAW double grid</span>
+kptopt <span class="m">1</span>          <span class="c1"># Automatic generation of k points, taking into account the symmetry</span>
+ngkpt <span class="m">2</span> <span class="m">2</span> <span class="m">2</span>       <span class="c1"># This is a 2 2 2 grid based on the primitive vectors of the recip. space</span>
+nshiftk <span class="m">1</span>         <span class="c1"># We do not shift the grid in order to have Gamma point in it</span>
+shiftk <span class="m">0</span>. <span class="m">0</span>. <span class="m">0</span>.
+
+<span class="c1">#Parameters for the SCF procedure</span>
+nstep <span class="m">50</span>          <span class="c1"># Maximal number of SCF cycles</span>
+tolvrs <span class="m">1</span>.0d-8     <span class="c1"># Will stop when, twice in a row, the difference </span>
+                  <span class="c1"># between two consecutive evaluations of potential residual </span>
+                  <span class="c1"># differ by less than tolvrs</span>
+
+<span class="c1">#Miscelaneous parameters</span>
+prtwf <span class="m">0</span>           <span class="c1"># Do not print wavefunctions</span>
+prtden <span class="m">1</span>          <span class="c1"># Print density (electronic and/or positronic)</span>
+prteig <span class="m">0</span>          <span class="c1"># Do not print eigenvalues</span>
+optforces <span class="m">0</span>       <span class="c1"># Forces computation is not relevant here</span>
+optstress <span class="m">0</span>       <span class="c1"># Stress tensor computation is not relevant here</span>
+
+
+<span class="c1">##############################################################</span>
+<span class="c1"># This section is used only for regression testing of ABINIT #</span>
+<span class="c1">##############################################################</span>
+<span class="c1">#%%&lt;BEGIN TEST_INFO&gt;</span>
+<span class="c1">#%% [setup]</span>
+<span class="c1">#%% executable = abinit</span>
+<span class="c1">#%% [files]</span>
+<span class="c1">#%% files_to_test =</span>
+<span class="c1">#%%   tpositron_2.abo, tolnlines=  0, tolabs= 0.0, tolrel= 0.0, fld_options= -easy</span>
+<span class="c1">#%% [paral_info]</span>
+<span class="c1">#%% max_nprocs = 10</span>
+<span class="c1">#%% [extra_info]</span>
+<span class="c1">#%% authors = J. Wiktor</span>
+<span class="c1">#%% keywords = POSITRON,PAW</span>
+<span class="c1">#%% description =</span>
+<span class="c1">#%%   Input for Positron tutorial</span>
+<span class="c1">#%%   Second step of the tutorial on electron-positron annihilation</span>
+<span class="c1">#%%   Positron lifetime calculation within PAW</span>
+<span class="c1">#%%   Si monovacancy, &quot;conventional&quot; scheme</span>
+<span class="c1">#%%&lt;END TEST_INFO&gt;</span>
+</pre></div>
+</div></div>
+
+<script> $(function() { abidocs_jqueryui_dialog("#uuid-384f9c6f-aec3-44fe-8a96-9b945feab5ac", "#uuid-37692609-4653-490f-93a1-f929a92dbc5f") }); </script>
+
+<p>You can now, issue:</p>
+<div class="codehilite"><pre><span></span><code>abinit tpositron_2.abi &gt;&amp; log
+</code></pre></div>
+
+<p>Once the calculation is finished, look at the <code>tpositron_2.abo</code> file.
+Again, we look at the reported lifetime:</p>
+<div class="codehilite"><pre><span></span><code>########## Lifetime computation 2
+
+ # Zero-positron density limit of Arponen and Pajanne provided by Boronski &amp; Nieminen
+   Ref.: Boronski and R.M. Nieminen, Phys. Rev. B 34, 3820 (1986)
+ # Enhancement factor of Boronski &amp; Nieminen IN THE RPA LIMIT
+   Ref.: Boronski and R.M. Nieminen, Phys. Rev. B 34, 3820 (1986)
+
+ Positron lifetime                         (ps)   =  2.46923233E+02
+</code></pre></div>
+
+<p>We observe that when the positron localizes inside the vacancy, its lifetime
+increases from 223 to 247 ps. This is because now the majority of the positron
+density is localized in the vacancy region, where the electron density is
+small. The overlap of the electron and positron densities is reduced, and the lifetime increased.</p>
+<p>In the <code>Work_positron</code> directory, you will also find a <code>tpositron_2o_DS2_DEN_POSITRON</code>
+file, containing the positron density. Visualizing this file (using e.g.
+<em>cut3d</em> and <em>XcrysDen</em> or <em>VMD</em>) you can see that the positron is localized
+inside the vacancy. You can see below how the positron (in red, isodensity at
+30% of the maximum density) localized the silicon monovacancy looks like:</p>
+<p><img alt="" src="../positron_assets/posdensity.png" width="80%" /></p>
+<h2 id="performing-a-self-consistent-electron-positron-calculation-for-a-si-vacancy">Performing a self-consistent electron-positron calculation for a Si vacancy<a class="headerlink" href="#performing-a-self-consistent-electron-positron-calculation-for-a-si-vacancy" title="Permanent link">&para;</a></h2>
+<p>We will now perform a self-consistent calculation of the positron and electron
+densities. As this calculation will take a few minutes, you can already issue, using
+the <code>tpositron_3.abi</code> input file:</p>
+<div class="codehilite"><pre><span></span><code>abinit tpositron_3.abi &gt;&amp; log
+</code></pre></div>
+
+<div class="text-center"><button type="button" id="uuid-a2123f43-fce1-488a-8d74-6ecce5ac87a2" class="btn btn-default btn-labeled">
+  <span class="btn-label"><i class="fa fa-window-restore" aria-hidden="true"></i></span>View tests/tutorial/Input/tpositron_3.abi
+</button></div>
+<div id="uuid-04f175b2-637e-4f17-91cd-150234831562" class="my_dialog" title="tests/tutorial/Input/tpositron_3.abi" hidden><div><div class="codehilite small-text"><pre><span></span><span class="c1"># Input for Positron tutorial</span>
+<span class="c1"># Third step of the tutorial on electron-positron annihilation</span>
+<span class="c1"># Positron lifetime calculation within PAW</span>
+<span class="c1"># Si monovacancy, self-consistent scheme</span>
+
+<span class="c1">#To perform a self-consistent electron-positron calculation, we need only one dataset</span>
+
+<span class="c1">#-------------------------------------------------------------------------------</span>
+<span class="c1">#Definition of variables specific to electron-positron calculation</span>
+
+<span class="c1">#TC-DFT Self-consistent cycle</span>
+positron   -10    <span class="c1"># We perform automatic calculation of electrons and positron densities</span>
+                  <span class="c1">#   in the two-component DFT context (storing wavefunctions in memory)</span>
+posnstep    <span class="m">20</span>    <span class="c1"># Maximum number of electon and positron steps</span>
+postoldfe 1d-5    <span class="c1"># We will repeat the electon and positron steps</span>
+                  <span class="c1">#   until the energy difference is lower than 1d-5</span>
+
+
+ixcpositron  <span class="m">1</span>    <span class="c1"># We are using the Boronski and Nieminen parametrization</span>
+
+posocc     <span class="m">1</span>.0    <span class="c1"># Occupation number for the positron</span>
+                  <span class="c1">#   (we have only one positron in the cell)</span>
+
+
+<span class="c1">#-------------------------------------------------------------------------------</span>
+
+<span class="c1">#Definition of the unit cell</span>
+acell <span class="m">3</span>*5.43 angstrom  <span class="c1"># Lengths of the primitive vectors (exp. param. in angstrom)</span>
+rprim             <span class="c1"># 3 orthogonal primitive vectors (FCC lattice, non primitive cell)</span>
+  <span class="m">0</span>.0 <span class="m">1</span>.0 <span class="m">1</span>.0
+  <span class="m">1</span>.0 <span class="m">0</span>.0 <span class="m">1</span>.0
+  <span class="m">1</span>.0 <span class="m">1</span>.0 <span class="m">0</span>.0
+chkprim <span class="m">0</span>         <span class="c1"># Do not stop if cell is not primitive</span>
+
+<span class="c1">#Definition of the atom types and pseudopotentials</span>
+ntypat <span class="m">1</span>          <span class="c1"># There is only one type of atom</span>
+znucl <span class="m">14</span>          <span class="c1"># Atomic number of the possible type(s) of atom. Here silicon.</span>
+pp_dirpath <span class="s2">&quot;</span><span class="nv">$ABI_PSPDIR</span><span class="s2">&quot;</span>              <span class="c1"># Path to the directory were</span>
+                                      <span class="c1">#   pseudopotentials for tests are stored</span>
+pseudos <span class="s2">&quot;Pseudodojo_paw_pw_standard/Si.xml&quot;</span> <span class="c1"># Name and location of the pseudopotential</span>
+
+<span class="c1">#Definition of the atoms</span>
+natom <span class="m">15</span>          <span class="c1"># There are 15 atoms</span>
+typat <span class="m">15</span>*1        <span class="c1"># They all are of type 1, that is, Silicon</span>
+xred              <span class="c1"># Location of the 15 atoms (one triplet per atom):</span>
+  <span class="m">0</span>.0   <span class="m">0</span>.0   <span class="m">0</span>.0
+  <span class="m">0</span>.0   <span class="m">0</span>.0   <span class="m">0</span>.5
+  <span class="m">0</span>.0   <span class="m">0</span>.5   <span class="m">0</span>.0
+  <span class="m">0</span>.5   <span class="m">0</span>.0   <span class="m">0</span>.0
+  <span class="m">0</span>.0   <span class="m">0</span>.5   <span class="m">0</span>.5
+  <span class="m">0</span>.5   <span class="m">0</span>.0   <span class="m">0</span>.5
+  <span class="m">0</span>.5   <span class="m">0</span>.5   <span class="m">0</span>.0
+  <span class="m">0</span>.5   <span class="m">0</span>.5   <span class="m">0</span>.5
+  <span class="m">0</span>.125 <span class="m">0</span>.125 <span class="m">0</span>.125
+  <span class="m">0</span>.125 <span class="m">0</span>.125 <span class="m">0</span>.625
+  <span class="m">0</span>.125 <span class="m">0</span>.625 <span class="m">0</span>.125
+  <span class="m">0</span>.625 <span class="m">0</span>.125 <span class="m">0</span>.125
+  <span class="m">0</span>.125 <span class="m">0</span>.625 <span class="m">0</span>.625
+  <span class="m">0</span>.625 <span class="m">0</span>.125 <span class="m">0</span>.625
+  <span class="m">0</span>.625 <span class="m">0</span>.625 <span class="m">0</span>.125
+<span class="c1"># 0.625 0.625 0.625  # We remove one Si atom</span>
+
+<span class="c1">#Definition of bands and occupation numbers</span>
+nband <span class="m">36</span>          <span class="c1"># Compute 36 bands</span>
+occopt <span class="m">1</span>          <span class="c1"># Automatic generation of occupation numbers, as a semiconductor</span>
+
+<span class="c1">#Numerical parameters of the calculation : planewave basis set and k point grid</span>
+ecut <span class="m">8</span>.           <span class="c1"># Maximal plane-wave kinetic energy cut-off, in Hartree</span>
+pawecutdg <span class="m">15</span>.     <span class="c1"># Max. plane-wave kinetic energy cut-off, in Ha, for the PAW double grid</span>
+kptopt <span class="m">1</span>          <span class="c1"># Automatic generation of k points, taking into account the symmetry</span>
+ngkpt <span class="m">2</span> <span class="m">2</span> <span class="m">2</span>       <span class="c1"># This is a 2 2 2 grid based on the primitive vectors of the recip. space</span>
+nshiftk <span class="m">1</span>         <span class="c1"># We do not shift the grid in order to have Gamma point in it</span>
+shiftk <span class="m">0</span>. <span class="m">0</span>. <span class="m">0</span>.
+
+<span class="c1">#Parameters for the SCF procedure</span>
+nstep <span class="m">500</span>         <span class="c1"># Maximal number of SCF cycles. We increase it!</span>
+toldfe <span class="m">1</span>.0d-8     <span class="c1"># Will stop when, twice in a row, the difference </span>
+                  <span class="c1"># between two consecutive evaluations of energy</span>
+                  <span class="c1"># differ by less than toldfe</span>
+
+<span class="c1">#Miscelaneous parameters</span>
+prtwf <span class="m">0</span>           <span class="c1"># Do not print wavefunctions</span>
+prtden <span class="m">0</span>          <span class="c1"># Do not print density (electronic and/or positronic)</span>
+prteig <span class="m">0</span>          <span class="c1"># Do not print eigenvalues</span>
+optforces <span class="m">0</span>       <span class="c1"># Forces computation is not relevant here</span>
+optstress <span class="m">0</span>       <span class="c1"># Stress tensor computation is not relevant here</span>
+
+
+<span class="c1">##############################################################</span>
+<span class="c1"># This section is used only for regression testing of ABINIT #</span>
+<span class="c1">##############################################################</span>
+<span class="c1">#%%&lt;BEGIN TEST_INFO&gt;</span>
+<span class="c1">#%% [setup]</span>
+<span class="c1">#%% executable = abinit</span>
+<span class="c1">#%% [files]</span>
+<span class="c1">#%% files_to_test =</span>
+<span class="c1">#%%   tpositron_3.abo, tolnlines= 30, tolabs= 9.0e-4, tolrel= 5.0e-1, fld_options= -easy</span>
+<span class="c1">#%% [paral_info]</span>
+<span class="c1">#%% max_nprocs = 10</span>
+<span class="c1">#%% [extra_info]</span>
+<span class="c1">#%% authors = J. Wiktor</span>
+<span class="c1">#%% keywords = POSITRON,PAW</span>
+<span class="c1">#%% description =</span>
+<span class="c1">#%%   Input for Positron tutorial</span>
+<span class="c1">#%%   Third step of the tutorial on electron-positron annihilation</span>
+<span class="c1">#%%   Positron lifetime calculation within PAW</span>
+<span class="c1">#%%   Si monovacancy, self-consistent scheme</span>
+<span class="c1">#%%&lt;END TEST_INFO&gt;</span>
+</pre></div>
+</div></div>
+
+<script> $(function() { abidocs_jqueryui_dialog("#uuid-04f175b2-637e-4f17-91cd-150234831562", "#uuid-a2123f43-fce1-488a-8d74-6ecce5ac87a2") }); </script>
+
+<p>This calculation is significantly longer than the previous one, because the
+electron and positron steps will be repeated until the convergence criterion is reached.</p>
+<p>In <code>tpositron_3.abi</code> we only have one dataset and we set
+<a class="wikilink codevar-wikilink" href="../../variables/gstate#positron">positron</a> = -10 to perform an automatic calculation of electrons and positron
+densities. The convergence is controlled by <a class="wikilink codevar-wikilink" href="../../variables/gstate#postoldfe">postoldfe</a> = 1d-5. This means
+that we will repeat the electron and positron steps until the energy
+difference between them is lower than 1d-5 Ha. This value should always be
+larger than <a class="wikilink codevar-wikilink" href="../../variables/basic#toldfe">toldfe</a>. In this calculation we still use <a class="wikilink codevar-wikilink" href="../../variables/gstate#ixcpositron">ixcpositron</a> = 1,
+which means that we are using the GGGC scheme (see <a class="wikilink citation-wikilink" data-content="Ab initio study of positron trapping at a vacancy in GaAs" data-placement="auto right" data-toggle="popover" data-trigger="hover focus" href="../../theory/bibliography#gilgien1994">[Gilgien1994]</a> and <a class="wikilink citation-wikilink" data-content="Two-component density functional theory within the projector augmented-wave approach: Accurate and self-consistent computations of positron lifetimes and momentum distributions" data-placement="auto right" data-toggle="popover" data-trigger="hover focus" href="../../theory/bibliography#wiktor2015">[Wiktor2015]</a></p>
+<p>Once the calculation is finished, look at the positron lifetime in <code>tpositron_3.abo</code>.</p>
+<div class="codehilite"><pre><span></span><code>########## Lifetime computation 2
+
+ # Zero-positron density limit of Arponen and Pajanne provided by Boronski &amp; Nieminen
+   Ref.: Boronski and R.M. Nieminen, Phys. Rev. B 34, 3820 (1986)
+ # Enhancement factor of Boronski &amp; Nieminen IN THE RPA LIMIT
+   Ref.: Boronski and R.M. Nieminen, Phys. Rev. B 34, 3820 (1986)
+
+ Positron lifetime                         (ps)   =  2.55612619E+02
+</code></pre></div>
+
+<p>Including the self-consistency increases the positron lifetime, because its
+localization inside the vacancy becomes stronger when the positron and the
+electron densities are allowed to relax.</p>
+<h2 id="relaxing-the-vacancy-according-to-forces-due-to-electrons-and-the-positron">Relaxing the vacancy according to forces due to electrons and the positron<a class="headerlink" href="#relaxing-the-vacancy-according-to-forces-due-to-electrons-and-the-positron" title="Permanent link">&para;</a></h2>
+<p>In addition to the self-consistency, the lifetime of a positron inside a
+vacancy can be strongly affected by the relaxation of the atoms due to the
+forces coming from both the electrons and the positron. You can already start
+the relaxation (with the <code>tpositron_4.abi</code> input file) of the vacancy by issuing:</p>
+<div class="codehilite"><pre><span></span><code>abinit tpositron_4.abi &gt;&amp; log
+</code></pre></div>
+
+<p>In this calculation we switched on the atomic relaxation by setting
+<a class="wikilink codevar-wikilink" href="../../variables/rlx#ionmov">ionmov</a> = 2. We need to calculate forces to be able to move the atoms, so we
+set <a class="wikilink codevar-wikilink" href="../../variables/dev#optforces">optforces</a> = 1. In the provided <code>tpositron_4.abi</code> file, we only perform 4
+relaxation steps (<a class="wikilink codevar-wikilink" href="../../variables/rlx#ntime">ntime</a> = 4) to save time, but more steps would be needed to
+converge the positron lifetime.</p>
+<div class="text-center"><button type="button" id="uuid-c7e6633d-69be-42a7-abe0-1bfac7158f1a" class="btn btn-default btn-labeled">
+  <span class="btn-label"><i class="fa fa-window-restore" aria-hidden="true"></i></span>View tests/tutorial/Input/tpositron_4.abi
+</button></div>
+<div id="uuid-a333a58e-f476-4755-ba9e-c728214c5bcf" class="my_dialog" title="tests/tutorial/Input/tpositron_4.abi" hidden><div><div class="codehilite small-text"><pre><span></span><span class="c1"># Input for Positron tutorial</span>
+<span class="c1"># Fourth step of the tutorial on electron-positron annihilation</span>
+<span class="c1"># Positron lifetime calculation within PAW</span>
+<span class="c1"># Si monovacancy, relaxation effect</span>
+
+<span class="c1">#To perform a self-consistent electron-positron calculation, we need only one dataset</span>
+
+<span class="c1">#-------------------------------------------------------------------------------</span>
+<span class="c1">#Definition of variables specific to electron-positron calculation</span>
+
+<span class="c1">#TC-DFT Self-consistent cycle</span>
+positron   -10    <span class="c1"># We perform automatic calculation of electrons and positron densities</span>
+                  <span class="c1">#   in the two-component DFT context (storing wavefunctions in memory)</span>
+posnstep    <span class="m">20</span>    <span class="c1"># Maximum number of electon and positron steps</span>
+postoldfe 1d-5    <span class="c1"># We will repeat the electon and positron steps</span>
+                  <span class="c1">#   until the energy difference is lower than 1d-5</span>
+
+
+ixcpositron  <span class="m">1</span>    <span class="c1"># We are using the Boronski and Nieminen parametrization</span>
+
+posocc     <span class="m">1</span>.0    <span class="c1"># Occupation number for the positron</span>
+                  <span class="c1">#   (we have only one positron in the cell)</span>
+
+<span class="c1">#-------------------------------------------------------------------------------</span>
+<span class="c1">#Definition of variables specific to atomic relaxation</span>
+
+ionmov   <span class="m">2</span>        <span class="c1"># We now include the effect of the atomic relaxation</span>
+                  <span class="c1">#   (BFGS relaxation algorithm)</span>
+
+ntime    <span class="m">4</span>        <span class="c1"># We will perform only 4 steps of relaxation</span>
+                  <span class="c1">#   in reality more steps are required</span>
+
+optforces <span class="m">1</span>       <span class="c1"># Forces computation done at each (electronic or positronic) SCF step</span>
+
+
+<span class="c1">#-------------------------------------------------------------------------------</span>
+
+<span class="c1">#Definition of the unit cell</span>
+acell <span class="m">3</span>*5.43 angstrom  <span class="c1"># Lengths of the primitive vectors (exp. param. in angstrom)</span>
+rprim             <span class="c1"># 3 orthogonal primitive vectors (FCC lattice, non primitive cell)</span>
+  <span class="m">0</span>.0 <span class="m">1</span>.0 <span class="m">1</span>.0
+  <span class="m">1</span>.0 <span class="m">0</span>.0 <span class="m">1</span>.0
+  <span class="m">1</span>.0 <span class="m">1</span>.0 <span class="m">0</span>.0
+chkprim <span class="m">0</span>         <span class="c1"># Do not stop if cell is not primitive</span>
+
+<span class="c1">#Definition of the atom types and pseudopotentials</span>
+ntypat <span class="m">1</span>          <span class="c1"># There is only one type of atom</span>
+znucl <span class="m">14</span>          <span class="c1"># Atomic number of the possible type(s) of atom. Here silicon.</span>
+pp_dirpath <span class="s2">&quot;</span><span class="nv">$ABI_PSPDIR</span><span class="s2">&quot;</span>              <span class="c1"># Path to the directory were</span>
+                                      <span class="c1">#   pseudopotentials for tests are stored</span>
+pseudos <span class="s2">&quot;Pseudodojo_paw_pw_standard/Si.xml&quot;</span> <span class="c1"># Name and location of the pseudopotential</span>
+
+<span class="c1">#Definition of the atoms</span>
+natom <span class="m">15</span>          <span class="c1"># There are 15 atoms</span>
+typat <span class="m">15</span>*1        <span class="c1"># They all are of type 1, that is, Silicon</span>
+xred              <span class="c1"># Location of the 15 atoms (one triplet per atom):</span>
+  <span class="m">0</span>.0   <span class="m">0</span>.0   <span class="m">0</span>.0
+  <span class="m">0</span>.0   <span class="m">0</span>.0   <span class="m">0</span>.5
+  <span class="m">0</span>.0   <span class="m">0</span>.5   <span class="m">0</span>.0
+  <span class="m">0</span>.5   <span class="m">0</span>.0   <span class="m">0</span>.0
+  <span class="m">0</span>.0   <span class="m">0</span>.5   <span class="m">0</span>.5
+  <span class="m">0</span>.5   <span class="m">0</span>.0   <span class="m">0</span>.5
+  <span class="m">0</span>.5   <span class="m">0</span>.5   <span class="m">0</span>.0
+  <span class="m">0</span>.5   <span class="m">0</span>.5   <span class="m">0</span>.5
+  <span class="m">0</span>.125 <span class="m">0</span>.125 <span class="m">0</span>.125
+  <span class="m">0</span>.125 <span class="m">0</span>.125 <span class="m">0</span>.625
+  <span class="m">0</span>.125 <span class="m">0</span>.625 <span class="m">0</span>.125
+  <span class="m">0</span>.625 <span class="m">0</span>.125 <span class="m">0</span>.125
+  <span class="m">0</span>.125 <span class="m">0</span>.625 <span class="m">0</span>.625
+  <span class="m">0</span>.625 <span class="m">0</span>.125 <span class="m">0</span>.625
+  <span class="m">0</span>.625 <span class="m">0</span>.625 <span class="m">0</span>.125
+<span class="c1"># 0.625 0.625 0.625  # We remove one Si atom</span>
+
+<span class="c1">#Definition of bands and occupation numbers</span>
+nband <span class="m">36</span>          <span class="c1"># Compute 36 bands</span>
+occopt <span class="m">1</span>          <span class="c1"># Automatic generation of occupation numbers, as a semiconductor</span>
+
+<span class="c1">#Numerical parameters of the calculation : planewave basis set and k point grid</span>
+ecut <span class="m">8</span>.           <span class="c1"># Maximal plane-wave kinetic energy cut-off, in Hartree</span>
+pawecutdg <span class="m">15</span>.     <span class="c1"># Max. plane-wave kinetic energy cut-off, in Ha, for the PAW double grid</span>
+kptopt <span class="m">1</span>          <span class="c1"># Automatic generation of k points, taking into account the symmetry</span>
+ngkpt <span class="m">2</span> <span class="m">2</span> <span class="m">2</span>       <span class="c1"># This is a 2 2 2 grid based on the primitive vectors of the recip. space</span>
+nshiftk <span class="m">1</span>         <span class="c1"># We do not shift the grid in order to have Gamma point in it</span>
+shiftk <span class="m">0</span>. <span class="m">0</span>. <span class="m">0</span>.
+
+<span class="c1">#Parameters for the SCF procedure</span>
+nstep <span class="m">500</span>         <span class="c1"># Maximal number of SCF cycles. We increase it!</span>
+toldfe <span class="m">1</span>.0d-8     <span class="c1"># Will stop when, twice in a row, the difference </span>
+                  <span class="c1"># between two consecutive evaluations of energy</span>
+                  <span class="c1"># differ by less than toldfe</span>
+
+<span class="c1">#Miscelaneous parameters</span>
+prtwf <span class="m">0</span>           <span class="c1"># Do not print wavefunctions</span>
+prtden <span class="m">0</span>          <span class="c1"># Do not print density (electronic and/or positronic)</span>
+prteig <span class="m">0</span>          <span class="c1"># Do not print eigenvalues</span>
+optstress <span class="m">0</span>       <span class="c1"># Stress tensor computation is not relevant here</span>
+
+
+<span class="c1">##############################################################</span>
+<span class="c1"># This section is used only for regression testing of ABINIT #</span>
+<span class="c1">##############################################################</span>
+<span class="c1">#%%&lt;BEGIN TEST_INFO&gt;</span>
+<span class="c1">#%% [setup]</span>
+<span class="c1">#%% executable = abinit</span>
+<span class="c1">#%% [files]</span>
+<span class="c1">#%% files_to_test =</span>
+<span class="c1">#%%   tpositron_4.abo, tolnlines= 48, tolabs= 3.0e-2, tolrel= 7.0e-1, fld_options= -easy</span>
+<span class="c1">#%% [paral_info]</span>
+<span class="c1">#%% max_nprocs = 10</span>
+<span class="c1">#%% [extra_info]</span>
+<span class="c1">#%% authors = J. Wiktor</span>
+<span class="c1">#%% keywords = POSITRON,PAW</span>
+<span class="c1">#%% description =</span>
+<span class="c1">#%%   Input for Positron tutorial</span>
+<span class="c1">#%%   Fourth step of the tutorial on electron-positron annihilation</span>
+<span class="c1">#%%   Positron lifetime calculation within PAW</span>
+<span class="c1">#%%   Si monovacancy, relaxation effect</span>
+<span class="c1">#%%&lt;END TEST_INFO&gt;</span>
+</pre></div>
+</div></div>
+
+<script> $(function() { abidocs_jqueryui_dialog("#uuid-a333a58e-f476-4755-ba9e-c728214c5bcf", "#uuid-c7e6633d-69be-42a7-abe0-1bfac7158f1a") }); </script>
+
+<p>Look at the positron lifetime in the RPA limit after each ionic step:</p>
+<div class="codehilite"><pre><span></span><code> Positron lifetime                         (ps)   =  2.55612619E+02
+ Positron lifetime                         (ps)   =  2.56978378E+02
+ Positron lifetime                         (ps)   =  2.82166606E+02
+ Positron lifetime                         (ps)   =  2.82878399E+02
+</code></pre></div>
+
+<p>As the vacancy relaxes outwards, the positron lifetime increases. 4 steps were
+not enough to relax the defect completely, as the lifetime still changes.
+Indeed, setting <a class="wikilink codevar-wikilink" href="../../variables/rlx#ntime">ntime</a> to 10 delivers:</p>
+<div class="codehilite"><pre><span></span><code> Positron lifetime                         (ps)   =  2.55612619E+02
+ Positron lifetime                         (ps)   =  2.56978379E+02
+ Positron lifetime                         (ps)   =  2.82166601E+02
+ Positron lifetime                         (ps)   =  2.82878398E+02
+ Positron lifetime                         (ps)   =  2.86515373E+02
+ Positron lifetime                         (ps)   =  2.86983434E+02
+ Positron lifetime                         (ps)   =  2.87266489E+02
+ Positron lifetime                         (ps)   =  2.87359897E+02
+ Positron lifetime                         (ps)   =  2.87313132E+02
+</code></pre></div>
+
+<p>Although the results at ionic steps 3 and 4 differ from each other by less
+than one percent, they differ by more from the final result. The one percent
+convergence is only reached at ionic step 5 and after.</p>
+<p>Also, remember that the 16-atom supercell is not large enough to get converged
+results. In Table IV of <a class="wikilink citation-wikilink" data-content="Two-component density functional theory within the projector augmented-wave approach: Accurate and self-consistent computations of positron lifetimes and momentum distributions" data-placement="auto right" data-toggle="popover" data-trigger="hover focus" href="../../theory/bibliography#wiktor2015">[Wiktor2015]</a> you can see converged
+results of the positron lifetime of Si monovacancy within various methods.</p>
+<h2 id="computing-the-electron-positron-momentum-distribution-doppler-spectrum-of-a-si-lattice">Computing the electron-positron momentum distribution (Doppler spectrum) of a Si lattice<a class="headerlink" href="#computing-the-electron-positron-momentum-distribution-doppler-spectrum-of-a-si-lattice" title="Permanent link">&para;</a></h2>
+<p>In the last part of the tutorial we will calculate the electron-positron
+momentum distribution (<em>Doppler spectrum</em>) of a silicon lattice in the conventional
+scheme. This type of calculation is much more time and memory consuming than
+the <em>lifetime</em> calculation, as it is using the electron and positron
+<em>wavefunctions</em> (not only <em>densities</em>).</p>
+<p>You can already issue:</p>
+<div class="codehilite"><pre><span></span><code>abinit tpositron_5.abi &gt;&amp; log
+</code></pre></div>
+
+<p>Now take a look at the input file <code>tpositron_5.abi</code>.</p>
+<div class="text-center"><button type="button" id="uuid-7067a5e9-869e-45f8-8e3f-e5a0ec078836" class="btn btn-default btn-labeled">
+  <span class="btn-label"><i class="fa fa-window-restore" aria-hidden="true"></i></span>View tests/tutorial/Input/tpositron_5.abi
+</button></div>
+<div id="uuid-ef3cb566-ab63-45c7-9760-8b5e9fff95ba" class="my_dialog" title="tests/tutorial/Input/tpositron_5.abi" hidden><div><div class="codehilite small-text"><pre><span></span><span class="c1"># Input for Positron tutorial</span>
+<span class="c1"># Fifth step of the tutorial on electron-positron annihilation</span>
+<span class="c1"># Doppler spectrum calculation within PAW</span>
+<span class="c1"># Si, 2 atoms in the box </span>
+
+<span class="c1">#To perform a self-consistent electron-positron calculation, we need only one dataset</span>
+
+<span class="c1">#-------------------------------------------------------------------------------</span>
+<span class="c1">#Definition of variables specific to electron-positron calculation</span>
+
+<span class="c1">#TC-DFT Self-consistent cycle</span>
+positron   -10    <span class="c1"># We perform automatic calculation of electrons and positron densities</span>
+                  <span class="c1">#   in the two-component DFT context (storing wavefunctions in memory)</span>
+                  <span class="c1"># Automatic electron-positron loop has to be switched on in Doppler calculations</span>
+                  <span class="c1">#   to have both electron and positron wavefunctions in memory</span>
+
+posnstep     <span class="m">2</span>    <span class="c1"># Maximum number of electon and positron steps = 2</span>
+                  <span class="c1"># We simulate a delocalized positron, so we only perform two steps</span>
+                  <span class="c1">#   of electon-positron calculations. It means that the electronic</span>
+                  <span class="c1">#   wavefunction is not affected by the positron.</span>
+
+posdoppler   <span class="m">1</span>    <span class="c1"># Activation of Doppler broadening calculation</span>
+
+ixcpositron  <span class="m">1</span>    <span class="c1"># We are using the Boronski and Nieminen parametrization</span>
+
+posocc     <span class="m">1</span>.0    <span class="c1"># Occupation number for the positron</span>
+                  <span class="c1">#   (should be set &lt;1 for bulk calculation with a small cell).</span>
+                  <span class="c1"># Here the zero positron density limit is used,</span>
+                  <span class="c1">#   so results do not depend on posocc.</span>
+
+                  <span class="c1"># Note about Brillouin zone sampling:</span>
+                  <span class="c1"># In Doppler calculation we need to have a uniform k-point grid</span>
+                  <span class="c1">#   in the momentum space. Symmetries are not used,</span>
+                  <span class="c1">#   so the full grid needs to be specified.</span>
+
+
+<span class="c1">#-------------------------------------------------------------------------------</span>
+
+<span class="c1">#Definition of the unit cell</span>
+acell <span class="m">3</span>*5.43 angstrom  <span class="c1"># Lengths of the primitive vectors (exp. param. in angstrom)</span>
+rprim             <span class="c1"># 3 orthogonal primitive vectors (FCC lattice)</span>
+  <span class="m">0</span>.0 <span class="m">1</span>/2 <span class="m">1</span>/2 
+  <span class="m">1</span>/2 <span class="m">0</span>.0 <span class="m">1</span>/2
+  <span class="m">1</span>/2 <span class="m">1</span>/2 <span class="m">0</span>.0
+
+<span class="c1">#Definition of the atom types and pseudopotentials</span>
+ntypat <span class="m">1</span>          <span class="c1"># There is only one type of atom</span>
+znucl <span class="m">14</span>          <span class="c1"># Atomic number of the possible type(s) of atom. Here silicon.</span>
+pp_dirpath <span class="s2">&quot;</span><span class="nv">$ABI_PSPDIR</span><span class="s2">&quot;</span>              <span class="c1"># Path to the directory were</span>
+                                      <span class="c1">#   pseudopotentials for tests are stored</span>
+pseudos <span class="s2">&quot;Pseudodojo_paw_pw_standard/Si.xml&quot;</span> <span class="c1"># Name and location of the pseudopotential</span>
+
+<span class="c1">#Definition of the atoms</span>
+natom <span class="m">2</span>           <span class="c1"># There are two atoms</span>
+typat <span class="m">1</span> <span class="m">1</span>         <span class="c1"># They both are of type 1, that is, Silicon</span>
+xred              <span class="c1"># Location of the atoms:</span>
+  <span class="m">0</span>.0 <span class="m">0</span>.0 <span class="m">0</span>.0     <span class="c1">#  Triplet giving the reduced coordinates of atom 1</span>
+  <span class="m">1</span>/4 <span class="m">1</span>/4 <span class="m">1</span>/4     <span class="c1">#  Triplet giving the reduced coordinates of atom 2</span>
+
+<span class="c1">#Definition of bands and occupation numbers</span>
+nband  <span class="m">6</span>          <span class="c1"># Compute 6 bands</span>
+occopt <span class="m">1</span>          <span class="c1"># Automatic generation of occupation numbers, as a semiconductor</span>
+
+<span class="c1">#Numerical parameters of the calculation : planewave basis set and k point grid</span>
+ecut <span class="m">8</span>.           <span class="c1"># Maximal plane-wave kinetic energy cut-off, in Hartree</span>
+pawecutdg <span class="m">15</span>.     <span class="c1"># Max. plane-wave kinetic energy cut-off, in Ha, for the PAW double grid</span>
+
+                  <span class="c1"># In Doppler broadening calculation we need to have a uniform</span>
+                  <span class="c1">#   k-point grid in the momentum space. Symmetries are not used,</span>
+                  <span class="c1">#   so the full grid needs to be specified.</span>
+kptopt <span class="m">0</span>          <span class="c1"># - Option for manual setting of k-points</span>
+istwfk *1         <span class="c1"># - No time-reversal symmetry optimization</span>
+nkpt <span class="m">8</span>            <span class="c1"># - Corresponds to a 2x2x2 grid, denser grids may be needed to get converged spectra</span>
+kpt               <span class="c1"># - K-point coordinates in reciprocal space:</span>
+  <span class="m">0</span>   <span class="m">0</span>   <span class="m">0</span>
+  <span class="m">0</span>   <span class="m">0</span>   <span class="m">0</span>.5
+  <span class="m">0</span>   <span class="m">0</span>.5 <span class="m">0</span>
+  <span class="m">0</span>.5 <span class="m">0</span>   <span class="m">0</span>
+  <span class="m">0</span>   <span class="m">0</span>.5 <span class="m">0</span>.5
+  <span class="m">0</span>.5 <span class="m">0</span>   <span class="m">0</span>.5
+  <span class="m">0</span>.5 <span class="m">0</span>.5 <span class="m">0</span>
+  <span class="m">0</span>.5 <span class="m">0</span>.5 <span class="m">0</span>.5 
+
+<span class="c1">#Parameters for the SCF procedure</span>
+nstep <span class="m">50</span>          <span class="c1"># Maximal number of SCF cycles.</span>
+tolvrs <span class="m">1</span>.0d-8     <span class="c1"># Will stop when, twice in a row, the difference </span>
+                  <span class="c1"># between two consecutive evaluations of potential/density</span>
+                  <span class="c1"># differ by less than tolvrs</span>
+
+<span class="c1">#Miscelaneous parameters</span>
+prtwf <span class="m">0</span>           <span class="c1"># Do not print wavefunctions</span>
+prtden <span class="m">0</span>          <span class="c1"># Do not print density (electronic and/or positronic)</span>
+prteig <span class="m">0</span>          <span class="c1"># Do not print eigenvalues</span>
+optforces <span class="m">0</span>       <span class="c1"># Forces computation is not relevant here</span>
+optstress <span class="m">0</span>       <span class="c1"># Stress tensor computation is not relevant here</span>
+
+
+<span class="c1">##############################################################</span>
+<span class="c1"># This section is used only for regression testing of ABINIT #</span>
+<span class="c1">##############################################################</span>
+<span class="c1">#%%&lt;BEGIN TEST_INFO&gt;</span>
+<span class="c1">#%% [setup]</span>
+<span class="c1">#%% executable = abinit</span>
+<span class="c1">#%% [files]</span>
+<span class="c1">#%% files_to_test =</span>
+<span class="c1">#%%   tpositron_5.abo, tolnlines= 5, tolabs= 3.0e-2, tolrel= 4.3e-2, fld_options= -easy</span>
+<span class="c1">#%% [paral_info]</span>
+<span class="c1">#%% max_nprocs = 10</span>
+<span class="c1">#%% [extra_info]</span>
+<span class="c1">#%% authors = J. Wiktor</span>
+<span class="c1">#%% keywords = POSITRON,PAW</span>
+<span class="c1">#%% description =</span>
+<span class="c1">#%%   Input for Positron tutorial</span>
+<span class="c1">#%%   Fifth step of the tutorial on electron-positron annihilation</span>
+<span class="c1">#%%   Doppler spectrum calculation within PAW</span>
+<span class="c1">#%%   Si, 2 atoms in the box </span>
+<span class="c1">#%%&lt;END TEST_INFO&gt;</span>
+</pre></div>
+</div></div>
+
+<script> $(function() { abidocs_jqueryui_dialog("#uuid-ef3cb566-ab63-45c7-9760-8b5e9fff95ba", "#uuid-7067a5e9-869e-45f8-8e3f-e5a0ec078836") }); </script>
+
+<p>The momentum distribution calculation is activated by <a class="wikilink codevar-wikilink" href="../../variables/gstate#posdoppler">posdoppler</a> = 1. You can also notice that instead
+of having two datasets as in the first part of this tutorial, we now use the
+automatic electron-positron loop and set <a class="wikilink codevar-wikilink" href="../../variables/gstate#posnstep">posnstep</a> = 2. This is done because
+we need to have the full electron and positron wavefunctions in memory, which
+is only the case when <a class="wikilink codevar-wikilink" href="../../variables/gstate#positron">positron</a> &lt;= -10. Additionally, the momentum
+distribution calculations require using a full k-point grid. In the input file we set:</p>
+<div class="codehilite"><pre><span></span><code> <span class="nv">kptopt</span> <span class="mi">0</span>          # <span class="nv">Option</span> <span class="k">for</span> <span class="nv">manual</span> <span class="nv">setting</span> <span class="nv">of</span> <span class="nv">k</span><span class="o">-</span><span class="nv">points</span>
+ <span class="nv">istwfk</span> <span class="o">*</span><span class="mi">1</span>         # <span class="nv">No</span> <span class="nv">time</span><span class="o">-</span><span class="nv">reversal</span> <span class="nv">symmetry</span> <span class="nv">optimization</span>
+ <span class="nv">nkpt</span> <span class="mi">8</span>            # <span class="nv">Corresponds</span> <span class="nv">to</span> <span class="nv">a</span> <span class="mi">2</span><span class="nv">x2x2</span> <span class="nv">grid</span>
+ <span class="nv">kpt</span>               # <span class="nv">K</span><span class="o">-</span><span class="nv">point</span> <span class="nv">coordinates</span> <span class="nv">in</span> <span class="nv">reciprocal</span> <span class="nv">space</span>:
+   <span class="mi">0</span>   <span class="mi">0</span>   <span class="mi">0</span>
+   <span class="mi">0</span>   <span class="mi">0</span>   <span class="mi">0</span>.<span class="mi">5</span>
+   <span class="mi">0</span>   <span class="mi">0</span>.<span class="mi">5</span> <span class="mi">0</span>
+   <span class="mi">0</span>.<span class="mi">5</span> <span class="mi">0</span>   <span class="mi">0</span>
+   <span class="mi">0</span>   <span class="mi">0</span>.<span class="mi">5</span> <span class="mi">0</span>.<span class="mi">5</span>
+   <span class="mi">0</span>.<span class="mi">5</span> <span class="mi">0</span>   <span class="mi">0</span>.<span class="mi">5</span>
+   <span class="mi">0</span>.<span class="mi">5</span> <span class="mi">0</span>.<span class="mi">5</span> <span class="mi">0</span>
+   <span class="mi">0</span>.<span class="mi">5</span> <span class="mi">0</span>.<span class="mi">5</span> <span class="mi">0</span>.<span class="mi">5</span>
+</code></pre></div>
+
+<p>This grid is used in both electron and positron calculations, but only the
+positron <em>wavefunction</em> at the first point is taken in the momentum distribution
+calculation, so the <span><span class="MathJax_Preview">\Gamma</span><script type="math/tex">\Gamma</script></span> point should always be given first.</p>
+<p>In the calculation of the momentum distribution, we need to include both <em>core</em>
+and <em>valence</em> electrons. The <em>wavefunctions</em> of the core electrons are read from a
+file (one per atom type), which needs to be provided. This <em>core WF file</em> should
+be named <span style="color:green">&#60;psp_file_name&#62;.corewf.xml</span>
+(where <code>&lt;psp_file_name&gt;</code> is the name of the PAW atomic dataset file, without <code>.xml</code> suffix).
+<em>Core WF files</em> can be obtained with the <code>atompaw</code> tool
+(see <a href="../paw2">the tutorial on generating PAW datasets (PAW2)</a> ) by the use of the
+<code>prtcorewf</code> keyword. You will find the core wavefunction file used in this calculation in
+<code>$ABI_PSPDIR/Si.LDA-PW-paw.abinit.corewf</code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you use a PAW dataset in <em>ABINIT legacy proprietary format</em> (with the <code>.abinit</code> suffix),
+ the core wavefunction file has to be named <code>&lt;psp_file_name&gt;.corewf.abinit</code>.
+ It also can be obtained with the <code>atompaw</code> tool by the use of the <code>prtcorewf</code> keyword.</p>
+</div>
+<p>Once the calculation is complete, you can find a <code>tpositron_5o_DOPPLER</code> file
+containing the <em>momentum distribution</em> on the FFT grid. You can use the
+<code>$ABI_HOME/scripts/post_processing/posdopspectra.F90</code> tool to generate 1D
+projections (<em>Doppler spectra</em>) in (001), (011) and (111) directions and to
+calculate the low- and high-momentum contributions to the
+momentum distribution (so called <code>S</code> and <code>W</code> parameters, see <a class="wikilink citation-wikilink" data-content="Two-component density functional theory within the projector augmented-wave approach: Accurate and self-consistent computations of positron lifetimes and momentum distributions" data-placement="auto right" data-toggle="popover" data-trigger="hover focus" href="../../theory/bibliography#wiktor2015">[Wiktor2015]</a>).</p>
+<h2 id="studying-the-effect-of-the-paw-dataset-completeness">Studying the effect of the PAW dataset completeness<a class="headerlink" href="#studying-the-effect-of-the-paw-dataset-completeness" title="Permanent link">&para;</a></h2>
+<p>The positron lifetime and momentum distribution calculations within the PAW
+method are very sensitive to the number of valence electrons in the <strong>PAW
+dataset</strong>. It is due to the fact that it is not easy to describe the positron
+<em>wavefunction</em>, tending to zero at the nucleus, using the electron atomic
+orbitals. The <strong>PAW basis set</strong> in this case needs to be more complete than only
+for describing the electron <em>wavefunctions</em>.</p>
+<p>The simplest way to make the <strong>PAW
+dataset</strong> more complete is to include <code>semicore electrons</code>. It is also possible to
+add the <code>partial waves</code> corresponding to the <code>semicore electrons</code> in the basis
+used only for the positron wave function description, while keeping the
+initial number of valence electrons (as done in <a class="wikilink citation-wikilink" data-content="Two-component density functional theory within the projector augmented-wave approach: Accurate and self-consistent computations of positron lifetimes and momentum distributions" data-placement="auto right" data-toggle="popover" data-trigger="hover focus" href="../../theory/bibliography#wiktor2015">[Wiktor2015]</a>).
+However, this second method is less straightforward.</p>
+<p>The previous calculations were done with only <strong>4 valence electrons</strong> (<code>3s</code> and <code>3p</code>).
+We will now see what happens if we include the <code>2s</code> and <code>2p</code> states in the <strong>PAW dataset</strong>.
+We use the <code>Si_paw_pw_12el.xml</code> PAW dataset which includes 8 additional valence electrons.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>To generate the new dataset we use the <code>atompaw</code> tool.<br />
+ To add <code>semicore states</code>, the input file is modified
+ as follows:</p>
+<ul>
+<li>Replace <code>c</code> by <code>v</code> for the selected orbitals in the <em>electronic configuration</em> section</li>
+<li>Decrease the PAW augmentation radius (because semicore states are more localized)</li>
+</ul>
+<p>Don&rsquo;t forget to add <code>prtcorewf</code> keyword to create the core orbital file.</p>
+</div>
+<p>We can now rerun the lifetime calculation with the new atomic dataset:</p>
+<div class="text-center"><button type="button" id="uuid-daf95d59-c841-470c-a3f8-3b67d13cc6b7" class="btn btn-default btn-labeled">
+  <span class="btn-label"><i class="fa fa-window-restore" aria-hidden="true"></i></span>View tests/tutorial/Input/tpositron_6.abi
+</button></div>
+<div id="uuid-a2aad1a0-75bc-457d-9a47-23efc7854e4f" class="my_dialog" title="tests/tutorial/Input/tpositron_6.abi" hidden><div><div class="codehilite small-text"><pre><span></span><span class="c1"># Input for Positron tutorial</span>
+<span class="c1"># Sixth step (part 1) of the tutorial on electron-positron annihilation</span>
+<span class="c1"># Positron lifetime calculation within PAW - 12 valence electrons</span>
+<span class="c1"># Si, 2 atoms in the box</span>
+
+<span class="c1"># This input file is similar to tpositron_1.abi, except:</span>
+<span class="c1">#   - the number of bands, because of the additional 8 electrons states</span>
+
+<span class="c1">#Define the different datasets</span>
+ndtset <span class="m">2</span>          <span class="c1"># 2 datasets</span>
+
+<span class="c1">#FIRST DATASET</span>
+positron1  <span class="m">0</span>      <span class="c1"># Dataset 1 is a simple electronic GS calculation</span>
+
+<span class="c1">#SECOND DATASET</span>
+positron2  <span class="m">1</span>      <span class="c1"># Dataset 2 is a positronic GS calculation</span>
+getden2    <span class="m">1</span>      <span class="c1">#   in presence of the previous electronic density</span>
+
+kptopt2    <span class="m">0</span>      <span class="c1">#   Use only k=gamma point</span>
+
+ixcpositron2 <span class="m">1</span>    <span class="c1"># We are using the Boronski and Nieminen parametrization</span>
+
+posocc2      <span class="m">1</span>    <span class="c1"># Occupation number for the positron</span>
+                  <span class="c1">#  (should be set &lt;1 for bulk calculation with a small cell).</span>
+                  <span class="c1"># Here the zero positron density limit is used,</span>
+                  <span class="c1">#   so results do not depend on posocc.</span>
+
+
+<span class="c1">#-------------------------------------------------------------------------------</span>
+<span class="c1">#Definition of data common to all datasets</span>
+
+<span class="c1">#Definition of the unit cell</span>
+acell <span class="m">3</span>*5.43 angstrom  <span class="c1"># Lengths of the primitive vectors (exp. param. in angstrom)</span>
+rprim             <span class="c1"># 3 orthogonal primitive vectors (FCC lattice)</span>
+  <span class="m">0</span>.0 <span class="m">1</span>/2 <span class="m">1</span>/2 
+  <span class="m">1</span>/2 <span class="m">0</span>.0 <span class="m">1</span>/2
+  <span class="m">1</span>/2 <span class="m">1</span>/2 <span class="m">0</span>.0
+
+<span class="c1">#Definition of the atom types and pseudopotentials</span>
+ntypat <span class="m">1</span>          <span class="c1"># There is only one type of atom</span>
+znucl <span class="m">14</span>          <span class="c1"># Atomic number of the possible type(s) of atom. Here silicon.</span>
+pp_dirpath <span class="s2">&quot;</span><span class="nv">$ABI_PSPDIR</span><span class="s2">&quot;</span>        <span class="c1"># Path to the directory were</span>
+                                <span class="c1">#   pseudopotentials for tests are stored</span>
+pseudos <span class="s2">&quot;Si_paw_pw_12el.xml&quot;</span>    <span class="c1"># Name and location of the pseudopotential</span>
+
+<span class="c1">#Definition of the atoms</span>
+natom <span class="m">2</span>           <span class="c1"># There are two atoms</span>
+typat <span class="m">1</span> <span class="m">1</span>         <span class="c1"># They both are of type 1, that is, Silicon</span>
+xred              <span class="c1"># Location of the atoms:</span>
+  <span class="m">0</span>.0 <span class="m">0</span>.0 <span class="m">0</span>.0     <span class="c1">#  Triplet giving the reduced coordinates of atom 1</span>
+  <span class="m">1</span>/4 <span class="m">1</span>/4 <span class="m">1</span>/4     <span class="c1">#  Triplet giving the reduced coordinates of atom 2</span>
+
+<span class="c1">#Definition of bands and occupation numbers</span>
+nband <span class="m">14</span>          <span class="c1"># Compute 14 bands (we have semicore states)</span>
+occopt <span class="m">1</span>          <span class="c1"># Automatic generation of occupation numbers, as a semiconductor</span>
+
+<span class="c1">#Numerical parameters of the calculation : planewave basis set and k point grid</span>
+ecut <span class="m">8</span>.           <span class="c1"># Maximal plane-wave kinetic energy cut-off, in Hartree</span>
+pawecutdg <span class="m">15</span>.     <span class="c1"># Max. plane-wave kinetic energy cut-off, in Ha, for the PAW double grid</span>
+kptopt <span class="m">1</span>          <span class="c1"># Automatic generation of k points, taking into account the symmetry</span>
+ngkpt <span class="m">4</span> <span class="m">4</span> <span class="m">4</span>       <span class="c1"># This is a 4x4x4 grid based on the primitive vectors of the recip. space</span>
+nshiftk <span class="m">1</span>         <span class="c1"># We do not shift the grid in order to have Gamma point in it</span>
+shiftk <span class="m">0</span>. <span class="m">0</span>. <span class="m">0</span>.
+
+<span class="c1">#Parameters for the SCF procedure</span>
+nstep <span class="m">50</span>          <span class="c1"># Maximal number of SCF cycles</span>
+tolvrs <span class="m">1</span>.0d-8     <span class="c1"># Will stop when, twice in a row, the difference </span>
+                  <span class="c1"># between two consecutive evaluations of potential residual </span>
+                  <span class="c1"># differ by less than tolvrs </span>
+
+<span class="c1">#Miscelaneous parameters</span>
+prtwf <span class="m">0</span>           <span class="c1"># Do not print wavefunctions</span>
+prtden <span class="m">1</span>          <span class="c1"># Print density (electronic and/or positronic)</span>
+prteig <span class="m">0</span>          <span class="c1"># Do not print eigenvalues</span>
+optforces <span class="m">0</span>       <span class="c1"># Forces computation is not relevant here</span>
+optstress <span class="m">0</span>       <span class="c1"># Stress tensor computation is not relevant here</span>
+
+
+<span class="c1">##############################################################</span>
+<span class="c1"># This section is used only for regression testing of ABINIT #</span>
+<span class="c1">##############################################################</span>
+<span class="c1">#%%&lt;BEGIN TEST_INFO&gt;</span>
+<span class="c1">#%% [setup]</span>
+<span class="c1">#%% executable = abinit</span>
+<span class="c1">#%% [files]</span>
+<span class="c1">#%% files_to_test =</span>
+<span class="c1">#%%   tpositron_6.abo, tolnlines=  0, tolabs= 0.0, tolrel= 0.0, fld_options= -easy</span>
+<span class="c1">#%% [paral_info]</span>
+<span class="c1">#%% max_nprocs = 10</span>
+<span class="c1">#%% [extra_info]</span>
+<span class="c1">#%% authors = J. Wiktor</span>
+<span class="c1">#%% keywords = POSITRON,PAW</span>
+<span class="c1">#%% description =</span>
+<span class="c1">#%%   Input for Positron tutorial</span>
+<span class="c1">#%%   Sixth step (part 1) of the tutorial on electron-positron annihilation</span>
+<span class="c1">#%%   Positron lifetime calculation within PAW - 12 valence electrons</span>
+<span class="c1">#%%   Si, 2 atoms in the box</span>
+<span class="c1">#%%&lt;END TEST_INFO&gt;</span>
+</pre></div>
+</div></div>
+
+<script> $(function() { abidocs_jqueryui_dialog("#uuid-a2aad1a0-75bc-457d-9a47-23efc7854e4f", "#uuid-daf95d59-c841-470c-a3f8-3b67d13cc6b7") }); </script>
+
+<div class="codehilite"><pre><span></span><code>abinit tpositron_6.abi &gt;&amp; log
+</code></pre></div>
+
+<p>We now find the positron lifetime calculated in the RPA limit:</p>
+<div class="codehilite"><pre><span></span><code>########## Lifetime computation 2
+
+ # Zero-positron density limit of Arponen and Pajanne provided by Boronski &amp; Nieminen
+   Ref.: Boronski and R.M. Nieminen, Phys. Rev. B 34, 3820 (1986)
+ # Enhancement factor of Boronski &amp; Nieminen IN THE RPA LIMIT
+   Ref.: Boronski and R.M. Nieminen, Phys. Rev. B 34, 3820 (1986)
+
+ Positron lifetime                         (ps)   =  2.11470610E+02
+</code></pre></div>
+
+<p>This value is significantly lower than 223 ps achieved with 4 valence
+electrons in the first step. <strong>It is, therefore, very important to always test
+the PAW dataset completeness for positron calculations</strong>.</p>
+<p>The PAW dataset completeness is even more important in the <em>Doppler spectra</em>
+calculations. We will now recalculate the momentum distribution including 12
+<em>valence electrons</em> using <code>tpositron_7.abi</code>:</p>
+<div class="text-center"><button type="button" id="uuid-a31e0369-e1e1-4976-8bb5-cb2f42c417aa" class="btn btn-default btn-labeled">
+  <span class="btn-label"><i class="fa fa-window-restore" aria-hidden="true"></i></span>View tests/tutorial/Input/tpositron_7.abi
+</button></div>
+<div id="uuid-784ae16a-249e-4fcb-8076-0248d733d478" class="my_dialog" title="tests/tutorial/Input/tpositron_7.abi" hidden><div><div class="codehilite small-text"><pre><span></span><span class="c1"># Input for Positron tutorial</span>
+<span class="c1"># Sixth step (part 2) of the tutorial on electron-positron annihilation</span>
+<span class="c1"># Doppler spectrum calculation within PAW - 12 valence electrons</span>
+<span class="c1"># Si, 2 atoms in the box</span>
+
+<span class="c1"># This input file is similar to tpositron_5.abi, except:</span>
+<span class="c1">#   - the number of bands, because of the additional 8 electrons states</span>
+<span class="c1">#   - the plane wave cut-off energy because additional PAW basis functions are localized</span>
+
+<span class="c1">#-------------------------------------------------------------------------------</span>
+<span class="c1">#Definition of variables specific to electron-positron calculation</span>
+
+<span class="c1">#TC-DFT Self-consistent cycle</span>
+positron   -10    <span class="c1"># We perform automatic calculation of electrons and positron densities</span>
+                  <span class="c1">#   in the two-component DFT context (storing wavefunctions in memory)</span>
+                  <span class="c1"># Automatic electron-positron loop has to be switched on in Doppler calculations</span>
+                  <span class="c1">#   to have both electron and positron wavefunctions in memory</span>
+
+posnstep     <span class="m">2</span>    <span class="c1"># Maximum number of electon and positron steps = 2</span>
+                  <span class="c1"># We simulate a delocalized positron, so we only perform two steps</span>
+                  <span class="c1">#   of electon-positron calculations. It means that the electronic</span>
+                  <span class="c1">#   wavefunction is not affected by the positron.</span>
+
+posdoppler   <span class="m">1</span>    <span class="c1"># Activation of Doppler broadening calculation</span>
+
+ixcpositron  <span class="m">1</span>    <span class="c1"># We are using the Boronski and Nieminen parametrization</span>
+
+posocc     <span class="m">1</span>.0    <span class="c1"># Occupation number for the positron</span>
+                  <span class="c1">#   (should be set &lt;1 for bulk calculation with a small cell).</span>
+                  <span class="c1"># Here the zero positron density limit is used,</span>
+                  <span class="c1">#   so results do not depend on posocc.</span>
+
+                  <span class="c1"># Note about Brillouin zone sampling:</span>
+                  <span class="c1"># In Doppler calculation we need to have a uniform k-point grid</span>
+                  <span class="c1">#   in the momentum space. Symmetries are not used,</span>
+                  <span class="c1">#   so the full grid needs to be specified.</span>
+                  <span class="c1">#   so results do not depend on posocc.</span>
+
+
+<span class="c1">#-------------------------------------------------------------------------------</span>
+<span class="c1">#Definition of data common to all datasets</span>
+
+<span class="c1">#Definition of the unit cell</span>
+acell <span class="m">3</span>*5.43 angstrom  <span class="c1"># Lengths of the primitive vectors (exp. param. in angstrom)</span>
+rprim             <span class="c1"># 3 orthogonal primitive vectors (FCC lattice)</span>
+  <span class="m">0</span>.0 <span class="m">1</span>/2 <span class="m">1</span>/2 
+  <span class="m">1</span>/2 <span class="m">0</span>.0 <span class="m">1</span>/2
+  <span class="m">1</span>/2 <span class="m">1</span>/2 <span class="m">0</span>.0
+
+<span class="c1">#Definition of the atom types and pseudopotentials</span>
+ntypat <span class="m">1</span>          <span class="c1"># There is only one type of atom</span>
+znucl <span class="m">14</span>          <span class="c1"># Atomic number of the possible type(s) of atom. Here silicon.</span>
+pp_dirpath <span class="s2">&quot;</span><span class="nv">$ABI_PSPDIR</span><span class="s2">&quot;</span>        <span class="c1"># Path to the directory were</span>
+                                <span class="c1">#   pseudopotentials for tests are stored</span>
+pseudos <span class="s2">&quot;Si_paw_pw_12el.xml&quot;</span>    <span class="c1"># Name and location of the pseudopotential</span>
+
+<span class="c1">#Definition of the atoms</span>
+natom <span class="m">2</span>           <span class="c1"># There are two atoms</span>
+typat <span class="m">1</span> <span class="m">1</span>         <span class="c1"># They both are of type 1, that is, Silicon</span>
+xred              <span class="c1"># Location of the atoms:</span>
+  <span class="m">0</span>.0 <span class="m">0</span>.0 <span class="m">0</span>.0     <span class="c1">#  Triplet giving the reduced coordinates of atom 1</span>
+  <span class="m">1</span>/4 <span class="m">1</span>/4 <span class="m">1</span>/4     <span class="c1">#  Triplet giving the reduced coordinates of atom 2</span>
+
+<span class="c1">#Definition of bands and occupation numbers</span>
+nband <span class="m">16</span>          <span class="c1"># Compute 16 bands (we have semicore states)</span>
+occopt <span class="m">1</span>          <span class="c1"># Automatic generation of occupation numbers, as a semiconductor</span>
+
+<span class="c1">#Numerical parameters of the calculation : planewave basis set and k point grid</span>
+ecut <span class="m">12</span>.           <span class="c1"># Maximal plane-wave kinetic energy cut-off, in Hartree</span>
+pawecutdg <span class="m">15</span>.     <span class="c1"># Max. plane-wave kinetic energy cut-off, in Ha, for the PAW double grid</span>
+
+                  <span class="c1"># In Doppler broadening calculation we need to have a uniform</span>
+                  <span class="c1">#   k-point grid in the momentum space. Symmetries are not used,</span>
+                  <span class="c1">#   so the full grid needs to be specified.</span>
+kptopt <span class="m">0</span>          <span class="c1"># - Option for manual setting of k-points</span>
+istwfk *1         <span class="c1"># - No time-reversal symmetry optimization</span>
+nkpt <span class="m">8</span>            <span class="c1"># - Corresponds to a 2x2x2 grid, denser grids may be needed to get converged spectra</span>
+kpt               <span class="c1"># - K-point coordinates in reciprocal space:</span>
+  <span class="m">0</span>   <span class="m">0</span>   <span class="m">0</span>
+  <span class="m">0</span>   <span class="m">0</span>   <span class="m">0</span>.5
+  <span class="m">0</span>   <span class="m">0</span>.5 <span class="m">0</span>
+  <span class="m">0</span>.5 <span class="m">0</span>   <span class="m">0</span>
+  <span class="m">0</span>   <span class="m">0</span>.5 <span class="m">0</span>.5
+  <span class="m">0</span>.5 <span class="m">0</span>   <span class="m">0</span>.5
+  <span class="m">0</span>.5 <span class="m">0</span>.5 <span class="m">0</span>
+  <span class="m">0</span>.5 <span class="m">0</span>.5 <span class="m">0</span>.5 
+
+<span class="c1">#Parameters for the SCF procedure</span>
+nstep <span class="m">100</span>         <span class="c1"># Maximal number of SCF cycles</span>
+tolvrs <span class="m">1</span>.0d-10    <span class="c1"># Will stop when, twice in a row, the difference </span>
+                  <span class="c1"># between two consecutive evaluations of potential residual </span>
+                  <span class="c1"># differ by less than tolvrs </span>
+
+                  <span class="c1"># We need additional parameters to imporve the convergency:</span>
+nline   <span class="m">8</span>         <span class="c1">#  - increase the number of iterations of the minimization algorithm</span>
+nnsclo  <span class="m">2</span>         <span class="c1">#  - perform 2 non-self-consistent loop per SCF cycle</span>
+nbdbuf <span class="m">16</span>         <span class="c1"># This is to make the test portable (don&#39;t use this usually)</span>
+
+<span class="c1">#Miscelaneous parameters</span>
+prtwf <span class="m">0</span>           <span class="c1"># Do not print wavefunctions</span>
+prtden <span class="m">1</span>          <span class="c1"># Print density (electronic and/or positronic)</span>
+prteig <span class="m">0</span>          <span class="c1"># Do not print eigenvalues</span>
+optforces <span class="m">0</span>       <span class="c1"># Forces computation is not relevant here</span>
+optstress <span class="m">0</span>       <span class="c1"># Stress tensor computation is not relevant here</span>
+
+
+<span class="c1">##############################################################</span>
+<span class="c1"># This section is used only for regression testing of ABINIT #</span>
+<span class="c1">##############################################################</span>
+<span class="c1">#%%&lt;BEGIN TEST_INFO&gt;</span>
+<span class="c1">#%% [setup]</span>
+<span class="c1">#%% executable = abinit</span>
+<span class="c1">#%% [files]</span>
+<span class="c1">#%% files_to_test =</span>
+<span class="c1">#%%   tpositron_7.abo, tolnlines= 7, tolabs=9., tolrel= 1.0, fld_options= -easy</span>
+<span class="c1">#%% [paral_info]</span>
+<span class="c1">#%% max_nprocs = 10</span>
+<span class="c1">#%% [extra_info]</span>
+<span class="c1">#%% authors = J. Wiktor</span>
+<span class="c1">#%% keywords = POSITRON,PAW</span>
+<span class="c1">#%% description =</span>
+<span class="c1">#%%   Input for Positron tutorial</span>
+<span class="c1">#%%   Sixth step (part 2) of the tutorial on electron-positron annihilation</span>
+<span class="c1">#%%   Doppler spectrum calculation within PAW - 12 valence electrons</span>
+<span class="c1">#%%   Si, 2 atoms in the box</span>
+<span class="c1">#%%&lt;END TEST_INFO&gt;</span>
+</pre></div>
+</div></div>
+
+<script> $(function() { abidocs_jqueryui_dialog("#uuid-784ae16a-249e-4fcb-8076-0248d733d478", "#uuid-a31e0369-e1e1-4976-8bb5-cb2f42c417aa") }); </script>
+
+<div class="codehilite"><pre><span></span><code>abinit tpositron_7.abi &gt;&amp; log
+</code></pre></div>
+
+<p>Before processing the new <code>tpositron_7o_DOPPLER file</code>, you should copy files
+<code>rho_001</code>, <code>rho_011</code>, <code>rho_111</code> from the fifth step to for instance <code>si4el_001</code>, <code>si4el_011</code> and <code>si4el_111</code>.
+By plotting the <em>Doppler spectra</em> in the (001) direction calculated with 4 and
+12 valence electrons, you should obtain a figure like this:</p>
+<p><img alt="" src="../positron_assets/doppler.png" width="60%" /></p>
+<p>The dataset with 4 valence electrons is <strong>not complete enough</strong> to describe the
+positron <strong>wavefunction</strong> around the nucleus. This is reflected in the
+unphysically high probability at high momenta in the spectrum.</p>
+<p>Further explanation of the influence of the PAW dataset on the <em>Doppler spectra</em>
+can be found in <a class="wikilink citation-wikilink" data-content="Two-component density functional theory within the projector augmented-wave approach: Accurate and self-consistent computations of positron lifetimes and momentum distributions" data-placement="auto right" data-toggle="popover" data-trigger="hover focus" href="../../theory/bibliography#wiktor2015">[Wiktor2015]</a>. In case you need to generate
+your own dataset for momentum distribution calculations,
+you can follow the <a href="../paw2">tutorial on generating PAW datasets (PAW2)</a>.</p>
+                
+                  
+                
+              
+
+<!-- 
+add dropdown button with toolbar (based on https://bootsnipp.com/snippets/featured/inbox-by-gmail)
+and return to Top button (based on https://codepen.io/rdallaire/pen/apoyx)
+-->
+<div class="md-container">
+  <div class="row">
+    <div id="inbox">
+      <div class="fab btn-group show-on-hover dropup">
+        <div data-toggle="tooltip" data-placement="left" title="Menu" style="margin-left: 42px;">
+          <button id="return-to-top" type="button" class="btn btn-primary btn-io dropdown-toggle" data-toggle="dropdown">
+            <span class="fa-stack fa-2x">
+                <i class="fa fa-circle fa-stack-2x fab-backdrop"></i>
+                <i class="fa fa-chevron-up fa-stack-1x fa-inverse fab-primary"></i>
+                <i class="fa fa-map-signs fa-stack-1x fa-inverse fab-secondary"></i>
+            </span>
+          </button>
+        </div>
+        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+        
+        
+          <li><a href="../../about/release-notes/" data-toggle="tooltip" data-placement="left" 
+                  title="About"><i class="fa fa-info-circle"></i></a></li>
+        
+          <li><a href="../../developers/git_and_gitlab/" data-toggle="tooltip" data-placement="left" 
+                  title="Developers"><i class="fa fa-terminal"></i></a></li>
+        
+          <li><a href="../../theory/geometry/" data-toggle="tooltip" data-placement="left" 
+                  title="Theory"><i class="fa fa-book"></i></a></li>
+        
+          <li><a href="../" data-toggle="tooltip" data-placement="left" 
+                  title="Tutorial"><i class="fa fa-graduation-cap"></i></a></li>
+        
+          <li><a href="../../variables/" data-toggle="tooltip" data-placement="left" 
+                  title="Variables"><i class="fa fa-file-text-o"></i></a></li>
+        
+          <li><a href="../../topics/features/" data-toggle="tooltip" data-placement="left" 
+                  title="Topics"><i class="fa fa-question"></i></a></li>
+        
+          <li><a href="../.." data-toggle="tooltip" data-placement="left" 
+                  title="User Guide"><i class="fa fa-user-circle-o"></i></a></li>
+        
+        <!--
+        Example: 
+        <li><a href="/index.html" data-toggle="tooltip" data-placement="left" title="User-Guide">
+              <i class="fa fa-user-circle-o"></i></a></li>
+        -->
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+              
+                
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+    <!-- Add tabs to footer -->
+    
+        
+
+  
+
+<nav class="md-tabs md-tabs--active" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../.." title="User Guide" class="md-tabs__link">
+          User Guide
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../topics/features/" title="Topics" class="md-tabs__link">
+          Topics
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../variables/" title="Variables" class="md-tabs__link">
+          Variables
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../" title="Tutorial" class="md-tabs__link md-tabs__link--active">
+          Tutorial
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../theory/geometry/" title="Theory" class="md-tabs__link">
+          Theory
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../developers/git_and_gitlab/" title="Developers" class="md-tabs__link">
+          Developers
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../about/release-notes/" title="About" class="md-tabs__link">
+          About
+        </a>
+      
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+    
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../optic/" title="Optic" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Optic
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../tddft/" title="Tddft" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Tddft
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+            <center>Abinit version 9.4.0</center>
+        
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2020-2021 The Abinit Group (JW, MT)
+          </div>
+        
+        powered by
+        <a href="http://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+  <div class="md-footer-social">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+      <a href="https://github.com/abinit/abinit" class="md-footer-social__link fa fa-github-alt"></a>
+    
+      <a href="https://twitter.com/hashtag/abinit" class="md-footer-social__link fa fa-twitter"></a>
+    
+      <a href="http://www.facebook.com/abinit.org" class="md-footer-social__link fa fa-facebook"></a>
+    
+      <a href="https://www.youtube.com/watch?v=gcbfb_Mteo4" class="md-footer-social__link fa fa-youtube"></a>
+    
+  </div>
+
+      
+    </div>
+  </div>
+</footer>
+      
+
+    </div>
+    
+      <script src="../../assets/javascripts/application.02434462.js"></script>
+      
+      <script>app.initialize({version:"0.17.5",url:{base:"../.."}})</script>
+      
+        <script src="../../extra_javascript/jquery.dialogextend.min.js"></script>
+      
+        <script src="../../extra_javascript/abidocs.js"></script>
+      
+    
+    
+      
+        <script>!function(e,a,t,n,o,c,i){e.GoogleAnalyticsObject=o,e.ga=e.ga||function(){(e.ga.q=e.ga.q||[]).push(arguments)},e.ga.l=1*new Date,c=a.createElement(t),i=a.getElementsByTagName(t)[0],c.async=1,c.src="https://www.google-analytics.com/analytics.js",i.parentNode.insertBefore(c,i)}(window,document,"script",0,"ga"),ga("create","UA-116681470-1","docs.abinit.org"),ga("set","anonymizeIp",!0),ga("send","pageview");var links=document.getElementsByTagName("a");if(Array.prototype.map.call(links,function(e){e.host!=document.location.host&&e.addEventListener("click",function(){var a=e.getAttribute("data-md-action")||"follow";ga("send","event","outbound",a,e.href)})}),document.forms.search){var query=document.forms.search.query;query.addEventListener("blur",function(){if(this.value){var e=document.location.pathname;ga("send","pageview",e+"?q="+this.value)}})}</script>
+      
+    
+  </body>
+</html>

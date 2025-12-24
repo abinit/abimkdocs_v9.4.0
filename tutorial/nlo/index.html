@@ -1,0 +1,5204 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="Abinit documentation">
+      
+      
+        <link rel="canonical" href="https://docs.abinit.org/tutorial/nlo/">
+      
+      
+        <meta name="author" content="The Abinit group">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../images/favicon.ico">
+      <meta name="generator" content="mkdocs-0.17.5, mkdocs-material-2.6.6">
+    
+    
+      
+        <title>Nlo - abinit</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application.78aab2dc.css">
+      
+        <link rel="stylesheet" href="../../assets/stylesheets/application-palette.6079476c.css">
+      
+    
+    
+    
+      <script src="../../assets/javascripts/modernizr.1aa3b519.js"></script>
+    
+
+    <!-- Jquery from Google CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Load Jquery UI -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <!-- Handle jQuery plugin naming conflict between jQuery UI and Bootstrap 
+    https://stackoverflow.com/questions/13731400/jqueryui-tooltips-are-competing-with-twitter-bootstrap
+    -->
+    <script>
+      $.widget.bridge('uibutton', $.ui.button);
+      $.widget.bridge('uitooltip', $.ui.tooltip);
+    </script>
+
+    <!--
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/pepper-grinder/jquery-ui.css">
+    -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <!-- Bootstrap theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.0/build/css/themes/bootstrap.min.css"/>
+
+    <!-- Bootstrap http://getbootstrap.com/getting-started/ -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" 
+    integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
+    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous">
+    </script>
+
+    <!-- font-awesome -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    
+
+    <!--Pace support. http://github.hubspot.com/pace/ -->
+    <script>
+        paceOptions = {
+            ajax: true,      // disabled
+            document: true,  // activated
+            eventLag: false  // disabled
+            //target: 'article'
+            //elements: {selectors: ['.my-page']}
+        };
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/white/pace-theme-big-counter.min.css" />
+    <!--
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/white/pace-theme-bounce.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-corner-indicator.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-flat-top.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-loading-bar.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-center-atom.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-flash.min.css" />
+    -->
+
+    <!-- MathJax support
+    <script type="text/javascript" async 
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script> 
+    -->
+    <!--
+    This is compatible with plotly.
+    -->
+    <script type="text/javascript" async 
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_SVG">
+    </script> 
+
+    <!--
+    Configure MathJax to produce automatic equation numbers http://docs.mathjax.org/en/latest/tex.html
+    -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        //jax: ["input/TeX","output/HTML-CSS"],
+        //tex2jax: {inlineMath: [['$','$']]},
+        //displayAlign: "center",
+        TeX: {
+            equationNumbers: { autoNumber: "AMS" },
+            extensions: ["AMSmath.js", "boldsymbol.js"],
+            Macros: {
+                "*": "{\\dagger}",
+                "ra": "{\\rangle}",
+                "la": "{\\langle}",
+                // Workaround for bm package. See https://github.com/mathjax/MathJax/issues/1219
+                bm: ["{\\boldsymbol #1}",1],
+                // Mathcal symbols
+                mcL: "{\\mathcal{L}}",
+                mcG: "{\\mathcal{G}}",
+                mcR: "{\\mathcal{R}}",
+                mcS: "{\\mathcal{S}}",
+                mcC: "{\\mathcal{C}}",
+                mcO: "{\\mathcal{O}}",
+                // Acronyms
+                KS: "{\\text{KS}}",
+                eph: "{\\text{e-ph}}",
+                ee: "{\\text{e-e}}",
+                phph: "{\\text{ph-ph}}",
+                FM: "{\\text{FM}}",
+                DW: "{\\text{DW}}",
+                QP: "{\\text{QP}}",
+                BZ: "{\\text{BZ}}",
+                sign: "{\\text{sign}}",
+                xc: "{\\text{xc}}",
+                tchi: "{\\tilde\\chi}",
+                // Symbols commonly used (k-points, eigenvalues ...)
+                rr: "{\\bf r}",
+                RR: "{\\bf R}",
+                tt: "{\\bf t}",
+                GG: "{\\bf G}",
+                kk: "{\\bf k}",
+                qq: "{\\bf q}",
+                kq: "{\\kk + \\qq}",
+                qG: "{\\bf q + G}",
+                kG: "{\\bf k + G}",
+                kmq: "{\\kk - \\qq}",
+                kpq: "{\\kk + \\qq}",
+                kpG: "{\\kk + \\GG}",
+                qpG: "{\\qq + \\GG}",
+                nk: "{n \\kk}",
+                enk: "{\\varepsilon_\\nk}",
+                emkq: "{\\varepsilon_{m\\kk+\\qq}}",
+                qnu: "{\\qq \\nu}",
+                wqnu: "{\\omega_{\\qnu}}",
+                vnk: "{\\mathbf{v}_{n\\kk}}",
+                vmkq: "{\\mathbf{v}_{m\\kk+\\qq}}",
+                vnka: "{\\mathrm{v}_{n\\kk,\\alpha}}",
+                vnkb: "{\\mathrm{v}_{n\\kk,\\beta}}",
+                ef: "{\\varepsilon_F}",
+                // EPH quantities
+                gkkp: "{g_{mn\\nu}(\\kk,\\qq)}",
+                gkq: "{g_{mn\\nu}(\\kk,\\qq)}",
+                //\newcommand{\gkkpL}{g_{mn\nu}^\Lc(\kb,\qb)}
+                // Many-body theory
+                Go: "{G_0}",
+                Wo: "{W_0}",
+                Ueff: "{U_{\\text{eff}}}",
+                // Greek symbols + tilde version
+                ee: "{\\epsilon}",
+                tee: "{\\tilde{\\epsilon}}",
+                ww: "{\\omega}",
+                tww: "{\\tilde\\omega}",
+                dd: "{\\,\\text{d}}",
+                vxc: "{v_\\xc}",
+                // symrel
+                Ri: "{\\mcR^{-1}}",
+                Rit: "{\\mcR^{-1\\tau}}",
+                // symrec
+                Si: "{\\mcS^{-1}}}",
+                Sit: "{\\Si^\\tau}}",
+                // partial and functional derivative.
+                PDER: ["{\\dfrac{\\partial #1}{\\partial #2}}", 2],
+                FDER: ["{\\dfrac{\\delta #1}{\\delta #2}}", 2],
+                // PAW
+                tPsi: "{\\tilde\\Psi}",
+                tpsi: "{\\tilde\\psi}",
+                tPhi: "{\\tilde\\Phi}",
+                tphi: "{\\tilde\\phi}",
+                tprj: "{\\tilde p}"
+            }
+          }
+      });
+    </script>
+
+    <!-- See http://docs.mathjax.org/en/latest/start.html 
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js", "MathMenu.js", "MathZoom.js"],
+        jax: ["input/TeX", "output/HTML-CSS", "output/NativeMML],
+        tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+            processEscapes: true
+        },
+        "HTML-CSS": { availableFonts: ["TeX"] }
+      });
+    </script>
+    -->
+
+    
+    
+    
+
+    <!-- Introjs for Guided Tour -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.7.0/intro.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.7.0/introjs.min.css" />
+
+    <!-- Load fonts used for input variables -->
+    <!--
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu+Mono" rel="stylesheet">
+    -->
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+
+    
+      <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+      
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    
+    
+      <link rel="stylesheet" href="../../css/extra.css">
+    
+      <link rel="stylesheet" href="../../css/gallery.css">
+    
+      <link rel="stylesheet" href="../../css/my_codehilite.css">
+    
+    
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="deep-orange" data-md-color-accent="deep-orange">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="drawer">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
+    <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
+    
+      <a href="#tutorial-on-static-non-linear-properties" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="https://www.abinit.org" title="abinit" class="md-header-nav__button md-logo">
+          
+            <img src="../../images/logo-abinit-2015.png" width="48" height="48">
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <span class="md-flex__ellipsis md-header-nav__title">
+          
+            
+              
+                <span class="md-header-nav__parent">
+                  Tutorial
+                </span>
+              
+                <span class="md-header-nav__parent">
+                  DFPT
+                </span>
+              
+            
+            Nlo
+          
+        </span>
+      </div>
+      <!-- Guided Tour with introjs. Add glow effect to button only if homepage -->
+      <div class="md-flex__cell md-flex__cell--shrink">
+           
+          
+          <a href="#" class="btn btn-xs btn-default  " id="guided-tour-button" title="Guided Tour" 
+              onclick="abidocs_guidedtour()">
+           <span class="fa fa-info-circle"></span></a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.com/abinit/abinit/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      github-abinit
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+      <div class="md-flex__cell md-flex__cell--shrink" id="previous_published_versions">
+        <div class="dropdown">
+          <button class="btn btn-basic btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
+            9.4.0
+          <span class="caret"></span></button>
+          <ul class="dropdown-menu">
+            
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+        
+
+  
+
+<nav class="md-tabs md-tabs--active" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../.." title="User Guide" class="md-tabs__link">
+          User Guide
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../topics/features/" title="Topics" class="md-tabs__link">
+          Topics
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../variables/" title="Variables" class="md-tabs__link">
+          Variables
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../" title="Tutorial" class="md-tabs__link md-tabs__link--active">
+          Tutorial
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../theory/geometry/" title="Theory" class="md-tabs__link">
+          Theory
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../developers/git_and_gitlab/" title="Developers" class="md-tabs__link">
+          Developers
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../about/release-notes/" title="About" class="md-tabs__link">
+          About
+        </a>
+      
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="drawer">
+    <span class="md-nav__button md-logo">
+      
+        <img src="../../images/logo-abinit-2015.png" width="24" height="24">
+      
+    </span>
+    abinit
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/abinit/abinit/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      github-abinit
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1">
+    
+    <label class="md-nav__link" for="nav-1">
+      User Guide
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-1">
+        User Guide
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="NewUser" class="md-nav__link">
+      NewUser
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/abinit/" title="Abinit" class="md-nav__link">
+      Abinit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/aim/" title="Aim" class="md-nav__link">
+      Aim
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/anaddb/" title="Anaddb" class="md-nav__link">
+      Anaddb
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/cut3d/" title="Cut3d" class="md-nav__link">
+      Cut3d
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/fold2bloch/" title="Fold2Bloch" class="md-nav__link">
+      Fold2Bloch
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/mrgddb/" title="Mrgddb" class="md-nav__link">
+      Mrgddb
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/mrgscr/" title="Mrgscr" class="md-nav__link">
+      Mrgscr
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/multibinit/" title="Multibinit" class="md-nav__link">
+      Multibinit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/optic/" title="Optic" class="md-nav__link">
+      Optic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/respfn/" title="Respfn" class="md-nav__link">
+      Respfn
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/spacegroup/" title="Spacegroup" class="md-nav__link">
+      Spacegroup
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../guide/a-TDEP/" title="a-TDEP" class="md-nav__link">
+      a-TDEP
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1-14" type="checkbox" id="nav-1-14">
+    
+    <label class="md-nav__link" for="nav-1-14">
+      Installation
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-1-14">
+        Installation
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../installation/" title="HowTo" class="md-nav__link">
+      HowTo
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../INSTALL_MacOS/" title="MacOS" class="md-nav__link">
+      MacOS
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../INSTALL_Ubuntu/" title="Ubuntu" class="md-nav__link">
+      Ubuntu
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../INSTALL_CentOS/" title="CentOS" class="md-nav__link">
+      CentOS
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../INSTALL_EasyBuild/" title="EasyBuild" class="md-nav__link">
+      EasyBuild
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../INSTALL_gpu/" title="GPUs" class="md-nav__link">
+      GPUs
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Topics
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Topics
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/features/" title="Features" class="md-nav__link">
+      Features
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/" title="Topic List" class="md-nav__link">
+      Topic List
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Abipy/" title="Abipy" class="md-nav__link">
+      Abipy
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/APPA/" title="APPA" class="md-nav__link">
+      APPA
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Artificial/" title="Artificial" class="md-nav__link">
+      Artificial
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/AtomManipulator/" title="AtomManipulator" class="md-nav__link">
+      AtomManipulator
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/AtomTypes/" title="AtomTypes" class="md-nav__link">
+      AtomTypes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Bader/" title="Bader" class="md-nav__link">
+      Bader
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Band2eps/" title="Band2eps" class="md-nav__link">
+      Band2eps
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Berry/" title="Berry" class="md-nav__link">
+      Berry
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/BandOcc/" title="BandOcc" class="md-nav__link">
+      BandOcc
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/BSE/" title="BSE" class="md-nav__link">
+      BSE
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/BoundingProcess/" title="BoundingProcess" class="md-nav__link">
+      BoundingProcess
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ConstrainedDFT/" title="ConstrainedDFT" class="md-nav__link">
+      ConstrainedDFT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ConstrainedPol/" title="ConstrainedPol" class="md-nav__link">
+      ConstrainedPol
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Control/" title="Control" class="md-nav__link">
+      Control
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Coulomb/" title="Coulomb" class="md-nav__link">
+      Coulomb
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/CrossingBarriers/" title="CrossingBarriers" class="md-nav__link">
+      CrossingBarriers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/CRPA/" title="CRPA" class="md-nav__link">
+      CRPA
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/crystal/" title="Crystal" class="md-nav__link">
+      Crystal
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/DFT+U/" title="DFT+U" class="md-nav__link">
+      DFT+U
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/DeltaSCF/" title="DeltaSCF" class="md-nav__link">
+      DeltaSCF
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/DensityPotential/" title="DensityPotential" class="md-nav__link">
+      DensityPotential
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Dev/" title="Dev" class="md-nav__link">
+      Dev
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/DFPT/" title="DFPT" class="md-nav__link">
+      DFPT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/DMFT/" title="DMFT" class="md-nav__link">
+      DMFT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/DynamicsMultibinit/" title="DynamicsMultibinit" class="md-nav__link">
+      DynamicsMultibinit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/EffectiveMass/" title="EffectiveMass" class="md-nav__link">
+      EffectiveMass
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/EFG/" title="EFG" class="md-nav__link">
+      EFG
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Elastic/" title="Elastic" class="md-nav__link">
+      Elastic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ElPhonInt/" title="ElPhonInt" class="md-nav__link">
+      ElPhonInt
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ElPhonTransport/" title="ElPhonTransport" class="md-nav__link">
+      ElPhonTransport
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ElecDOS/" title="ElecDOS" class="md-nav__link">
+      ElecDOS
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ElecBandStructure/" title="ElecBandStructure" class="md-nav__link">
+      ElecBandStructure
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/FileFormats/" title="FileFormats" class="md-nav__link">
+      FileFormats
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/FitProcess/" title="FitProcess" class="md-nav__link">
+      FitProcess
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/ForcesStresses/" title="ForcesStresses" class="md-nav__link">
+      ForcesStresses
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/FrequencyMeshMBPT/" title="FrequencyMeshMBPT" class="md-nav__link">
+      FrequencyMeshMBPT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/GeoConstraints/" title="GeoConstraints" class="md-nav__link">
+      GeoConstraints
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/GeoOpt/" title="GeoOpt" class="md-nav__link">
+      GeoOpt
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Git/" title="Git" class="md-nav__link">
+      Git
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/GSintroduction/" title="GSintroduction" class="md-nav__link">
+      GSintroduction
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/GW/" title="GW" class="md-nav__link">
+      GW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/GWls/" title="GWls" class="md-nav__link">
+      GWls
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Hybrids/" title="Hybrids" class="md-nav__link">
+      Hybrids
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/k-points/" title="K points" class="md-nav__link">
+      K points
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/LatticeModel/" title="LatticeModel" class="md-nav__link">
+      LatticeModel
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/LDAminushalf/" title="LDAminushalf" class="md-nav__link">
+      LDAminushalf
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/LOTF/" title="LOTF" class="md-nav__link">
+      LOTF
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/longwave/" title="Longwave" class="md-nav__link">
+      Longwave
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Macroave/" title="Macroave" class="md-nav__link">
+      Macroave
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/MagField/" title="MagField" class="md-nav__link">
+      MagField
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/MagMom/" title="MagMom" class="md-nav__link">
+      MagMom
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/MolecularDynamics/" title="MolecularDynamics" class="md-nav__link">
+      MolecularDynamics
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/multidtset/" title="Multidtset" class="md-nav__link">
+      Multidtset
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/nonlinear/" title="Nonlinear" class="md-nav__link">
+      Nonlinear
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Optic/" title="Optic" class="md-nav__link">
+      Optic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Output/" title="Output" class="md-nav__link">
+      Output
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/parallelism/" title="Parallelism" class="md-nav__link">
+      Parallelism
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/PAW/" title="PAW" class="md-nav__link">
+      PAW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/PIMD/" title="PIMD" class="md-nav__link">
+      PIMD
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Planewaves/" title="Planewaves" class="md-nav__link">
+      Planewaves
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Phonons/" title="Phonons" class="md-nav__link">
+      Phonons
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/PhononBands/" title="PhononBands" class="md-nav__link">
+      PhononBands
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/PhononWidth/" title="PhononWidth" class="md-nav__link">
+      PhononWidth
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/PortabilityNonRegression/" title="PortabilityNonRegression" class="md-nav__link">
+      PortabilityNonRegression
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/positron/" title="Positron" class="md-nav__link">
+      Positron
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/printing/" title="Printing" class="md-nav__link">
+      Printing
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/PseudosPAW/" title="PseudosPAW" class="md-nav__link">
+      PseudosPAW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/q-points/" title="Q points" class="md-nav__link">
+      Q points
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/RandStopPow/" title="RandStopPow" class="md-nav__link">
+      RandStopPow
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Recursion/" title="Recursion" class="md-nav__link">
+      Recursion
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/RPACorrEn/" title="RPACorrEn" class="md-nav__link">
+      RPACorrEn
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/SCFControl/" title="SCFControl" class="md-nav__link">
+      SCFControl
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/SCFAlgorithms/" title="SCFAlgorithms" class="md-nav__link">
+      SCFAlgorithms
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/SelfEnergy/" title="SelfEnergy" class="md-nav__link">
+      SelfEnergy
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/SmartSymm/" title="SmartSymm" class="md-nav__link">
+      SmartSymm
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/spinpolarisation/" title="Spinpolarisation" class="md-nav__link">
+      Spinpolarisation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/SpinDynamicsMultibinit/" title="SpinDynamicsMultibinit" class="md-nav__link">
+      SpinDynamicsMultibinit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/STM/" title="STM" class="md-nav__link">
+      STM
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Susceptibility/" title="Susceptibility" class="md-nav__link">
+      Susceptibility
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/TDDFT/" title="TDDFT" class="md-nav__link">
+      TDDFT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/a-TDEP/" title="a TDEP" class="md-nav__link">
+      a TDEP
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/TDepES/" title="TDepES" class="md-nav__link">
+      TDepES
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Temperature/" title="Temperature" class="md-nav__link">
+      Temperature
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/TransPath/" title="TransPath" class="md-nav__link">
+      TransPath
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/TuningSpeedMem/" title="TuningSpeedMem" class="md-nav__link">
+      TuningSpeedMem
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Unfolding/" title="Unfolding" class="md-nav__link">
+      Unfolding
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/UnitCell/" title="UnitCell" class="md-nav__link">
+      UnitCell
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/vdw/" title="Vdw" class="md-nav__link">
+      Vdw
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Verification/" title="Verification" class="md-nav__link">
+      Verification
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Wannier/" title="Wannier" class="md-nav__link">
+      Wannier
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/Wavelets/" title="Wavelets" class="md-nav__link">
+      Wavelets
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/xc/" title="Xc" class="md-nav__link">
+      Xc
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../topics/external_resources/" title="External Resources" class="md-nav__link">
+      External Resources
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Variables
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Variables
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/" title="All Variables" class="md-nav__link">
+      All Variables
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-2" type="checkbox" id="nav-3-2">
+    
+    <label class="md-nav__link" for="nav-3-2">
+      Abinit
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-2">
+        Abinit
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/basic/" title="Basic" class="md-nav__link">
+      Basic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/bse/" title="Bethe-Salpeter" class="md-nav__link">
+      Bethe-Salpeter
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/dev/" title="Developers" class="md-nav__link">
+      Developers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/dmft/" title="DMFT" class="md-nav__link">
+      DMFT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/eph/" title="Electron-Phonon" class="md-nav__link">
+      Electron-Phonon
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/ffield/" title="Varff" class="md-nav__link">
+      Varff
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/files/" title="File-handling" class="md-nav__link">
+      File-handling
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/geo/" title="Geometry" class="md-nav__link">
+      Geometry
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/gstate/" title="Ground-State" class="md-nav__link">
+      Ground-State
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/gw/" title="GW" class="md-nav__link">
+      GW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/internal/" title="Internal" class="md-nav__link">
+      Internal
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/paral/" title="Parallelism" class="md-nav__link">
+      Parallelism
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/paw/" title="PAW" class="md-nav__link">
+      PAW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/dfpt/" title="DFPT" class="md-nav__link">
+      DFPT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/rlx/" title="Relaxation" class="md-nav__link">
+      Relaxation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/vdw/" title="VdW" class="md-nav__link">
+      VdW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/w90/" title="Wannier90" class="md-nav__link">
+      Wannier90
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/anaddb/" title="Anaddb" class="md-nav__link">
+      Anaddb
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/multibinit/" title="Multibinit" class="md-nav__link">
+      Multibinit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/optic/" title="Optic" class="md-nav__link">
+      Optic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/atdep/" title="a-TDEP" class="md-nav__link">
+      a-TDEP
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/aim/" title="Aim" class="md-nav__link">
+      Aim
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/external_parameters/" title="External Parameters" class="md-nav__link">
+      External Parameters
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../variables/varset_stats/" title="Statistics" class="md-nav__link">
+      Statistics
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
+    
+    <label class="md-nav__link" for="nav-4">
+      Tutorial
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        Tutorial
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../compilation/" title="Building Abinit" class="md-nav__link">
+      Building Abinit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-3" type="checkbox" id="nav-4-3">
+    
+    <label class="md-nav__link" for="nav-4-3">
+      Base Tutorials
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-3">
+        Base Tutorials
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../base1/" title="Base1" class="md-nav__link">
+      Base1
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../base2/" title="Base2" class="md-nav__link">
+      Base2
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../base3/" title="Base3" class="md-nav__link">
+      Base3
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../base4/" title="Base4" class="md-nav__link">
+      Base4
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../spin/" title="Spin" class="md-nav__link">
+      Spin
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-4" type="checkbox" id="nav-4-4">
+    
+    <label class="md-nav__link" for="nav-4-4">
+      PAW
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-4">
+        PAW
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../paw1/" title="PAW1" class="md-nav__link">
+      PAW1
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../paw2/" title="PAW2" class="md-nav__link">
+      PAW2
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../paw3/" title="PAW3" class="md-nav__link">
+      PAW3
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-5" type="checkbox" id="nav-4-5">
+    
+    <label class="md-nav__link" for="nav-4-5">
+      DFT_PLUS_U
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-5">
+        DFT_PLUS_U
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../dftu/" title="Dftu" class="md-nav__link">
+      Dftu
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../udet/" title="Udet" class="md-nav__link">
+      Udet
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../ucalc_crpa/" title="Ucalc crpa" class="md-nav__link">
+      Ucalc crpa
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-6" type="checkbox" id="nav-4-6" checked>
+    
+    <label class="md-nav__link" for="nav-4-6">
+      DFPT
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-6">
+        DFPT
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rf1/" title="RF1" class="md-nav__link">
+      RF1
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rf2/" title="RF2" class="md-nav__link">
+      RF2
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../elastic/" title="Elastic" class="md-nav__link">
+      Elastic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../ffield/" title="Ffield" class="md-nav__link">
+      Ffield
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="toc">
+        Nlo
+      </label>
+    
+    <a href="./" title="Nlo" class="md-nav__link md-nav__link--active">
+      Nlo
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#electronic-non-linear-susceptibility-non-resonant-raman-tensor-electro-optic-effect" title="Electronic non-linear susceptibility, non-resonant Raman tensor, electro-optic effect." class="md-nav__link">
+    Electronic non-linear susceptibility, non-resonant Raman tensor, electro-optic effect.
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-ground-state-properties-of-alp-and-general-parameters" title="1 Ground-state properties of AlP and general parameters" class="md-nav__link">
+    1 Ground-state properties of AlP and general parameters
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-linear-and-non-linear-responses-from-density-functional-perturbation-theory-dfpt" title="2 Linear and non-linear responses from density functional perturbation theory (DFPT)" class="md-nav__link">
+    2 Linear and non-linear responses from density functional perturbation theory (DFPT)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-finite-difference-calculation-of-the-raman-tensor" title="3 Finite difference calculation of the Raman tensor" class="md-nav__link">
+    3 Finite difference calculation of the Raman tensor
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#calculation-of-the-raman-spectra" title="Calculation of the Raman Spectra" class="md-nav__link">
+    Calculation of the Raman Spectra
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../dmft/" title="DMFT" class="md-nav__link">
+      DMFT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-8" type="checkbox" id="nav-4-8">
+    
+    <label class="md-nav__link" for="nav-4-8">
+      EPH
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-8">
+        EPH
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../eph_intro/" title="Eph intro" class="md-nav__link">
+      Eph intro
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../eph4mob/" title="Eph4mob" class="md-nav__link">
+      Eph4mob
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../eph4zpr/" title="Eph4zpr" class="md-nav__link">
+      Eph4zpr
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-9" type="checkbox" id="nav-4-9">
+    
+    <label class="md-nav__link" for="nav-4-9">
+      EPH-legacy
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-9">
+        EPH-legacy
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../eph/" title="Eph" class="md-nav__link">
+      Eph
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../tdepes/" title="Tdepes" class="md-nav__link">
+      Tdepes
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-10" type="checkbox" id="nav-4-10">
+    
+    <label class="md-nav__link" for="nav-4-10">
+      Many-Body
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-10">
+        Many-Body
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../gw1/" title="GW1" class="md-nav__link">
+      GW1
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../gw2/" title="GW2" class="md-nav__link">
+      GW2
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../bse/" title="Bethe-Salpeter" class="md-nav__link">
+      Bethe-Salpeter
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-11" type="checkbox" id="nav-4-11">
+    
+    <label class="md-nav__link" for="nav-4-11">
+      Parallelism
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-11">
+        Parallelism
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../basepar/" title="Base" class="md-nav__link">
+      Base
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../paral_gspw/" title="GSPW" class="md-nav__link">
+      GSPW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../paral_gswvl/" title="GSWVL" class="md-nav__link">
+      GSWVL
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../paral_dfpt/" title="DFPT" class="md-nav__link">
+      DFPT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../paral_images/" title="Images" class="md-nav__link">
+      Images
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../paral_mbt/" title="Many-Body" class="md-nav__link">
+      Many-Body
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../paral_moldyn/" title="Moldyn" class="md-nav__link">
+      Moldyn
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-12" type="checkbox" id="nav-4-12">
+    
+    <label class="md-nav__link" for="nav-4-12">
+      Multibinit
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-12">
+        Multibinit
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../lattice_model/" title="Lattice Model" class="md-nav__link">
+      Lattice Model
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../spin_model/" title="Spin Model" class="md-nav__link">
+      Spin Model
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../cut3d/" title="Cut3d" class="md-nav__link">
+      Cut3d
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../fold2bloch/" title="Fold2bloch" class="md-nav__link">
+      Fold2bloch
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../nuc/" title="Nuc" class="md-nav__link">
+      Nuc
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../optic/" title="Optic" class="md-nav__link">
+      Optic
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../positron/" title="Positron" class="md-nav__link">
+      Positron
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../tddft/" title="Tddft" class="md-nav__link">
+      Tddft
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../wannier90/" title="Wannier90" class="md-nav__link">
+      Wannier90
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      Theory
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        Theory
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/geometry/" title="Geometry" class="md-nav__link">
+      Geometry
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/spherical_harmonics/" title="Spherical Harmonics" class="md-nav__link">
+      Spherical Harmonics
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/wavefunctions/" title="Wavefunctions" class="md-nav__link">
+      Wavefunctions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/noncollinear/" title="Noncollinear" class="md-nav__link">
+      Noncollinear
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/pseudopotentials/" title="Pseudopotentials" class="md-nav__link">
+      Pseudopotentials
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/mbt/" title="Many-Body Perturbation Theory" class="md-nav__link">
+      Many-Body Perturbation Theory
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/bse/" title="Bethe-Salpeter" class="md-nav__link">
+      Bethe-Salpeter
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/documents/" title="Documents" class="md-nav__link">
+      Documents
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/acknowledgments/" title="Acknowledgments" class="md-nav__link">
+      Acknowledgments
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../theory/bibliography/" title="Bibliography" class="md-nav__link">
+      Bibliography
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      Developers
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        Developers
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/git_and_gitlab/" title="Git and Gitlab" class="md-nav__link">
+      Git and Gitlab
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/developers_howto/" title="HowTo for developers" class="md-nav__link">
+      HowTo for developers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/abimkdocs/" title="Abimkdocs" class="md-nav__link">
+      Abimkdocs
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/markdown/" title="Markdown" class="md-nav__link">
+      Markdown
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6-5" type="checkbox" id="nav-6-5">
+    
+    <label class="md-nav__link" for="nav-6-5">
+      Test Suite
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-6-5">
+        Test Suite
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/testsuite/" title="Test list" class="md-nav__link">
+      Test list
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/testsuite_howto/" title="Test Suite Howto" class="md-nav__link">
+      Test Suite Howto
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/new_testsuite/" title="YAML-based test suite Howto" class="md-nav__link">
+      YAML-based test suite Howto
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/yaml_tools_api/" title="YAML-based test suite Python tools and API" class="md-nav__link">
+      YAML-based test suite Python tools and API
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/XgType/" title="XgType" class="md-nav__link">
+      XgType
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6-7" type="checkbox" id="nav-6-7">
+    
+    <label class="md-nav__link" for="nav-6-7">
+      Pseudos
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-6-7">
+        Pseudos
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/psp1_info/" title="psp1" class="md-nav__link">
+      psp1
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/psp3_info/" title="psp3" class="md-nav__link">
+      psp3
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/psp45_info/" title="psp45" class="md-nav__link">
+      psp45
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/psp5spinorbit_info/" title="psp5" class="md-nav__link">
+      psp5
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/psp6_info/" title="psp6" class="md-nav__link">
+      psp6
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/psp8_info/" title="psp8" class="md-nav__link">
+      psp8
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/codestats/" title="Code stats" class="md-nav__link">
+      Code stats
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/autoconf_examples/" title="Autoconf_examples" class="md-nav__link">
+      Autoconf_examples
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../developers/testlink/" title="Test Page for linkcheck" class="md-nav__link">
+      Test Page for linkcheck
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+    
+    <label class="md-nav__link" for="nav-7">
+      About
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        About
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../about/release-notes/" title="Release Notes" class="md-nav__link">
+      Release Notes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../about/contributing/" title="Contributing" class="md-nav__link">
+      Contributing
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../about/history/" title="History" class="md-nav__link">
+      History
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../about/license/" title="License" class="md-nav__link">
+      License
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#electronic-non-linear-susceptibility-non-resonant-raman-tensor-electro-optic-effect" title="Electronic non-linear susceptibility, non-resonant Raman tensor, electro-optic effect." class="md-nav__link">
+    Electronic non-linear susceptibility, non-resonant Raman tensor, electro-optic effect.
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-ground-state-properties-of-alp-and-general-parameters" title="1 Ground-state properties of AlP and general parameters" class="md-nav__link">
+    1 Ground-state properties of AlP and general parameters
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-linear-and-non-linear-responses-from-density-functional-perturbation-theory-dfpt" title="2 Linear and non-linear responses from density functional perturbation theory (DFPT)" class="md-nav__link">
+    2 Linear and non-linear responses from density functional perturbation theory (DFPT)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-finite-difference-calculation-of-the-raman-tensor" title="3 Finite difference calculation of the Raman tensor" class="md-nav__link">
+    3 Finite difference calculation of the Raman tensor
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#calculation-of-the-raman-spectra" title="Calculation of the Raman Spectra" class="md-nav__link">
+    Calculation of the Raman Spectra
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+
+                
+                  <a href="https://github.com/abinit/abinit/edit/master/doc/tutorial/nlo.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="tutorial-on-static-non-linear-properties">Tutorial on static non-linear properties<a class="headerlink" href="#tutorial-on-static-non-linear-properties" title="Permanent link">&para;</a></h1>
+<h2 id="electronic-non-linear-susceptibility-non-resonant-raman-tensor-electro-optic-effect">Electronic non-linear susceptibility, non-resonant Raman tensor, electro-optic effect.<a class="headerlink" href="#electronic-non-linear-susceptibility-non-resonant-raman-tensor-electro-optic-effect" title="Permanent link">&para;</a></h2>
+<p>This tutorial shows how to obtain the following non-linear physical properties, for an insulator:</p>
+<ul>
+<li>The non-linear optical susceptibilities</li>
+<li>The Raman tensor of TO and LO modes</li>
+<li>The electro-optic coefficients</li>
+</ul>
+<p>We will study the compound AlP. During the preliminary steps needed to compute
+non-linear properties, we will also obtain several linear response properties:</p>
+<ul>
+<li>The Born effective charges</li>
+<li>The dielectric constant</li>
+<li>The proper piezoelectric tensor (clamped and relaxed ions)</li>
+</ul>
+<p>Finally, we will also compute the derivative of the susceptibility tensor with
+respect to atomic positions (Raman tensor), using finite differences.</p>
+<p>The user should have already completed several advanced tutorials, including:
+<a href="../rf1">Response-Function 1</a>, <a href="../rf2">Response-Function 2</a>,
+<a href="../ffield">Polarization and Finite electric fields</a>, and the
+<a href="../elastic">Elastic properties</a>.</p>
+<p>This tutorial should take about 1 hour and 30 minutes.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Supposing you made your own installation of ABINIT, the input files to run the examples
+are in the <em>~abinit/tests/</em> directory where <em>~abinit</em> is the <strong>absolute path</strong> of the abinit top-level directory.
+If you have NOT made your own install, ask your system administrator where to find the package,
+especially the executable and test files.</p>
+<p>In case you work on your own PC or workstation, to make things easier, we suggest you define
+some handy environment variables by executing the following lines in the terminal:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">ABI_HOME</span><span class="o">=</span>Replace_with_absolute_path_to_abinit_top_level_dir <span class="c1"># Change this line</span>
+<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="nv">$ABI_HOME</span>/src/98_main/:<span class="nv">$PATH</span>      <span class="c1"># Do not change this line: path to executable</span>
+<span class="nb">export</span> <span class="nv">ABI_TESTS</span><span class="o">=</span><span class="nv">$ABI_HOME</span>/tests/             <span class="c1"># Do not change this line: path to tests dir</span>
+<span class="nb">export</span> <span class="nv">ABI_PSPDIR</span><span class="o">=</span><span class="nv">$ABI_TESTS</span>/Psps_for_tests/  <span class="c1"># Do not change this line: path to pseudos dir</span>
+</code></pre></div>
+<p>Examples in this tutorial use these shell variables: copy and paste
+the code snippets into the terminal (<strong>remember to set ABI_HOME first!</strong>) or, alternatively,
+source the <code>set_abienv.sh</code> script located in the <em>~abinit</em> directory:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">source</span> ~abinit/set_abienv.sh
+</code></pre></div>
+<p>The &lsquo;export PATH&rsquo; line adds the directory containing the executables to your <a href="http://www.linfo.org/path_env_var.html">PATH</a>
+so that you can invoke the code by simply typing <em>abinit</em> in the terminal instead of providing the absolute path.</p>
+<p>To execute the tutorials, create a working directory (<code>Work*</code>) and
+copy there the input files of the lesson.</p>
+<p>Most of the tutorials do not rely on parallelism (except specific <a class="wikilink lesson-wikilink" href="../basepar">tutorials on parallelism</a>).
+However you can run most of the tutorial examples in parallel with MPI, see the <a class="wikilink topic-wikilink" data-content="How to set parameters for a parallel calculation" data-placement="auto right" data-toggle="popover" data-trigger="hover focus" href="../../topics/parallelism">topic on parallelism</a>.</p>
+</div>
+<h2 id="1-ground-state-properties-of-alp-and-general-parameters">1 Ground-state properties of AlP and general parameters<a class="headerlink" href="#1-ground-state-properties-of-alp-and-general-parameters" title="Permanent link">&para;</a></h2>
+<p><em>Before beginning, you might consider working in a different subdirectory, as for the other tutorials.
+For example, create Work_NLO in $ABI_TESTS/tutorespfn/Input</em>.</p>
+<p>In order to save some time, you might immediately start running a calculation.
+Copy the file <em>tnlo_2.abi</em> from <em>$ABI_TESTS/tutorespfn/Input</em> to <em>Work_NLO</em>.
+Run <code>abinit</code> on this file; it will take several minutes on a desktop PC.</p>
+<p>In this tutorial we will assume that the ground-state properties of AlP have
+been previously obtained, and that the corresponding convergence studies have
+been done. Let us emphasize that, from our experience, accurate and trustable
+results for third order energy derivatives usually require a extremely high
+level of convergence. So, even if it is not always very apparent here, careful
+convergence studies must be explicitly performed in any practical study you
+attempt after this tutorial. As usual, convergence tests must be done on
+the property of interest (thus it is insufficient to determine parameters giving
+proper convergence only on the total energy, and to use them blindly for non-linear
+properties).</p>
+<p>We will adopt the following set of generic parameters (quite similar to those
+in the
+<a href="../ffield">tutorial on Polarization and finite electric field</a>):
+<div class="highlight"><pre><span></span><code>acell   3*7.1391127387E+00
+rprim      0.0000000000E+00  7.0710678119E-01  7.0710678119E-01
+           7.0710678119E-01  0.0000000000E+00  7.0710678119E-01
+           7.0710678119E-01  7.0710678119E-01  0.0000000000E+00
+ecut    2.8
+ecutsm  0.5
+dilatmx 1.05
+nband   4 (=number of occupied bands)
+ngkpt   6 6 6
+nshiftk 4
+shiftk  0.5 0.5 0.5
+        0.5 0.0 0.0
+        0.0 0.5 0.0
+        0.0 0.0 0.5
+
+pseudopotentials  Pseudodojo_nc_sr_04_pw_standard_psp8/P.psp8
+                  Pseudodojo_nc_sr_04_pw_standard_psp8/Al.psp8
+</code></pre></div></p>
+<p>In principle, the <a class="wikilink codevar-wikilink" href="../../variables/basic#acell">acell</a> to be used should be the one corresponding to the
+optimized structure at the <a class="wikilink codevar-wikilink" href="../../variables/basic#ecut">ecut</a>, and <a class="wikilink codevar-wikilink" href="../../variables/basic#ngkpt">ngkpt</a> combined with <a class="wikilink codevar-wikilink" href="../../variables/basic#nshiftk">nshiftk</a>
+and <a class="wikilink codevar-wikilink" href="../../variables/basic#shiftk">shiftk</a>, chosen for the calculations. Unfortunately, for the purpose of
+this tutorial, in order to limit the duration of the runs, we have to work at
+an unusually low cutoff of 2.8 Ha for which the optimized lattice constant is
+unrealistic and equal to 7.139 Bohr (instead of the converged value of 7.251).
+In what follows, the lattice constant has been arbitrarily fixed to 7.139.
+Bohr. For comparison, results with <a class="wikilink codevar-wikilink" href="../../variables/basic#ecut">ecut</a> = 5 and 30 are also reported and, in those
+cases, were obtained at the optimized lattice constants of 7.273 and 7.251 Bohr. For those
+who would like to try later, convergence tests and structural optimizations
+can be done using the file <em>$ABI_TESTS/tutorespfn/Input/tnlo_1.abi</em>.</p>
+<div class="text-center"><button type="button" id="uuid-66319231-52a9-42db-a003-8286ace463d9" class="btn btn-default btn-labeled">
+  <span class="btn-label"><i class="fa fa-window-restore" aria-hidden="true"></i></span>View tests/tutorespfn/Input/tnlo_1.abi
+</button></div>
+<div id="uuid-6e6c452c-3aa0-4ed0-b38b-5784caa204a6" class="my_dialog" title="tests/tutorespfn/Input/tnlo_1.abi" hidden><div><div class="codehilite small-text"><pre><span></span><span class="c1">#Structural optimisation</span>
+
+<span class="c1">#ndtset 6    jdtset 1 2 3 4 5 6</span>
+
+<span class="c1">#  ngkpt1  6  6  6</span>
+<span class="c1">#  ngkpt2  8  8  8</span>
+<span class="c1">#  ngkpt3 10 10 10</span>
+<span class="c1">#  ngkpt4 12 12 12</span>
+<span class="c1">#  ngkpt5 14 14 14</span>
+<span class="c1">#  ngkpt6 16 16 16</span>
+
+  ngkpt  <span class="m">6</span>  <span class="m">6</span>  <span class="m">6</span>   <span class="c1"># In the present example, only this grid of k points is considered</span>
+                   <span class="c1"># A full convergence study on k points should be done, see the above lines.</span>
+
+<span class="c1">#Definition of the unit cell</span>
+<span class="c1">#**********************************</span>
+acell <span class="m">3</span>*10.53
+rprim
+<span class="m">0</span> <span class="m">1</span>/2 <span class="m">1</span>/2 
+<span class="m">1</span>/2 <span class="m">0</span> <span class="m">1</span>/2
+<span class="m">1</span>/2 <span class="m">1</span>/2 <span class="m">0</span>
+
+<span class="c1">#Definition of the atom types and pseudopotentials</span>
+ ntypat <span class="m">2</span> <span class="c1"># two types of atoms </span>
+ znucl <span class="m">15</span> <span class="m">13</span> <span class="c1"># the atom types are Phosphorous and Aluminum</span>
+
+<span class="c1"># the following norm-conserving pseudopotentials are stored in the abinit distribution, but are freely</span>
+<span class="c1"># available through www.pseudo-dojo.org</span>
+<span class="c1"># this set uses the Perdew-Wang parameterization of LDA for the xc model</span>
+ pp_dirpath <span class="s2">&quot;</span><span class="nv">$ABI_PSPDIR</span><span class="s2">&quot;</span>
+ pseudos <span class="s2">&quot;Pseudodojo_nc_sr_04_pw_standard_psp8/P.psp8, Pseudodojo_nc_sr_04_pw_standard_psp8/Al.psp8&quot;</span>
+
+<span class="c1">#Definition of the atoms</span>
+ natom <span class="m">2</span> <span class="c1"># two atoms in the cell</span>
+ typat <span class="m">1</span> <span class="m">2</span> <span class="c1"># type 1 is Phosphorous, type 2 is Aluminum (order defined by znucl above and pseudos list)</span>
+ nband <span class="m">4</span> <span class="c1"># nband is restricted here to the number of filled bands only, no empty bands. </span>
+ nbdbuf <span class="m">0</span>
+
+<span class="c1"># atomic positions in units of cell vectors</span>
+xred
+<span class="m">1</span>/4 <span class="m">1</span>/4 <span class="m">1</span>/4
+<span class="m">0</span> <span class="m">0</span> <span class="m">0</span>
+
+<span class="c1">#Numerical parameters of the calculation : planewave basis set and k point grid</span>
+ecut  <span class="m">2</span>.8 <span class="c1"># this value is very low but is used here to achieve very low calculation times.</span>
+        <span class="c1"># in a production environment this should be checked carefully for convergence and</span>
+        <span class="c1"># a more reasonable value is probably around 30</span>
+ecutsm <span class="m">0</span>.5
+dilatmx <span class="m">1</span>.05
+nshiftk <span class="m">4</span> <span class="c1"># this Monkhorst-Pack shift pattern is used so that the symmetry of the shifted grid</span>
+          <span class="c1"># is correct. A gamma-centered grid would also have the correct symmetry but would be</span>
+          <span class="c1"># less efficient.</span>
+shiftk <span class="m">0</span>.5 <span class="m">0</span>.5 <span class="m">0</span>.5
+       <span class="m">0</span>.5 <span class="m">0</span>.0 <span class="m">0</span>.0
+       <span class="m">0</span>.0 <span class="m">0</span>.5 <span class="m">0</span>.0
+       <span class="m">0</span>.0 <span class="m">0</span>.0 <span class="m">0</span>.5
+
+<span class="c1"># scf parameters</span>
+nstep <span class="m">8</span>  <span class="c1"># limit number of steps for the tutorial, in general this should be set to its </span>
+         <span class="c1"># default (30) or higher</span>
+
+<span class="c1"># suppress printing of density, wavefunctions, etc except what is </span>
+<span class="c1"># explicitly requested above in the ndtset section</span>
+prtwf <span class="m">0</span>
+prtden <span class="m">0</span>
+prteig <span class="m">0</span>
+
+<span class="c1">#Structural relaxation</span>
+<span class="c1">#*********************</span>
+   ionmov <span class="m">2</span>
+   optcell <span class="m">2</span>
+   tolvrs <span class="m">1</span>.0d-15
+   tolmxf <span class="m">5</span>.0d-6
+   ntime <span class="m">100</span>
+
+<span class="c1">##############################################################</span>
+<span class="c1"># This section is used only for regression testing of ABINIT #</span>
+<span class="c1">##############################################################</span>
+<span class="c1">#%%&lt;BEGIN TEST_INFO&gt;</span>
+<span class="c1">#%% [setup]</span>
+<span class="c1">#%% executable = abinit</span>
+<span class="c1">#%% [files]</span>
+<span class="c1">#%% files_to_test = </span>
+<span class="c1">#%%   tnlo_1.abo, tolnlines=  1, tolabs=  4.192e-06, tolrel=  8.000e-05, fld_options=-medium</span>
+<span class="c1">#%% [paral_info]</span>
+<span class="c1">#%% max_nprocs = 2</span>
+<span class="c1">#%% [extra_info]</span>
+<span class="c1">#%% authors = J. Zwanziger, M. Veithen, P. Ghosez</span>
+<span class="c1">#%% keywords = </span>
+<span class="c1">#%% description = Structural optimisation</span>
+<span class="c1">#%%&lt;END TEST_INFO&gt;</span>
+</pre></div>
+</div></div>
+
+<script> $(function() { abidocs_jqueryui_dialog("#uuid-6e6c452c-3aa0-4ed0-b38b-5784caa204a6", "#uuid-66319231-52a9-42db-a003-8286ace463d9") }); </script>
+
+<p>Before going further, you might refresh your memory concerning the other variables:
+<a class="wikilink codevar-wikilink" href="../../variables/rlx#ecutsm">ecutsm</a>, <a class="wikilink codevar-wikilink" href="../../variables/rlx#dilatmx">dilatmx</a>, and <a class="wikilink codevar-wikilink" href="../../variables/gstate#nbdbuf">nbdbuf</a>.</p>
+<h2 id="2-linear-and-non-linear-responses-from-density-functional-perturbation-theory-dfpt">2 Linear and non-linear responses from density functional perturbation theory (DFPT)<a class="headerlink" href="#2-linear-and-non-linear-responses-from-density-functional-perturbation-theory-dfpt" title="Permanent link">&para;</a></h2>
+<p>As a theoretical support to this section of the tutorial, you might consider
+reading <a class="wikilink citation-wikilink" data-content="Nonlinear optical susceptibilities, Raman efficiencies, and electro-optic tensors from first-principles density functional perturbation theory" data-placement="auto right" data-toggle="popover" data-trigger="hover focus" href="../../theory/bibliography#veithen2005">[Veithen2005]</a>.</p>
+<p>In the first part of this tutorial, we will describe how to compute various
+linear and non-linear responses directly connected to second-order and third-
+order derivatives of the energy, using DFPT. From the <span><span class="MathJax_Preview">(2n+1)</span><script type="math/tex">(2n+1)</script></span> theorem,
+computation of energy derivatives up to third order only requires the
+knowledge of the ground-state and first-order wavefunctions, see
+<a class="wikilink citation-wikilink" data-content="Density-functional approach to nonlinear-response coefficients of solids" data-placement="auto right" data-toggle="popover" data-trigger="hover focus" href="../../theory/bibliography#gonze1989">[Gonze1989]</a> and <a class="wikilink citation-wikilink" data-content="Adiabatic density-functional perturbation theory" data-placement="auto right" data-toggle="popover" data-trigger="hover focus" href="../../theory/bibliography#gonze1995">[Gonze1995]</a>.
+Our study will therefore include the following steps : (i) computation of the
+ground-state wavefunctions and density; (ii) determination of
+wavefunctions derivatives and construction of the related databases for second and third-
+order energy derivatives, (iii) combination of the different databases and
+analysis to get the physical properties of interest.</p>
+<p>These steps are closely related to what was done for the dielectric and dynamical
+properties, except that an additional database for third-order energy
+derivatives will now be computed during the run. Only selected third-order
+derivatives are implemented at present in ABINIT, and concern responses to electric
+field and atomic displacements:</p>
+<ul>
+<li>
+<p>non-linear optical susceptibilities
+    (related to a third-order derivative of the energy
+    with respect to electric fields at clamped nuclei positions)</p>
+</li>
+<li>
+<p>Raman susceptibilities (mixed third-order derivative of the energy, twice with respect
+    to electric fields at clamped nuclei positions, and once with respect to atomic displacement)</p>
+</li>
+<li>
+<p>Electro-optic coefficients (related to a third-order derivative of the energy with respect to electric fields,
+    two of them being optical fields, that is, for clamped ionic positions,  and one of them being a static field,
+    for which the ionic positions are allowed to relax)</p>
+</li>
+</ul>
+<p>The various steps are combined into a single input file.</p>
+<p>There are two implementations available in ABINIT for the computation of third-order derivatives which includes at least one electric field perturbation (so all tensors mentioned above).
+First we will present the <em>PEAD</em> method, as described in <a class="wikilink citation-wikilink" data-content="Nonlinear optical susceptibilities, Raman efficiencies, and electro-optic tensors from first-principles density functional perturbation theory" data-placement="auto right" data-toggle="popover" data-trigger="hover focus" href="../../theory/bibliography#veithen2005">[Veithen2005]</a>,
+ then we will present the <em>full DFPT</em> method, as described in <a class="wikilink citation-wikilink" data-content="The Abinit project: Impact, environment and recent developments" data-placement="auto right" data-toggle="popover" data-trigger="hover focus" href="../../theory/bibliography#gonze2020">[Gonze2020]</a> and <a class="wikilink citation-wikilink" data-content="ABINIT: Overview, and focus on selected capabilities" data-placement="auto right" data-toggle="popover" data-trigger="hover focus" href="../../theory/bibliography#romero2020">[Romero2020]</a>.
+In the latter case, the input file is slightly modified so the reader interested in <em>full DFPT</em> should read the <em>PEAD</em> part first.
+Only the <em>full DFPT</em> implementation is available for PAW pseudopotentials.</p>
+<p><strong>Responses to electric fields, atomic displacements, and strains (with PEAD)</strong></p>
+<p>Let us examine the file <em>tnlo_2.abi</em>. </p>
+<div class="text-center"><button type="button" id="uuid-cfd7b856-48c4-44c8-8813-9a3342a93cb8" class="btn btn-default btn-labeled">
+  <span class="btn-label"><i class="fa fa-window-restore" aria-hidden="true"></i></span>View tests/tutorespfn/Input/tnlo_2.abi
+</button></div>
+<div id="uuid-a7ceffaf-df2b-45d5-bcee-5f6a59ad63f2" class="my_dialog" title="tests/tutorespfn/Input/tnlo_2.abi" hidden><div><div class="codehilite small-text"><pre><span></span><span class="c1"># Linear and nonlinear response calculation for AlP</span>
+<span class="c1"># Perturbations: electric fields &amp; atomic displacements</span>
+
+ndtset <span class="m">5</span>
+
+<span class="c1">#DATASET1 : scf calculation: GS WF in the IBZ</span>
+<span class="c1">#********************************************</span>
+   prtden1    <span class="m">1</span>        <span class="c1"># save density on disk, will be used in other datasets</span>
+    prtwf1    <span class="m">1</span>        <span class="c1"># save WF on disk, will be used in other datasets</span>
+   kptopt1    <span class="m">1</span>        <span class="c1"># use Irreducible Brillouin Zone (all symmetry taken into account)</span>
+   toldfe1    <span class="m">1</span>.0d-12  <span class="c1"># SCF convergence criteria (could be tolwfr or tolvrs)</span>
+
+<span class="c1">#DATASET2 : non scf calculation: GS WF in half BZ</span>
+<span class="c1">#*****************************************************</span>
+   getden2    <span class="m">1</span>        <span class="c1"># use density from dataset 1</span>
+   kptopt2    <span class="m">2</span>        <span class="c1"># use Half Brillouin Zone (only time-reversal symmetry taken into account)</span>
+   getwfk2    <span class="m">1</span>        <span class="c1"># use GS WF from dataset 1 (as input)</span>
+     iscf2   -2        <span class="c1"># non-self-consistent calculation</span>
+   tolwfr2    <span class="m">1</span>.0d-22  <span class="c1"># convergence criteria on WF, need high precision for response</span>
+    prtwf2    <span class="m">1</span>        <span class="c1"># save WF on disk, will be used in other datasets</span>
+
+<span class="c1">#DATASET3 : derivative of WF with respect to k points (d/dk)</span>
+<span class="c1">#**********************************************************</span>
+   getwfk3    <span class="m">2</span>        <span class="c1"># use GS WF from dataset 2</span>
+   kptopt3    <span class="m">2</span>        <span class="c1"># use Half Brillouin Zone (only time-reversal symmetry taken into account)</span>
+   rfelfd3    <span class="m">2</span>        <span class="c1"># compute 1st-order WF derivatives (d/dk)</span>
+    rfdir3    <span class="m">1</span> <span class="m">1</span> <span class="m">1</span>    <span class="c1"># compute all directions</span>
+   tolwfr3    <span class="m">1</span>.0d-22  <span class="c1"># convergence criteria on 1st-order WF</span>
+    prtwf3    <span class="m">1</span>        <span class="c1"># save 1st-order WF on disk, will be used in other datasets</span>
+
+<span class="c1">#DATASET4 : response functions (2nd derivatives of E)</span>
+<span class="c1">#           and corresponding 1st order WF derivatives</span>
+<span class="c1">#           phonons, electric fields, and strains are all done</span>
+<span class="c1">#**************************************************************</span>
+   getwfk4    <span class="m">2</span>        <span class="c1"># use GS WF from dataset 2</span>
+   kptopt4    <span class="m">2</span>        <span class="c1"># use Half Brillouin Zone (only time-reversal symmetry taken into account)</span>
+   getddk4    <span class="m">3</span>        <span class="c1"># use ddk WF from dataset 3 (needed for electric field)</span>
+   rfphon4    <span class="m">1</span>        <span class="c1"># compute 1st-order WF derivatives with respect to atomic displacements...</span>
+  rfatpol4    <span class="m">1</span> <span class="m">2</span>      <span class="c1"># ...for all atoms (so here only 1 and 2)</span>
+    rfdir4    <span class="m">1</span> <span class="m">1</span> <span class="m">1</span>    <span class="c1"># compute all directions</span>
+   rfelfd4    <span class="m">3</span>        <span class="c1"># compute 1st-order WF derivatives with respect to electric field</span>
+   rfstrs4    <span class="m">3</span>        <span class="c1"># compute 1st-order WF derivatives with respect to strains</span>
+   tolvrs4    <span class="m">1</span>.0d-12  <span class="c1"># SCF convergence criteria (could be tolwfr)</span>
+  prepanl4    <span class="m">1</span>        <span class="c1"># make sure that response functions are correctly prepared for a non-linear computation</span>
+    prtwf4    <span class="m">1</span>        <span class="c1"># save 1st-order WF on disk, will be used in other datasets</span>
+   prtden4    <span class="m">1</span>        <span class="c1"># save 1st-order density on disk, will be used in other datasets</span>
+
+<span class="c1">#DATASET5 : 3rd derivatives of E</span>
+<span class="c1">#*********************************</span>
+   getwfk5           <span class="m">2</span>     <span class="c1"># use GS WF from dataset 2</span>
+  get1den5           <span class="m">4</span>     <span class="c1"># use 1st-order densities from dataset 4</span>
+   get1wf5           <span class="m">4</span>     <span class="c1"># use 1st-order WFs from dataset 4</span>
+   kptopt5           <span class="m">2</span>     <span class="c1"># use Half Brillouin Zone (only time-reversal symmetry taken into account)</span>
+optdriver5           <span class="m">5</span>     <span class="c1"># compute 3rd order derivatives of the energy</span>
+  d3e_pert1_elfd5    <span class="m">1</span>     <span class="c1"># activate electric field for 1st perturbation...</span>
+  d3e_pert1_phon5    <span class="m">1</span>     <span class="c1"># ...and also atomic displacements...</span>
+ d3e_pert1_atpol5    <span class="m">1</span> <span class="m">2</span>   <span class="c1"># ...for all atoms (so here only 1 and 2)...</span>
+   d3e_pert1_dir5    <span class="m">1</span> <span class="m">1</span> <span class="m">1</span> <span class="c1"># ...for all directions (for both atomic displacements and electric fields)</span>
+  d3e_pert2_elfd5    <span class="m">1</span>     <span class="c1"># activate electric field for 2nd perturbation...</span>
+   d3e_pert2_dir5    <span class="m">1</span> <span class="m">1</span> <span class="m">1</span> <span class="c1"># ...for all directions</span>
+  d3e_pert3_elfd5    <span class="m">1</span>     <span class="c1"># activate electric field for 3rd perturbation...</span>
+   d3e_pert3_dir5    <span class="m">1</span> <span class="m">1</span> <span class="m">1</span> <span class="c1"># ...for all directions</span>
+
+<span class="c1">#Definition of the unit cell</span>
+<span class="c1"># these cell parameters were derived from a relaxation run done with the</span>
+<span class="c1"># current ecut and kpt values. The current ecut value used is very low but</span>
+<span class="c1"># is done to speed the calculations.</span>
+<span class="c1"># acell      7.2728565836E+00  7.2728565836E+00  7.2728565836E+00 Bohr # ecut 5</span>
+<span class="c1"># acell      7.2511099467E+00  7.2511099467E+00  7.2511099467E+00 Bohr # ecut 30</span>
+acell      <span class="m">7</span>.1391127387E+00  <span class="m">7</span>.1391127387E+00  <span class="m">7</span>.1391127387E+00 Bohr <span class="c1"># ecut 2.8</span>
+rprim      <span class="m">0</span>.0000000000E+00  <span class="m">7</span>.0710678119E-01  <span class="m">7</span>.0710678119E-01
+           <span class="m">7</span>.0710678119E-01  <span class="m">0</span>.0000000000E+00  <span class="m">7</span>.0710678119E-01
+           <span class="m">7</span>.0710678119E-01  <span class="m">7</span>.0710678119E-01  <span class="m">0</span>.0000000000E+00
+
+<span class="c1">#Definition of the atom types and pseudopotentials</span>
+ ntypat <span class="m">2</span> <span class="c1"># two types of atoms</span>
+ znucl <span class="m">15</span> <span class="m">13</span> <span class="c1"># the atom types are Phosphorous and Aluminum</span>
+
+<span class="c1"># the following norm-conserving pseudopotentials are stored in the abinit distribution, but are freely</span>
+<span class="c1"># available through www.pseudo-dojo.org</span>
+<span class="c1"># this set uses the Perdew-Wang parameterization of LDA for the xc model</span>
+ pp_dirpath <span class="s2">&quot;</span><span class="nv">$ABI_PSPDIR</span><span class="s2">&quot;</span>
+ pseudos <span class="s2">&quot;Pseudodojo_nc_sr_04_pw_standard_psp8/P.psp8, Pseudodojo_nc_sr_04_pw_standard_psp8/Al.psp8&quot;</span>
+
+<span class="c1">#Definition of the atoms</span>
+ natom <span class="m">2</span> <span class="c1"># two atoms in the cell</span>
+ typat <span class="m">1</span> <span class="m">2</span> <span class="c1"># type 1 is Phosphorous, type 2 is Aluminum (order defined by znucl above and pseudos list)</span>
+ nband <span class="m">4</span> <span class="c1"># nband is restricted here to the number of filled bands only, no empty bands.</span>
+ nbdbuf <span class="m">0</span>
+
+<span class="c1"># atomic positions in units of cell vectors</span>
+xred
+<span class="m">1</span>/4 <span class="m">1</span>/4 <span class="m">1</span>/4
+<span class="m">0</span> <span class="m">0</span> <span class="m">0</span>
+
+<span class="c1">#Numerical parameters of the calculation : planewave basis set and k point grid</span>
+ecut  <span class="m">2</span>.8 <span class="c1"># this value is very low but is used here to achieve very low calculation times.</span>
+        <span class="c1"># in a production environment this should be checked carefully for convergence and</span>
+        <span class="c1"># a more reasonable value is probably around 30</span>
+ecutsm <span class="m">0</span>.5
+dilatmx <span class="m">1</span>.05
+ngkpt <span class="m">6</span> <span class="m">6</span> <span class="m">6</span> <span class="c1"># must be checked carefully for convergence, Raman calculations converge slowly with kpt</span>
+nshiftk <span class="m">4</span> <span class="c1"># this Monkhorst-Pack shift pattern is used so that the symmetry of the shifted grid</span>
+          <span class="c1"># is correct. A gamma-centered grid would also have the correct symmetry but would be</span>
+          <span class="c1"># less efficient.</span>
+shiftk <span class="m">0</span>.5 <span class="m">0</span>.5 <span class="m">0</span>.5
+       <span class="m">0</span>.5 <span class="m">0</span>.0 <span class="m">0</span>.0
+       <span class="m">0</span>.0 <span class="m">0</span>.5 <span class="m">0</span>.0
+       <span class="m">0</span>.0 <span class="m">0</span>.0 <span class="m">0</span>.5
+
+<span class="c1"># scf parameters</span>
+nstep <span class="m">8</span>  <span class="c1"># limit number of steps for the tutorial, in general this should be set to its</span>
+         <span class="c1"># default (30) or higher</span>
+
+<span class="c1"># suppress printing of density, wavefunctions, etc except what is</span>
+<span class="c1"># explicitly requested above in the ndtset section</span>
+prtwf <span class="m">0</span>
+prtden <span class="m">0</span>
+prteig <span class="m">0</span>
+
+<span class="c1">##############################################################</span>
+<span class="c1"># This section is used only for regression testing of ABINIT #</span>
+<span class="c1">##############################################################</span>
+<span class="c1">#%%&lt;BEGIN TEST_INFO&gt;</span>
+<span class="c1">#%% [setup]</span>
+<span class="c1">#%% executable = abinit</span>
+<span class="c1">#%% test_chain = tnlo_2.abi, tnlo_3.abi, tnlo_4.abi</span>
+<span class="c1">#%% [files]</span>
+<span class="c1">#%% files_to_test =</span>
+<span class="c1">#%%   tnlo_2.abo, tolnlines= 332, tolabs=  2.000e-04, tolrel=  9.000e-02</span>
+<span class="c1">#%% [paral_info]</span>
+<span class="c1">#%% max_nprocs = 2</span>
+<span class="c1">#%% [extra_info]</span>
+<span class="c1">#%% authors =  J. Zwanziger, L. Baguet, M. Veithen</span>
+<span class="c1">#%% keywords = NC, DFPT, NONLINEAR</span>
+<span class="c1">#%% description =</span>
+<span class="c1">#%%   Linear and nonlinear response calculation for AlP</span>
+<span class="c1">#%%   Perturbations: electric fields &amp; atomic displacements</span>
+<span class="c1">#%%&lt;END TEST_INFO&gt;</span>
+</pre></div>
+</div></div>
+
+<script> $(function() { abidocs_jqueryui_dialog("#uuid-a7ceffaf-df2b-45d5-bcee-5f6a59ad63f2", "#uuid-cfd7b856-48c4-44c8-8813-9a3342a93cb8") }); </script>
+
+<p>Its purpose is to build databases for
+second and third energy derivatives with respect to electric fields, atomic
+displacements, and strains. You can edit it. It is made of 5 datasets. The first four data
+sets are nearly the same as for a typical linear response calculation: (1)
+a self-consistent calculation of the ground state in the irreducible Brillouin Zone;
+(2) non self-consistent calculation of the ground state
+to get the wavefunctions over the full Brillouin Zone; (3) Computation of the derivatives of the
+wavefunctions with respect to k points, using DFPT; (4)
+second derivatives of the energy and related first-order wavefunctions
+with respect to electric field, atomic displacements, and strains; and
+finally (5) the third derivative calculations. Some
+specific features must however be explicitly specified in order to prepare for the
+non-linear response step (dataset 5). First, it is mandatory to specify:
+<div class="highlight"><pre><span></span><code>nbdbuf  0
+nband   4 (= number of valence bands)
+</code></pre></div>
+so that only filled bands are treated.
+Also, in dataset 4, it is required to impose <a class="wikilink codevar-wikilink" href="../../variables/files#prtden">prtden</a>, and <a class="wikilink codevar-wikilink" href="../../variables/dfpt#prepanl">prepanl</a>
+<div class="highlight"><pre><span></span><code>prtden4    1
+prepanl4   1
+</code></pre></div>
+The purpose for <a class="wikilink codevar-wikilink" href="../../variables/files#prtden">prtden</a> is to obtain the first order densities (in
+addition to the first order wavefunctions). The purposes
+of <a class="wikilink codevar-wikilink" href="../../variables/dfpt#prepanl">prepanl</a>  are (i) to constrain <a class="wikilink codevar-wikilink" href="../../variables/basic#kptopt">kptopt</a> = 2 even in the
+computation of phonons where ABINIT usually take advantages of symmetry
+irrespective of kptopt and (ii) compute the electric field derivatives in the
+3 directions of space, irrespective of the symmetry.</p>
+<p>Note also that while the strain perturbation is not used in dataset 5, the information
+it provides is necessary to obtain some of the relaxed ion properties that
+will be examined later.</p>
+<p>The input to dataset 5 trigger the various third-order derivatives to be
+computed. This section includes the following:
+<div class="highlight"><pre><span></span><code>   getwfk5    2
+  get1den5    4
+   get1wf5    4
+   kptopt5    2
+optdriver5    5
+  d3e_pert1_elfd5    1
+  d3e_pert1_phon5    1
+ d3e_pert1_atpol5    1 2
+   d3e_pert1_dir5    1 1 1
+  d3e_pert2_elfd5    1
+   d3e_pert2_dir5    1 1 1
+  d3e_pert3_elfd5    1
+   d3e_pert3_dir5    1 1 1
+</code></pre></div>
+The first three lines retrieve the ground state and first-order densities and wavefunctions.
+<a class="wikilink codevar-wikilink" href="../../variables/gstate#optdriver">optdriver</a> 5 triggers the 3<sup>rd</sup>-order energy calculation. Finally, the <code>d3e</code> input
+variables determine the 3 perturbations of the 3<sup>rd</sup> order derivatives, and their
+directions. Notice that we compute three derivatives with respect to electric field:
+<a class="wikilink codevar-wikilink" href="../../variables/dfpt#d3e_pert1_elfd">d3e_pert1_elfd</a>, <a class="wikilink codevar-wikilink" href="../../variables/dfpt#d3e_pert2_elfd">d3e_pert2_elfd</a>, and <a class="wikilink codevar-wikilink" href="../../variables/dfpt#d3e_pert3_elfd">d3e_pert3_elfd</a>. These will be combined
+to give the necessary data for the nonlinear optical susceptibility. We also
+include <a class="wikilink codevar-wikilink" href="../../variables/dfpt#d3e_pert1_phon">d3e_pert1_phon</a>, for both atoms in the unit cell (<a class="wikilink codevar-wikilink" href="../../variables/dfpt#d3e_pert1_atpol">d3e_pert1_atpol</a>). When combined
+later with the electric field perturbations 2 and 3, this will yield the necessary
+information for the Raman tensor. Finally, for all three perturbation classes, we compute
+the perturbations in all three spatial directions.</p>
+<p>If it was not done at the beginning of this tutorial, you can now make the
+run. You can have a quick look to the output file to verify that everything is
+OK. It contains the values of second and third energy derivatives. It has
+however no immediate interest since the information is not presented in a very
+convenient format. The relevant information is in fact also stored in the
+database files (DDB) generated independently for second and third energy
+derivatives at the end of run steps 4 and 5. Keep these databases, as they will be
+used later for a global and convenient analysis of the results using ANADDB.</p>
+<p><strong>Responses to electric fields, atomic displacements, and strains (with full DFPT)</strong></p>
+<p>If not already done, the reader should read the part on the <em>PEAD</em> method.</p>
+<p>Contrary to <em>PEAD</em>, with <em>full DFPT</em> the electric field is treated analytically,
+the same way it is done for the computation of second-order derivatives of the energy (see <a href="../rf1">Response-Function 1</a>).
+One needs first order wavefunctions derivatives with respect to k-points (dataset 3 of <em>tnlo_2.abi</em>).
+to compute second order energy derivatives with an electric field perturbation (dataset 4 of <em>tnlo_2.abi</em>).
+It turns out that third-order derivatives of the energy, in this context, needs <em>second</em> derivatives of wavefunctions with respect to electric fields and k-points.
+To compute the latter one also needs <em>second</em> derivatives of wavefunctions with respect to k-points only, so in total we need two additional sets of wavefunctions derivatives.</p>
+<p>Now you can compare the files <em>tnlo_2.abi</em> and <em>tnlo_6.abi</em>.</p>
+<div class="text-center"><button type="button" id="uuid-be211b52-6fb5-40f1-aadc-2f24353e4a7c" class="btn btn-default btn-labeled">
+  <span class="btn-label"><i class="fa fa-window-restore" aria-hidden="true"></i></span>View tests/tutorespfn/Input/tnlo_6.abi
+</button></div>
+<div id="uuid-ecca704a-137d-42a1-af71-11d147ea9ce3" class="my_dialog" title="tests/tutorespfn/Input/tnlo_6.abi" hidden><div><div class="codehilite small-text"><pre><span></span><span class="c1"># Linear and nonlinear response calculation for AlP</span>
+<span class="c1"># Perturbations: electric fields &amp; atomic displacements</span>
+<span class="c1"># Use of &#39;full DFPT&#39; method for third derivatives,</span>
+<span class="c1"># so we need to solve Second Order Sternheimer equation</span>
+
+ndtset <span class="m">7</span>
+
+<span class="c1">#DATASET1 : scf calculation: GS WF in the IBZ</span>
+<span class="c1">#********************************************</span>
+   prtden1    <span class="m">1</span>        <span class="c1"># save density on disk, will be used in other datasets</span>
+    prtwf1    <span class="m">1</span>        <span class="c1"># save WF on disk, will be used in other datasets</span>
+   kptopt1    <span class="m">1</span>        <span class="c1"># use Irreducible Brillouin Zone (all symmetry taken into account)</span>
+   toldfe1    <span class="m">1</span>.0d-12  <span class="c1"># SCF convergence criteria (could be tolwfr or tolvrs)</span>
+
+<span class="c1">#DATASET2 : non scf calculation: GS WF in half BZ</span>
+<span class="c1">#*****************************************************</span>
+   getden2    <span class="m">1</span>        <span class="c1"># use density from dataset 1</span>
+   kptopt2    <span class="m">2</span>        <span class="c1"># use Half Brillouin Zone (only time-reversal symmetry taken into account)</span>
+   getwfk2    <span class="m">1</span>        <span class="c1"># use GS WF from dataset 1 (as input)</span>
+     iscf2   -2        <span class="c1"># non-self-consistent calculation</span>
+   tolwfr2    <span class="m">1</span>.0d-22  <span class="c1"># convergence criteria on WF, need high precision for response</span>
+    prtwf2    <span class="m">1</span>        <span class="c1"># save WF on disk, will be used in other datasets</span>
+
+<span class="c1">#DATASET3 : derivative of WF with respect to k points (d/dk)</span>
+<span class="c1">#**********************************************************</span>
+   getwfk3    <span class="m">2</span>        <span class="c1"># use GS WF from dataset 2</span>
+   kptopt3    <span class="m">2</span>        <span class="c1"># use Half Brillouin Zone (only time-reversal symmetry taken into account)</span>
+   rfelfd3    <span class="m">2</span>        <span class="c1"># compute 1st-order WF derivatives (d/dk)</span>
+    rfdir3    <span class="m">1</span> <span class="m">1</span> <span class="m">1</span>    <span class="c1"># compute all directions</span>
+   tolwfr3    <span class="m">1</span>.0d-22  <span class="c1"># convergence criteria on 1st-order WF</span>
+    prtwf3    <span class="m">1</span>        <span class="c1"># save 1st-order WF on disk, will be used in other datasets</span>
+
+<span class="c1">#DATASET4 : response functions (2nd derivatives of E)</span>
+<span class="c1">#           and corresponding 1st order WF derivatives</span>
+<span class="c1">#           phonons, electric fields, and strains are all done</span>
+<span class="c1">#**************************************************************</span>
+   getwfk4    <span class="m">2</span>        <span class="c1"># use GS WF from dataset 2</span>
+   kptopt4    <span class="m">2</span>        <span class="c1"># use Half Brillouin Zone (only time-reversal symmetry taken into account)</span>
+   getddk4    <span class="m">3</span>        <span class="c1"># use ddk WF from dataset 3 (needed for electric field)</span>
+   rfphon4    <span class="m">1</span>        <span class="c1"># compute 1st-order WF derivatives with respect to atomic displacements...</span>
+  rfatpol4    <span class="m">1</span> <span class="m">2</span>      <span class="c1"># ...for all atoms (so here only 1 and 2)</span>
+    rfdir4    <span class="m">1</span> <span class="m">1</span> <span class="m">1</span>    <span class="c1"># compute all directions</span>
+   rfelfd4    <span class="m">3</span>        <span class="c1"># compute 1st-order WF derivatives with respect to electric field</span>
+   rfstrs4    <span class="m">3</span>        <span class="c1"># compute 1st-order WF derivatives with respect to strains</span>
+   tolvrs4    <span class="m">1</span>.0d-12  <span class="c1"># SCF convergence criteria (could be tolwfr)</span>
+  prepanl4    <span class="m">1</span>        <span class="c1"># make sure that response functions are correctly prepared for a non-linear computation</span>
+    prtwf4    <span class="m">1</span>        <span class="c1"># save 1st-order WF on disk, will be used in other datasets</span>
+   prtden4    <span class="m">1</span>        <span class="c1"># save 1st-order density on disk, will be used in other datasets</span>
+
+<span class="c1"># DATASET5 : 2nd order WF derivatives with respect to k-points (d/dkdk)</span>
+<span class="c1">#**********************************************************************</span>
+ rf2_dkdk5   <span class="m">1</span>        <span class="c1"># compute 2nd-order WF derivatives (d/dkdk)</span>
+   getwfk5   <span class="m">2</span>        <span class="c1"># use GS WF from dataset 2</span>
+   kptopt5   <span class="m">2</span>        <span class="c1"># use Half Brillouin Zone (only time-reversal symmetry taken into account)</span>
+   getddk5   <span class="m">3</span>        <span class="c1"># use 1st-order WF from dataset 3</span>
+  prepanl5   <span class="m">1</span>        <span class="c1"># compute only needed directions for the non-linear computation</span>
+   tolwfr5   <span class="m">1</span>.0d-22  <span class="c1"># convergence criteria on 2nd-order WF</span>
+    prtwf5   <span class="m">1</span>        <span class="c1"># save 2nd-order WF on disk, will be used in other datasets</span>
+
+<span class="c1"># DATASET6 : 2nd order WF derivatives with respect to electric field and k-points (d/dkde)</span>
+<span class="c1">#*****************************************************************************************</span>
+ rf2_dkde6   <span class="m">1</span>        <span class="c1"># compute 2nd-order WF derivatives (d/dkde)</span>
+   getwfk6   <span class="m">2</span>        <span class="c1"># use GS WF from dataset 2</span>
+   getddk6   <span class="m">3</span>        <span class="c1"># use 1st-order WF (d/dk) from dataset 3</span>
+  get1den6   <span class="m">4</span>        <span class="c1"># use 1st-order densities from dataset 4</span>
+ getdelfd6   <span class="m">4</span>        <span class="c1"># use 1st-order WF (d/de) from dataset 4</span>
+  getdkdk6   <span class="m">5</span>        <span class="c1"># use 2nd-order WF (d/dkdk) from dataset 5</span>
+  prepanl6   <span class="m">1</span>        <span class="c1"># compute only directions needed for nonlinear computation</span>
+   tolwfr6   <span class="m">1</span>.0d-22  <span class="c1"># convergence criteria on 2nd-order WF</span>
+   kptopt6   <span class="m">2</span>        <span class="c1"># use Half Brillouin Zone (only time-reversal symmetry taken into account)</span>
+    prtwf6   <span class="m">1</span>        <span class="c1"># save 2nd-order WF on disk, will be used in other datasets</span>
+
+<span class="c1">#DATASET7 : 3rd derivatives of E</span>
+<span class="c1">#*********************************</span>
+   getwfk7           <span class="m">2</span>     <span class="c1"># use GS WF from dataset 2</span>
+   getddk7           <span class="m">3</span>     <span class="c1"># use 1st-order WF (d/dk) from dataset 3</span>
+  get1den7           <span class="m">4</span>     <span class="c1"># use 1st-order densities from dataset 4</span>
+   get1wf7           <span class="m">4</span>     <span class="c1"># use 1st-order WFs from dataset 4</span>
+  getdkde7           <span class="m">6</span>     <span class="c1"># use 2nd-order WF (d/dkde) from dataset 6</span>
+   kptopt7           <span class="m">2</span>     <span class="c1"># use Half Brillouin Zone (only time-reversal symmetry taken into account)</span>
+optdriver7           <span class="m">5</span>     <span class="c1"># compute 3rd order derivatives of the energy</span>
+  usepead7           <span class="m">0</span>     <span class="c1"># no use of pead method, so use full DFPT instead</span>
+  d3e_pert1_elfd7    <span class="m">1</span>     <span class="c1"># activate electric field for 1st perturbation...</span>
+  d3e_pert1_phon7    <span class="m">1</span>     <span class="c1"># ...and also atomic displacements...</span>
+ d3e_pert1_atpol7    <span class="m">1</span> <span class="m">2</span>   <span class="c1"># ...for all atoms (so here only 1 and 2)...</span>
+   d3e_pert1_dir7    <span class="m">1</span> <span class="m">1</span> <span class="m">1</span> <span class="c1"># ...for all directions (for both atomic displacements and electric fields)</span>
+  d3e_pert2_elfd7    <span class="m">1</span>     <span class="c1"># activate electric field for 2nd perturbation...</span>
+   d3e_pert2_dir7    <span class="m">1</span> <span class="m">1</span> <span class="m">1</span> <span class="c1"># ...for all directions</span>
+  d3e_pert3_elfd7    <span class="m">1</span>     <span class="c1"># activate electric field for 3rd perturbation...</span>
+   d3e_pert3_dir7    <span class="m">1</span> <span class="m">1</span> <span class="m">1</span> <span class="c1"># ...for all directions</span>
+
+<span class="c1">#Definition of the unit cell</span>
+<span class="c1"># these cell parameters were derived from a relaxation run done with the</span>
+<span class="c1"># current ecut and kpt values. The current ecut value used is very low but</span>
+<span class="c1"># is done to speed the calculations.</span>
+<span class="c1"># acell      7.2728565836E+00  7.2728565836E+00  7.2728565836E+00 Bohr # ecut 5</span>
+<span class="c1"># acell      7.2511099467E+00  7.2511099467E+00  7.2511099467E+00 Bohr # ecut 30</span>
+acell      <span class="m">7</span>.1391127387E+00  <span class="m">7</span>.1391127387E+00  <span class="m">7</span>.1391127387E+00 Bohr <span class="c1"># ecut 2.8</span>
+rprim      <span class="m">0</span>.0000000000E+00  <span class="m">7</span>.0710678119E-01  <span class="m">7</span>.0710678119E-01
+           <span class="m">7</span>.0710678119E-01  <span class="m">0</span>.0000000000E+00  <span class="m">7</span>.0710678119E-01
+           <span class="m">7</span>.0710678119E-01  <span class="m">7</span>.0710678119E-01  <span class="m">0</span>.0000000000E+00
+
+<span class="c1">#Definition of the atom types and pseudopotentials</span>
+ ntypat <span class="m">2</span> <span class="c1"># two types of atoms</span>
+ znucl <span class="m">15</span> <span class="m">13</span> <span class="c1"># the atom types are Phosphorous and Aluminum</span>
+
+<span class="c1"># the following norm-conserving pseudopotentials are stored in the abinit distribution, but are freely</span>
+<span class="c1"># available through www.pseudo-dojo.org</span>
+<span class="c1"># this set uses the Perdew-Wang parameterization of LDA for the xc model</span>
+ pp_dirpath <span class="s2">&quot;</span><span class="nv">$ABI_PSPDIR</span><span class="s2">&quot;</span>
+ pseudos <span class="s2">&quot;Pseudodojo_nc_sr_04_pw_standard_psp8/P.psp8, Pseudodojo_nc_sr_04_pw_standard_psp8/Al.psp8&quot;</span>
+
+<span class="c1">#Definition of the atoms</span>
+ natom <span class="m">2</span> <span class="c1"># two atoms in the cell</span>
+ typat <span class="m">1</span> <span class="m">2</span> <span class="c1"># type 1 is Phosphorous, type 2 is Aluminum (order defined by znucl above and pseudos list)</span>
+ nband <span class="m">4</span> <span class="c1"># nband is restricted here to the number of filled bands only, no empty bands.</span>
+ nbdbuf <span class="m">0</span>
+
+<span class="c1"># atomic positions in units of cell vectors</span>
+xred
+<span class="m">1</span>/4 <span class="m">1</span>/4 <span class="m">1</span>/4
+<span class="m">0</span> <span class="m">0</span> <span class="m">0</span>
+
+<span class="c1">#Numerical parameters of the calculation : planewave basis set and k point grid</span>
+ecut  <span class="m">2</span>.8 <span class="c1"># this value is very low but is used here to achieve very low calculation times.</span>
+        <span class="c1"># in a production environment this should be checked carefully for convergence and</span>
+        <span class="c1"># a more reasonable value is probably around 30</span>
+ecutsm <span class="m">0</span>.5
+dilatmx <span class="m">1</span>.05
+ngkpt <span class="m">6</span> <span class="m">6</span> <span class="m">6</span> <span class="c1"># must be checked carefully for convergence, Raman calculations converge slowly with kpt</span>
+nshiftk <span class="m">4</span> <span class="c1"># this Monkhorst-Pack shift pattern is used so that the symmetry of the shifted grid</span>
+          <span class="c1"># is correct. A gamma-centered grid would also have the correct symmetry but would be</span>
+          <span class="c1"># less efficient.</span>
+shiftk <span class="m">0</span>.5 <span class="m">0</span>.5 <span class="m">0</span>.5
+       <span class="m">0</span>.5 <span class="m">0</span>.0 <span class="m">0</span>.0
+       <span class="m">0</span>.0 <span class="m">0</span>.5 <span class="m">0</span>.0
+       <span class="m">0</span>.0 <span class="m">0</span>.0 <span class="m">0</span>.5
+
+<span class="c1"># scf parameters</span>
+nstep <span class="m">8</span>  <span class="c1"># limit number of steps for the tutorial, in general this should be set to its</span>
+         <span class="c1"># default (30) or higher</span>
+
+<span class="c1"># suppress printing of density, wavefunctions, etc except what is</span>
+<span class="c1"># explicitly requested above in the ndtset section</span>
+prtwf <span class="m">0</span>
+prtden <span class="m">0</span>
+prteig <span class="m">0</span>
+
+<span class="c1">#%%&lt;BEGIN TEST_INFO&gt;</span>
+<span class="c1">#%% [setup]</span>
+<span class="c1">#%% executable = abinit</span>
+<span class="c1">#%% [files]</span>
+<span class="c1">#%% files_to_test =</span>
+<span class="c1">#%%   tnlo_6.abo, tolnlines=332 , tolabs=2.0e-4, tolrel=9.0e-2</span>
+<span class="c1">#%% [paral_info]</span>
+<span class="c1">#%% max_nprocs = 2</span>
+<span class="c1">#%% [extra_info]</span>
+<span class="c1">#%% authors = L. Baguet</span>
+<span class="c1">#%% keywords = NC, DFPT, NONLINEAR</span>
+<span class="c1">#%% description =</span>
+<span class="c1">#%%   Linear and nonlinear response calculation for AlP</span>
+<span class="c1">#%%   Perturbations: electric fields &amp; atomic displacements.</span>
+<span class="c1">#%%   &#39;Full&#39; DFPT computation of third derivatives in Nonlinear (dataset 7).</span>
+<span class="c1">#%%   Preceded by resolution of Second-order Sternheimer equations (dataset 5 and 6).</span>
+<span class="c1">#%%&lt;END TEST_INFO&gt;</span>
+</pre></div>
+</div></div>
+
+<script> $(function() { abidocs_jqueryui_dialog("#uuid-ecca704a-137d-42a1-af71-11d147ea9ce3", "#uuid-be211b52-6fb5-40f1-aadc-2f24353e4a7c") }); </script>
+
+<p>The first four datasets are identical, so we produce ground state quantities, first-order WF derivatives and second derivatives of the energy exactly the same way.
+Before computing the non-linear terms, there are two additional datasets to compute the needed second-order WF derivatives, see dataset 5 and 6.
+They are very similar to dataset 3 (computation of d/dk WF derivatives), except for the keywords activating second-order WF derivatives computation (<a class="wikilink codevar-wikilink" href="../../variables/dfpt#rf2_dkdk">rf2_dkdk</a> and <a class="wikilink codevar-wikilink" href="../../variables/dfpt#rf2_dkde">rf2_dkde</a>)
+and the reading of the needed files:
+<div class="highlight"><pre><span></span><code>rf2_dkdk5    1
+  getddk5    3
+ prepanl5    1
+</code></pre></div>
+and
+<div class="highlight"><pre><span></span><code>rf2_dkde6    1
+  getddk6    3
+ getdkdk6    5
+ get1den6    4
+getdelfd6    4
+ prepanl6    1
+</code></pre></div>
+The use of <a class="wikilink codevar-wikilink" href="../../variables/dfpt#prepanl">prepanl</a> here makes use of crystal symmetries to compute only directions that will be needed for non-linear terms.
+The latter are computed in dataset 7. Compared to <em>tnlo_2.abi</em>, it contains three additional lines:
+<div class="highlight"><pre><span></span><code>getddk7     3
+getdkde7    6
+usepead7    0
+</code></pre></div>
+The first two arguments specify which files to read to get d/dk and d/dkde WF derivatives.
+<a class="wikilink codevar-wikilink" href="../../variables/dfpt#usepead">usepead</a> is the keyword controlling which implementation to use, which has to be 0 to use <em>full DFPT</em>.</p>
+<p>If not already done, you can now run the code with <em>tnlo_6.abi</em>.
+Even with a very small cutoff of 2.8 Ha, the non-linear susceptibility tensor differs only by few percents comparing <em>PEAD</em> and <em>full DFPT</em>,
+and the first-order change in the electronic dielectric susceptibility tensor differs by less than one percent.
+These differences come from convergence effects which can be reduced increasing the cutoff energy and most importantly the number of k-points.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>With the same set of parameters, the <em>full DFPT</em> method takes obviously more CPU times than <em>PEAD</em>, 
+as we have to compute second-order WF derivatives.
+However, it is expected that the <em>full DFPT</em> method converges faster with the number of k-points,
+so one could actually save CPU time and memory using <em>full DFPT</em> to get a converged result.</p>
+</div>
+<p>As in the <em>PEAD</em> case, the code produced DDB files that can be used for the rest of this tutorial.</p>
+<p><strong>Merge of the DDB.</strong></p>
+<p>At this stage, using either the <em>PEAD</em> or <em>full DFPT</em> method, all the relevant energy derivatives have been obtained and are
+stored in individual databases.
+In the following we use the data produced with <em>PEAD</em>, but one can use <em>full DFPT</em> instead and compare.</p>
+<p>The individual databases must be combined with the
+<a class="wikilink user-guide-wikilink" href="../../guide/mrgddb">MRGDDB</a> merge
+utility in order to get a complete database <em>tnlo_3.ddb.out</em>. Explicitly, you
+should merge the files <em>tnlo_2o_DS4_DDB</em> and <em>tnlo_2o_DS5_DDB</em>.
+An input file that can be piped into MRGDDB is provided as <em>tnlo_3.abi</em>. </p>
+<div class="text-center"><button type="button" id="uuid-e9b1e304-64f9-477a-afc2-32e4ebc7b9a3" class="btn btn-default btn-labeled">
+  <span class="btn-label"><i class="fa fa-window-restore" aria-hidden="true"></i></span>View tests/tutorespfn/Input/tnlo_3.abi
+</button></div>
+<div id="uuid-202df2ca-a027-482a-8c39-c7bb47722670" class="my_dialog" title="tests/tutorespfn/Input/tnlo_3.abi" hidden><div><div class="codehilite small-text"><pre><span></span>tnlo_3.ddb.out
+linear + nonlinear response calculation of AlP
+<span class="m">2</span>
+tnlo_2o_DS4_DDB
+tnlo_2o_DS5_DDB
+
+
+<span class="c1">##############################################################</span>
+<span class="c1"># This section is used only for regression testing of ABINIT #</span>
+<span class="c1">##############################################################</span>
+<span class="c1">#%%&lt;BEGIN TEST_INFO&gt;</span>
+<span class="c1">#%% [setup]</span>
+<span class="c1">#%% executable = mrgddb</span>
+<span class="c1">#%% test_chain = tnlo_2.abi, tnlo_3.abi, tnlo_4.abi</span>
+<span class="c1">#%% [files]</span>
+<span class="c1">#%% files_to_test = </span>
+<span class="c1">#%%   tnlo_3.ddb.out, tolnlines=  0, tolabs=  1.143e-09, tolrel=  3.000e-09, fld_options=-medium</span>
+<span class="c1">#%% [paral_info]</span>
+<span class="c1">#%% max_nprocs = 1</span>
+<span class="c1">#%% [extra_info]</span>
+<span class="c1">#%% authors = J. Zwanziger, M. Veithen, P. Ghosez</span>
+<span class="c1">#%% keywords = </span>
+<span class="c1">#%% description = mrgddb input file</span>
+<span class="c1">#%%&lt;END TEST_INFO&gt;</span>
+</pre></div>
+</div></div>
+
+<script> $(function() { abidocs_jqueryui_dialog("#uuid-202df2ca-a027-482a-8c39-c7bb47722670", "#uuid-e9b1e304-64f9-477a-afc2-32e4ebc7b9a3") }); </script>
+<p>You
+can use it to perform the merge via <em>$ABI_HOME/src/98_main/mrgddb &lt; tnlo_3.abi</em>.</p>
+<p><strong>Analysis of the DDB.</strong></p>
+<p>We are now ready for the analysis of the results using <a class="wikilink user-guide-wikilink" href="../../guide/anaddb">ANADDB</a>. You can copy
+the files <em>$ABI_TESTS/tutorespfn/Input/tnlo_4.abi</em> and
+<em>$ABI_TESTS/tutorespfn/Input/tnlo_4.files</em> to <em>Work-NLO</em>. </p>
+<div class="text-center"><div class="btn-group-vertical">
+<button type="button" id="uuid-143a2bea-ba3f-4bc4-9f98-3f565f909138" class="btn btn-default btn-labeled">
+  <span class="btn-label"><i class="fa fa-window-restore" aria-hidden="true"></i></span>View tests/tutorespfn/Input/tnlo_4.files
+</button>
+<button type="button" id="uuid-977cee12-9546-42f9-bbcf-22abba654248" class="btn btn-default btn-labeled">
+  <span class="btn-label"><i class="fa fa-window-restore" aria-hidden="true"></i></span>View tests/tutorespfn/Input/tnlo_4.abi
+</button>
+</div></div>
+<div id="uuid-d3157ff0-b050-452d-bbc1-3666b63907da" class="my_dialog" title="tests/tutorespfn/Input/tnlo_4.files" hidden><div><pre class="small-text">
+tnlo_4.abi
+tnlo_4.abo
+tnlo_3.ddb.out
+tnlo_4_thm_dummy
+tnlo_4_gkk_dummy
+tnlo_4_ep_dummy
+tnlo_4_ddk_dummy
+
+</pre>
+</div></div>
+
+<script> $(function() { abidocs_jqueryui_dialog("#uuid-d3157ff0-b050-452d-bbc1-3666b63907da", "#uuid-143a2bea-ba3f-4bc4-9f98-3f565f909138") }); </script>
+
+<div id="uuid-f1524298-48ef-4aa3-9bfa-65139bfb3258" class="my_dialog" title="tests/tutorespfn/Input/tnlo_4.abi" hidden><div><div class="codehilite small-text"><pre><span></span><span class="c1"># General information</span>
+<span class="c1">#**********************</span>
+   rfmeth  <span class="m">1</span>
+   enunit  <span class="m">0</span>
+   eivec   <span class="m">1</span>
+   chneut  <span class="m">2</span>
+   selectz <span class="m">0</span>
+
+<span class="c1"># Flags</span>
+<span class="c1">#*******</span>
+   dieflag  <span class="m">1</span>
+   ifcflag  <span class="m">0</span> ! This is the default value
+   thmflag  <span class="m">0</span> ! This is the default value
+    nlflag  <span class="m">1</span>
+   elaflag  <span class="m">3</span>
+ piezoflag  <span class="m">3</span>
+ instrflag  <span class="m">1</span>
+
+<span class="c1"># Nonlinear response calculation</span>
+<span class="c1">#*******************************</span>
+   ramansr  <span class="m">1</span>
+    alphon  <span class="m">1</span>
+    prtmbm  <span class="m">1</span>
+
+<span class="c1"># Wavevector list number 1</span>
+**************************                                                      
+     nph1l  <span class="m">1</span>
+     qph1l  <span class="m">0</span>.0 <span class="m">0</span>.0 <span class="m">0</span>.0 <span class="m">1</span>.0 
+
+<span class="c1"># Wave vector list no. 2</span>
+<span class="c1">#***********************</span>
+     nph2l  <span class="m">1</span>
+     qph2l  <span class="m">1</span>.0 <span class="m">0</span>.0 <span class="m">0</span>.0 <span class="m">0</span>.0
+
+<span class="c1">##############################################################</span>
+<span class="c1"># This section is used only for regression testing of ABINIT #</span>
+<span class="c1">##############################################################</span>
+<span class="c1">#%%&lt;BEGIN TEST_INFO&gt;</span>
+<span class="c1">#%% [setup]</span>
+<span class="c1">#%% executable = anaddb</span>
+<span class="c1">#%% input_ddb = tnlo_3.ddb.out</span>
+<span class="c1">#%% test_chain = tnlo_2.abi, tnlo_3.abi, tnlo_4.abi</span>
+<span class="c1">#%% [files]</span>
+<span class="c1">#%% files_to_test = </span>
+<span class="c1">#%%   tnlo_4.abo, tolnlines=  0, tolabs=  0.000e+00, tolrel=  0.000e+00, fld_options=-easy</span>
+<span class="c1">#%% [paral_info]</span>
+<span class="c1">#%% max_nprocs = 4</span>
+<span class="c1">#%% [extra_info]</span>
+<span class="c1">#%% authors = J. Zwanziger, M. Veithen, P. Ghosez</span>
+<span class="c1">#%% keywords = </span>
+<span class="c1">#%% description = anaddb input file.</span>
+<span class="c1">#%%&lt;END TEST_INFO&gt;</span>
+</pre></div>
+</div></div>
+
+<script> $(function() { abidocs_jqueryui_dialog("#uuid-f1524298-48ef-4aa3-9bfa-65139bfb3258", "#uuid-977cee12-9546-42f9-bbcf-22abba654248") }); </script>
+
+<p>You already used
+ANADDB previously. It is located in the same directory as <em>abinit</em> and <em>mrgddb</em>.
+You might copy it, or make an alias. The present input is in
+very similar to the one you have used for the analysis of dynamical
+and dielectric responses except that some new flags need to be activated.</p>
+<p>For the strain perturbation you need to specify <a class="wikilink codevar-wikilink" href="../../variables/anaddb#elaflag">elaflag</a>, <a class="wikilink codevar-wikilink" href="../../variables/anaddb#piezoflag">piezoflag</a>, and <a class="wikilink codevar-wikilink" href="../../variables/anaddb#instrflag">instrflag</a>:
+<div class="highlight"><pre><span></span><code>  elaflag 3
+piezoflag  3
+instrflag  1
+</code></pre></div>
+For the non-linear responses you need
+<div class="highlight"><pre><span></span><code> nlflag  1
+ramansr 1
+ alphon  1
+ prtmbm  1
+</code></pre></div>
+<a class="wikilink codevar-wikilink" href="../../variables/anaddb#nlflag">nlflag</a>=1 activates the non-linear response.</p>
+<p><a class="wikilink codevar-wikilink" href="../../variables/anaddb#ramansr">ramansr</a> = 1 will impose the sum rule on the first-order change of the
+electronic dielectric susceptibility under atomic displacement, hereafter
+referred to as <span><span class="MathJax_Preview">\frac{d \chi}{d \tau}</span><script type="math/tex">\frac{d \chi}{d \tau}</script></span>. It is a condition of invariance of <span><span class="MathJax_Preview">\chi</span><script type="math/tex">\chi</script></span> under
+translation of the whole crystal, similar to the acoustic sum rules for
+phonons at Gamma or the charge neutrality sum rule on the effective charge <span><span class="MathJax_Preview">Z^*</span><script type="math/tex">Z^*</script></span>.</p>
+<p><a class="wikilink codevar-wikilink" href="../../variables/anaddb#prtmbm">prtmbm</a>=1 will allow to get the mode by mode phonon contributions of
+the ions to the electro-optic coefficients.</p>
+<p><a class="wikilink codevar-wikilink" href="../../variables/anaddb#alphon">alphon</a>=1 will allow to get the previous mode by mode contribution
+when aligning the eigenvectors with the cartesian axis of coordinates (in the
+input, the principal axis should always be aligned with z for a convenient
+analysis of the results).</p>
+<p>Finally, the second list of phonon, specified with <a class="wikilink codevar-wikilink" href="../../variables/anaddb#nph2l">nph2l</a> and
+<a class="wikilink codevar-wikilink" href="../../variables/anaddb#qph2l">qph2l</a>, must also be explicitly considered to obtain the Raman
+efficiencies of longitudinal modes (in a way similar to the computation of
+frequencies of longitudinal mode frequencies at Gamma):
+<div class="highlight"><pre><span></span><code># Wave vector list no. 2
+#***********************
+   nph2l  1
+   qph2l  1.0 0.0 0.0 0.0
+</code></pre></div>
+You can now run the code <code>anaddb</code> as
+<em>$ABI_HOME/src/98_main/anaddb &lt; tnlo_4.files</em>.
+The results are in the file tnlo_4.abo.
+Various interesting physical properties are now directly accessible in this
+output in meaningful units. You can go through the file and
+identify the results mentioned below. Note that the order in which they are
+given below is not the same than the order in which they appear in the
+tnlo_4.abo. You will have to jump between different sections of tnlo_4.abo to find them.</p>
+<p>For comparison, we report in parenthesis (&hellip;) the values obtained with ecut =
+5, and for nonlinear responses in brackets [&hellip;] the results from <a class="wikilink citation-wikilink" data-content="Nonlinear optical susceptibilities, Raman efficiencies, and electro-optic tensors from first-principles density functional perturbation theory" data-placement="auto right" data-toggle="popover" data-trigger="hover focus" href="../../theory/bibliography#veithen2005">[Veithen2005]</a>.</p>
+<ul>
+<li>Born effective charge of Al:
+<div class="highlight"><pre><span></span><code>Z*_Al = 2.207969 (2.233928)
+</code></pre></div></li>
+<li>Optical phonon frequencies at Gamma :
+<div class="highlight"><pre><span></span><code>w_TO (cm^-1) = 463.2713 (417.4934)
+w_LO (cm^-1) = 534.6882 (493.4411)
+</code></pre></div></li>
+<li>Linear optical dielectric constant :
+<div class="highlight"><pre><span></span><code>Electronic dielectric tensor = 6.12216718 (6.10643103)
+</code></pre></div></li>
+<li>
+<p>Static dielectric constant :
+<div class="highlight"><pre><span></span><code>Relaxed ion dielectric tensor = 8.15521897 (8.53019279)
+</code></pre></div>
+Some other quantities, such as the piezoelectric coefficients, are related to the
+strain response, and are more extensively discussed in the tutorial on the strain perturbation.</p>
+</li>
+<li>
+<p>Proper piezoelectric coefficients :
+<div class="highlight"><pre><span></span><code>clamped ion (C/m^2) = -0.58864089 (-0.58710170)
+relaxed ion (C/m^2) =  0.26741085 ( 0.11459002)
+</code></pre></div>
+Finally, different quantities are related to non-linear responses.</p>
+</li>
+<li>
+<p>Nonlinear optical susceptibility :
+They are directly provided in the output in pm/V. As you can see the value
+computed here at ecut = 2.8 is far from the well converged result.
+<div class="highlight"><pre><span></span><code>d_36 (pm/V)  = 8.934453 (10.174996) [21]
+</code></pre></div></p>
+</li>
+<li>
+<p>Electro-optic coefficients:
+As we asked for mode by mode decomposition the output provides individual
+contributions. We report below a summary of the results. They concern the
+clamped r_63 coefficient.
+<div class="highlight"><pre><span></span><code>Electronic EO constant (pm/V): -0.953493194  (-1.091488899)
+Full Ionic EO constant (pm/V):  0.536131045  ( 0.662692165)
+     Total EO constant (pm/V): -0.417362150  (-0.428796933)
+</code></pre></div></p>
+</li>
+<li>
+<p>Raman properties</p>
+</li>
+</ul>
+<p>The code directly report the Raman susceptibilities <span><span class="MathJax_Preview">\alpha</span><script type="math/tex">\alpha</script></span> for both transverse (TO)
+and longitudinal (LO) optic modes at Gamma:
+<div class="highlight"><pre><span></span><code>alpha(TO) = 0.004315217 (0.004379774)
+alpha(LO) = 0.006863765 (0.007243040)
+</code></pre></div></p>
+<p>The basic quantity to derive the Raman susceptibilities are the <span><span class="MathJax_Preview">\partial\chi/\partial\tau</span><script type="math/tex">\partial\chi/\partial\tau</script></span> that
+are also reported separately:
+<div class="highlight"><pre><span></span><code>d chi_23/d tau_1 (Bohr^-1, Al)  = -0.043617186 (-0.043054192)
+</code></pre></div></p>
+<p>In <em>cubic semiconductors</em> it is common to report the Raman polarizability of
+optical phonon modes at Gamma by the following expression <a class="wikilink citation-wikilink" data-content="Nonlinear optical susceptibilities, Raman efficiencies, and electro-optic tensors from first-principles density functional perturbation theory" data-placement="auto right" data-toggle="popover" data-trigger="hover focus" href="../../theory/bibliography#veithen2005">[Veithen2005]</a>:
+$$
+        a = \Omega_0 \partial\chi/\partial\tau = \sqrt{\mu \Omega_0}\alpha
+$$
+where <span><span class="MathJax_Preview">\Omega_0</span><script type="math/tex">\Omega_0</script></span> is the primitive unit cell volume (reported as <code>ucvol</code> in for
+example <em>tnlo_2.abo</em>),
+<span><span class="MathJax_Preview">\mu</span><script type="math/tex">\mu</script></span> the reduced mass of
+the system, so here <span><span class="MathJax_Preview">1/\mu = 1/m_{Al} + 1/m_{P}</span><script type="math/tex">1/\mu = 1/m_{Al} + 1/m_{P}</script></span>, and <span><span class="MathJax_Preview">\alpha</span><script type="math/tex">\alpha</script></span> the Raman susceptibility
+tensor. The Raman polarizability <span><span class="MathJax_Preview">a</span><script type="math/tex">a</script></span> has units of length<span><span class="MathJax_Preview">^2</span><script type="math/tex">^2</script></span>. Using alpha(TO) and
+alpha(LO) from above, along with <span><span class="MathJax_Preview">\mu</span><script type="math/tex">\mu</script></span> and <span><span class="MathJax_Preview">\Omega_0</span><script type="math/tex">\Omega_0</script></span>, all in atomic units, and then
+converting length (Bohr) to Angstroms, we find:
+<div class="highlight"><pre><span></span><code>a(TO) (Unit: Ang^2)= 3.1424 (3.2794) [4.30]
+a(LO) (Unit: Ang^2)= 4.9983 (5.4234) [7.46]
+</code></pre></div></p>
+<h2 id="3-finite-difference-calculation-of-the-raman-tensor">3 Finite difference calculation of the Raman tensor<a class="headerlink" href="#3-finite-difference-calculation-of-the-raman-tensor" title="Permanent link">&para;</a></h2>
+<p>For comparison with the DFPT calculation, we can compute <span><span class="MathJax_Preview">\frac{d \chi}{d \tau}</span><script type="math/tex">\frac{d \chi}{d \tau}</script></span> for the Al
+nucleus from finite differences. In practice, this is achieved by computing
+the linear optical susceptibility for 3 different positions of the Al nucleus.
+This is done with the file <em>$ABI_TESTS/tutorespfn/Input/tnlo_5.abi</em>. </p>
+<div class="text-center"><button type="button" id="uuid-9cbb6fbe-d698-444e-9cfb-b763f0b63aec" class="btn btn-default btn-labeled">
+  <span class="btn-label"><i class="fa fa-window-restore" aria-hidden="true"></i></span>View tests/tutorespfn/Input/tnlo_5.abi
+</button></div>
+<div id="uuid-bb2bb8af-534b-4853-9de0-5b636baa9036" class="my_dialog" title="tests/tutorespfn/Input/tnlo_5.abi" hidden><div><div class="codehilite small-text"><pre><span></span><span class="c1"># Finite difference calculation of d chi / d tau of AlP</span>
+
+ndtset <span class="m">12</span>
+udtset <span class="m">3</span> <span class="m">4</span> <span class="c1"># double loop over data sets: first index 1..3, second index 1..4</span>
+
+<span class="c1"># atomic positions: three different sets</span>
+<span class="c1"># tau = 0.0 equilibrium</span>
+xcart1?    <span class="m">2</span>.5240575146E+00  <span class="m">2</span>.5240575146E+00  <span class="m">2</span>.5240575146E+00
+           <span class="m">0</span>.0000000000E+00  <span class="m">0</span>.0000000000E+00  <span class="m">0</span>.0000000000E+00
+
+<span class="c1"># tau = 0.01: aluminum shifted along x by 0.01 Bohr</span>
+xcart2?    <span class="m">2</span>.5240575146E+00  <span class="m">2</span>.5240575146E+00  <span class="m">2</span>.5240575146E+00
+           <span class="m">0</span>.0100000000E+00  <span class="m">0</span>.0000000000E+00  <span class="m">0</span>.0000000000E+00
+
+<span class="c1"># tau = -0.01: aluminum shifted along x by -0.01 Bohr</span>
+xcart3?    <span class="m">2</span>.5240575146E+00  <span class="m">2</span>.5240575146E+00  <span class="m">2</span>.5240575146E+00
+          -0.0100000000E+00  <span class="m">0</span>.0000000000E+00  <span class="m">0</span>.0000000000E+00
+
+<span class="c1">#DATASET1 : scf calculation: GS WF in the BZ</span>
+<span class="c1">#********************************************</span>
+   prtden?1   <span class="m">1</span>
+   kptopt?1   <span class="m">1</span>
+   toldfe?1  <span class="m">1</span>.0d-12
+
+<span class="c1">#DATASET2 : non scf calculation: GS WF in the whole BZ</span>
+<span class="c1">#*****************************************************</span>
+   getden?2  -1
+   getwfk?2  -1
+   kptopt?2   <span class="m">2</span>
+     iscf?2  -2
+   tolwfr?2   <span class="m">1</span>.0d-22
+    nband?2   <span class="m">4</span>
+
+<span class="c1">#DATASET3 : ddk on the MP grid of k-points</span>
+<span class="c1">#*****************************************</span>
+   getwfk?3  -1
+    rfdir?3   <span class="m">1</span> <span class="m">1</span> <span class="m">1</span>
+    rfddk?3   <span class="m">1</span>
+   tolwfr?3   <span class="m">1</span>.0d-22
+    nband?3   <span class="m">4</span>
+   kptopt?3   <span class="m">2</span>
+
+
+<span class="c1">#DATASET4 : dielectric tensor calculation</span>
+<span class="c1">#****************************************</span>
+   getwfk?4  -2
+   getddk?4  -1
+    rfdir?4   <span class="m">1</span> <span class="m">1</span> <span class="m">1</span>
+   tolvrs?4   <span class="m">1</span>.0d-12
+   rfelfd?4   <span class="m">3</span>
+    nband?4   <span class="m">4</span>
+   kptopt?4   <span class="m">2</span>
+    prtwf?4   <span class="m">0</span>
+
+<span class="c1">#Definition of the unit cell</span>
+<span class="c1"># these cell parameters were derived from a relaxation run done with the</span>
+<span class="c1"># current ecut and kpt values. The current ecut value used is very low but</span>
+<span class="c1"># is done to speed the calculations.</span>
+<span class="c1"># acell      7.2728565836E+00  7.2728565836E+00  7.2728565836E+00 Bohr # ecut 5</span>
+<span class="c1"># acell      7.2511099467E+00  7.2511099467E+00  7.2511099467E+00 Bohr # ecut 30</span>
+acell      <span class="m">7</span>.1391127387E+00  <span class="m">7</span>.1391127387E+00  <span class="m">7</span>.1391127387E+00 Bohr <span class="c1"># ecut 2.8</span>
+rprim      <span class="m">0</span>.0000000000E+00  <span class="m">7</span>.0710678119E-01  <span class="m">7</span>.0710678119E-01
+           <span class="m">7</span>.0710678119E-01  <span class="m">0</span>.0000000000E+00  <span class="m">7</span>.0710678119E-01
+           <span class="m">7</span>.0710678119E-01  <span class="m">7</span>.0710678119E-01  <span class="m">0</span>.0000000000E+00
+
+<span class="c1">#Definition of the atom types and pseudopotentials</span>
+ ntypat <span class="m">2</span> <span class="c1"># two types of atoms </span>
+ znucl <span class="m">15</span> <span class="m">13</span> <span class="c1"># the atom types are Phosphorous and Aluminum</span>
+
+<span class="c1"># the following norm-conserving pseudopotentials are stored in the abinit distribution, but are freely</span>
+<span class="c1"># available through www.pseudo-dojo.org</span>
+<span class="c1"># this set uses the Perdew-Wang parameterization of LDA for the xc model</span>
+ pp_dirpath <span class="s2">&quot;</span><span class="nv">$ABI_PSPDIR</span><span class="s2">&quot;</span>
+ pseudos <span class="s2">&quot;Pseudodojo_nc_sr_04_pw_standard_psp8/P.psp8, Pseudodojo_nc_sr_04_pw_standard_psp8/Al.psp8&quot;</span>
+
+<span class="c1">#Definition of the atoms</span>
+ natom <span class="m">2</span> <span class="c1"># two atoms in the cell</span>
+ typat <span class="m">1</span> <span class="m">2</span> <span class="c1"># type 1 is Phosphorous, type 2 is Aluminum (order defined by znucl above and pseudos list)</span>
+ nband <span class="m">4</span> <span class="c1"># nband is restricted here to the number of filled bands only, no empty bands. </span>
+ nbdbuf <span class="m">0</span>
+
+<span class="c1">#Numerical parameters of the calculation : planewave basis set and k point grid</span>
+ecut  <span class="m">2</span>.8 <span class="c1"># this value is very low but is used here to achieve very low calculation times.</span>
+        <span class="c1"># in a production environment this should be checked carefully for convergence and</span>
+        <span class="c1"># a more reasonable value is probably around 30</span>
+ecutsm <span class="m">0</span>.5
+dilatmx <span class="m">1</span>.05
+ngkpt <span class="m">6</span> <span class="m">6</span> <span class="m">6</span> <span class="c1"># must be checked carefully for convergence, Raman calculations converge slowly with kpt</span>
+nshiftk <span class="m">4</span> <span class="c1"># this Monkhorst-Pack shift pattern is used so that the symmetry of the shifted grid</span>
+          <span class="c1"># is correct. A gamma-centered grid would also have the correct symmetry but would be</span>
+          <span class="c1"># less efficient.</span>
+shiftk <span class="m">0</span>.5 <span class="m">0</span>.5 <span class="m">0</span>.5
+       <span class="m">0</span>.5 <span class="m">0</span>.0 <span class="m">0</span>.0
+       <span class="m">0</span>.0 <span class="m">0</span>.5 <span class="m">0</span>.0
+       <span class="m">0</span>.0 <span class="m">0</span>.0 <span class="m">0</span>.5
+
+<span class="c1"># scf parameters</span>
+nstep <span class="m">8</span>  <span class="c1"># limit number of steps for the tutorial, in general this should be set to its </span>
+         <span class="c1"># default (30) or higher</span>
+
+<span class="c1">##############################################################</span>
+<span class="c1"># This section is used only for regression testing of ABINIT #</span>
+<span class="c1">##############################################################</span>
+<span class="c1">#%%&lt;BEGIN TEST_INFO&gt;</span>
+<span class="c1">#%% [setup]</span>
+<span class="c1">#%% executable = abinit</span>
+<span class="c1">#%% [files]</span>
+<span class="c1">#%% files_to_test = </span>
+<span class="c1">#%%   tnlo_5.abo, tolnlines= 180, tolabs=  2.0e-6, tolrel= 5e-4 </span>
+<span class="c1">#%% [paral_info]</span>
+<span class="c1">#%% max_nprocs = 2</span>
+<span class="c1">#%% [extra_info]</span>
+<span class="c1">#%% authors = J. Zwanziger, M. Veithen</span>
+<span class="c1">#%% keywords = NC, DFPT</span>
+<span class="c1">#%% description = Finite difference calculation of d chi / d tau of AlP</span>
+<span class="c1">#%%&lt;END TEST_INFO&gt;</span>
+</pre></div>
+</div></div>
+
+<script> $(function() { abidocs_jqueryui_dialog("#uuid-bb2bb8af-534b-4853-9de0-5b636baa9036", "#uuid-9cbb6fbe-d698-444e-9cfb-b763f0b63aec") }); </script>
+
+<p>This file
+uses again the unrealistically low cutoff energy <a class="wikilink codevar-wikilink" href="../../variables/basic#ecut">ecut</a> of 2.8 Ha.
+The calculation takes about 2 or 3 minutes on a standard desktop PC.
+To run this calculation, copy
+<em>$ABI_TESTS/tutorespfn/Input/tnlo_5.abi</em> to your working directory and run
+with <code>abinit</code>. If you have time,
+modify the cutoff to <a class="wikilink codevar-wikilink" href="../../variables/basic#ecut">ecut</a> = 5 Ha, in order to obtain
+more realistic results.  This run will take about twice as along as the
+2.8 Ha version.</p>
+<p>The input file <em>tnlo_5.abi</em> contains 12 datasets, arranged in a double loop.
+<div class="highlight"><pre><span></span><code>ndtset 12
+udtset 3 4
+</code></pre></div>
+Input variable <a class="wikilink codevar-wikilink" href="../../variables/basic#ndtset">ndtset</a> indicates 12 total sets, as usual, while
+the <a class="wikilink codevar-wikilink" href="../../variables/basic#udtset">udtset</a> variable indicates an outer loop of 3 sets, and for each
+of these, an inner loop of four sets.</p>
+<p>The outer loop is over three sets of atomic positions, set by <a class="wikilink codevar-wikilink" href="../../variables/basic#xcart">xcart</a>.
+The first is the equilibrium, and the second two have aluminum shifted by
++0.01 and -0.01 Bohr along x:
+<div class="highlight"><pre><span></span><code># tau = 0.0 equilibrium
+xcart1?    2.5240575146E+00  2.5240575146E+00  2.5240575146E+00
+           0.0000000000E+00  0.0000000000E+00  0.0000000000E+00
+
+# tau = 0.01: aluminum shifted along x by 0.01 Bohr
+xcart2?    2.5240575146E+00  2.5240575146E+00  2.5240575146E+00
+           0.0100000000E+00  0.0000000000E+00  0.0000000000E+00
+
+# tau = -0.01: aluminum shifted along x by -0.01 Bohr
+xcart3?    2.5240575146E+00  2.5240575146E+00  2.5240575146E+00
+          -0.0100000000E+00  0.0000000000E+00  0.0000000000E+00
+</code></pre></div>
+Then for each of three sets of positions, a standard four-set DFPT
+calculation of the electric field response at clamped ion positions
+is executed: (1) ground state wavefunctions in the irreducible Brillouin
+zone; (2) ground state wavefunctions in the full Brillouin zone; (3)
+response to change in k vectors; and (4) response to the electric field,
+yielding the dielectric tensor.</p>
+<p>After running the calculation, the following is available in the output
+file <em>tnlo_5.abo</em>. Quoted here are the results at <a class="wikilink codevar-wikilink" href="../../variables/basic#ecut">ecut</a> of 2.8.</p>
+<p>For tau = 0:
+<div class="highlight"><pre><span></span><code>Dielectric tensor, in cartesian coordinates,
+   j1       j2             matrix element
+dir pert dir pert     real part    imaginary part
+
+ 1    4   1    4         6.1221671827        -0.0000000000
+ 1    4   2    4        -0.0000000000        -0.0000000000
+ 1    4   3    4        -0.0000000000        -0.0000000000
+
+ 2    4   1    4        -0.0000000000        -0.0000000000
+ 2    4   2    4         6.1221671827        -0.0000000000
+ 2    4   3    4        -0.0000000000        -0.0000000000
+
+ 3    4   1    4        -0.0000000000        -0.0000000000
+ 3    4   2    4        -0.0000000000        -0.0000000000
+ 3    4   3    4         6.1221671827        -0.0000000000
+</code></pre></div>
+For tau = +0.01 :
+<div class="highlight"><pre><span></span><code>Dielectric tensor, in cartesian coordinates,
+   j1       j2             matrix element
+dir pert dir pert     real part    imaginary part
+
+ 1    4   1    4         6.1223310904        -0.0000000000
+ 1    4   2    4        -0.0000000000        -0.0000000000
+ 1    4   3    4        -0.0000000000        -0.0000000000
+
+ 2    4   1    4        -0.0000000000        -0.0000000000
+ 2    4   2    4         6.1222249248        -0.0000000000
+ 2    4   3    4        -0.0055063835        -0.0000000000
+
+ 3    4   1    4        -0.0000000000        -0.0000000000
+ 3    4   2    4        -0.0055063835        -0.0000000000
+ 3    4   3    4         6.1222249248        -0.0000000000
+</code></pre></div>
+For tau = -0.01 :
+<div class="highlight"><pre><span></span><code>Dielectric tensor, in cartesian coordinates,
+   j1       j2             matrix element
+dir pert dir pert     real part    imaginary part
+
+ 1    4   1    4         6.1223310830        -0.0000000000
+ 1    4   2    4        -0.0000000000        -0.0000000000
+ 1    4   3    4        -0.0000000000        -0.0000000000
+
+ 2    4   1    4        -0.0000000000        -0.0000000000
+ 2    4   2    4         6.1222249159        -0.0000000000
+ 2    4   3    4         0.0055063810        -0.0000000000
+
+ 3    4   1    4        -0.0000000000        -0.0000000000
+ 3    4   2    4         0.0055063810        -0.0000000000
+ 3    4   3    4         6.1222249159        -0.0000000000
+</code></pre></div>
+You can extract the value of dchi_23/dtau_1 for Al from the dielectric tensor
+(hereafter called eps) above using the following finite-difference formula [unit of bohr^-1] :
+<div class="highlight"><pre><span></span><code>dchi_23/dtau_1= (1/4 pi) (eps_23[tau=+0.01] - eps_23[tau=-0.01])/2*tau
+              = (1/4 pi) (-0.0055063835 - 0.0055063810)/(0.02)
+              = -0.0438184
+</code></pre></div>
+This value is close to that obtained at <a class="wikilink codevar-wikilink" href="../../variables/basic#ecut">ecut</a>=2.8 from DFPT (-0.043617186).
+When convergence is reached (beware, the k point convergence is extremely
+slow, much slower than for other properties), both approaches yield the same result.
+You might therefore ask which approach is the most convenient
+and should be used in practice.</p>
+<p>As a guide, we note that the finite-difference approach give results
+very similar to the DFPT ones for a similar cutoff and k-point grid. It is
+however more tedious because individual atomic displacement must be
+successively considered (which becomes cumbersome for complex crystals)
+and the results must then
+be converted into appropriate units with risk of error of manipulations.</p>
+<p>The DFPT approach is the most convenient and avoids considerable operator intervention.
+Everything is reported together (not only <span><span class="MathJax_Preview">d\chi / d\tau</span><script type="math/tex">d\chi / d\tau</script></span> but also the full Raman
+polarizability tensors) and in appropriate units. It should therefore be
+considered as the better choice.</p>
+<h2 id="calculation-of-the-raman-spectra">Calculation of the Raman Spectra<a class="headerlink" href="#calculation-of-the-raman-spectra" title="Permanent link">&para;</a></h2>
+<p>The ouptut of an ANADDB analysis, for example <em>tnlo_4.abo</em> as performed here, can be
+used to plot a simulated Raman spectrum, including both peak positions and intensities,
+which can be compared to experiment. Many details of the process are outlined in <a class="wikilink citation-wikilink" data-content="Theoretical determination of the Raman spectra of MgSiO$_3$ perovskite and post-perovskite at high pressure" data-placement="auto right" data-toggle="popover" data-trigger="hover focus" href="../../theory/bibliography#caracas2006">[Caracas2006]</a>.</p>
+<p>A post-processing script, written in Python, is available in the ABINIT system:
+see <em>$ABI_HOME/scripts/post_processing/Raman_spec.py</em>. This program reads an input file
+that sets the ANADDB file to read, the output file base name, and various processing
+parameters. To continue, we suggest copying this script into your working directory, or making
+a link to it.</p>
+<p>Running <em>python Raman_spec.py &ndash;help</em> gives an outline of the input file format,
+but don&rsquo;t be afraid to open and read the Raman_spec.py file itself for further details on the
+file input.
+As a start, here is a minimal input file to Raman_spec.py for the tnlo_4.abo run:
+<div class="highlight"><pre><span></span><code># filename from anaddb run that created raman tensors
+filename tnlo_4.abo
+
+# base name for Raman_spec.py output files
+outname AlP.out
+
+# temperature in Kelvin for spectrum
+temp 298.0
+
+# number frequencies (default is 1000, units of cm^-1)
+n_freq 400
+
+# min and max frequencies (default is 0.95 and 1.05 of
+# bands found
+min_freq 200.0
+max_freq 800.0
+
+# Lorentzian broadening to apply
+spread 1.0
+
+# calculation type: 1 is powder
+calctype 1
+</code></pre></div>
+You can copy this into an editor and save as for example <em>AlP.input</em>. Then execute
+<div class="highlight"><pre><span></span><code>python Raman_spec.py AlP.input
+</code></pre></div>
+Once complete, examine the various output files produced, which will all be named starting with AlP.out. They are all human readable
+ASCII files and well-documented. For example, to visualize the powder spectrum of the TO mode
+predicted by your ANADDB run, plot the first two
+columns of AlP.out_spec, which give the frequencies and intensities of the powder-averaged Raman spectrum.</p>
+<p>The resulting powder-average spectra, plotted here with Gnuplot, is shown below. For the cubic structure calculated here,
+the resulting spectra contains a single Raman TO mode corresponding to an XY polarization.</p>
+<p><img alt="" src="../nlo_assets/AlP-Raman-ecut-2.8.png" /></p>
+<p>Finally, if one includes a calculation of the frequency dependent dielectric tensor during the ANADDB calculation
+(see <a class="wikilink codevar-wikilink" href="../../variables/anaddb#dieflag">dieflag</a>),
+this program extracts that dielectric tensor and prints it to its own file.</p>
+                
+                  
+                
+              
+
+<!-- 
+add dropdown button with toolbar (based on https://bootsnipp.com/snippets/featured/inbox-by-gmail)
+and return to Top button (based on https://codepen.io/rdallaire/pen/apoyx)
+-->
+<div class="md-container">
+  <div class="row">
+    <div id="inbox">
+      <div class="fab btn-group show-on-hover dropup">
+        <div data-toggle="tooltip" data-placement="left" title="Menu" style="margin-left: 42px;">
+          <button id="return-to-top" type="button" class="btn btn-primary btn-io dropdown-toggle" data-toggle="dropdown">
+            <span class="fa-stack fa-2x">
+                <i class="fa fa-circle fa-stack-2x fab-backdrop"></i>
+                <i class="fa fa-chevron-up fa-stack-1x fa-inverse fab-primary"></i>
+                <i class="fa fa-map-signs fa-stack-1x fa-inverse fab-secondary"></i>
+            </span>
+          </button>
+        </div>
+        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+        
+        
+          <li><a href="../../about/release-notes/" data-toggle="tooltip" data-placement="left" 
+                  title="About"><i class="fa fa-info-circle"></i></a></li>
+        
+          <li><a href="../../developers/git_and_gitlab/" data-toggle="tooltip" data-placement="left" 
+                  title="Developers"><i class="fa fa-terminal"></i></a></li>
+        
+          <li><a href="../../theory/geometry/" data-toggle="tooltip" data-placement="left" 
+                  title="Theory"><i class="fa fa-book"></i></a></li>
+        
+          <li><a href="../" data-toggle="tooltip" data-placement="left" 
+                  title="Tutorial"><i class="fa fa-graduation-cap"></i></a></li>
+        
+          <li><a href="../../variables/" data-toggle="tooltip" data-placement="left" 
+                  title="Variables"><i class="fa fa-file-text-o"></i></a></li>
+        
+          <li><a href="../../topics/features/" data-toggle="tooltip" data-placement="left" 
+                  title="Topics"><i class="fa fa-question"></i></a></li>
+        
+          <li><a href="../.." data-toggle="tooltip" data-placement="left" 
+                  title="User Guide"><i class="fa fa-user-circle-o"></i></a></li>
+        
+        <!--
+        Example: 
+        <li><a href="/index.html" data-toggle="tooltip" data-placement="left" title="User-Guide">
+              <i class="fa fa-user-circle-o"></i></a></li>
+        -->
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+              
+                
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+    <!-- Add tabs to footer -->
+    
+        
+
+  
+
+<nav class="md-tabs md-tabs--active" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../.." title="User Guide" class="md-tabs__link">
+          User Guide
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../topics/features/" title="Topics" class="md-tabs__link">
+          Topics
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../variables/" title="Variables" class="md-tabs__link">
+          Variables
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../" title="Tutorial" class="md-tabs__link md-tabs__link--active">
+          Tutorial
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../theory/geometry/" title="Theory" class="md-tabs__link">
+          Theory
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../developers/git_and_gitlab/" title="Developers" class="md-tabs__link">
+          Developers
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../about/release-notes/" title="About" class="md-tabs__link">
+          About
+        </a>
+      
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+    
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../ffield/" title="Ffield" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Ffield
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../dmft/" title="DMFT" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                DMFT
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+            <center>Abinit version 9.4.0</center>
+        
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2020-2021 The Abinit Group (JWZ, PhG,  MVeithen,  XG, NAP)
+          </div>
+        
+        powered by
+        <a href="http://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+  <div class="md-footer-social">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+      <a href="https://github.com/abinit/abinit" class="md-footer-social__link fa fa-github-alt"></a>
+    
+      <a href="https://twitter.com/hashtag/abinit" class="md-footer-social__link fa fa-twitter"></a>
+    
+      <a href="http://www.facebook.com/abinit.org" class="md-footer-social__link fa fa-facebook"></a>
+    
+      <a href="https://www.youtube.com/watch?v=gcbfb_Mteo4" class="md-footer-social__link fa fa-youtube"></a>
+    
+  </div>
+
+      
+    </div>
+  </div>
+</footer>
+      
+
+    </div>
+    
+      <script src="../../assets/javascripts/application.02434462.js"></script>
+      
+      <script>app.initialize({version:"0.17.5",url:{base:"../.."}})</script>
+      
+        <script src="../../extra_javascript/jquery.dialogextend.min.js"></script>
+      
+        <script src="../../extra_javascript/abidocs.js"></script>
+      
+    
+    
+      
+        <script>!function(e,a,t,n,o,c,i){e.GoogleAnalyticsObject=o,e.ga=e.ga||function(){(e.ga.q=e.ga.q||[]).push(arguments)},e.ga.l=1*new Date,c=a.createElement(t),i=a.getElementsByTagName(t)[0],c.async=1,c.src="https://www.google-analytics.com/analytics.js",i.parentNode.insertBefore(c,i)}(window,document,"script",0,"ga"),ga("create","UA-116681470-1","docs.abinit.org"),ga("set","anonymizeIp",!0),ga("send","pageview");var links=document.getElementsByTagName("a");if(Array.prototype.map.call(links,function(e){e.host!=document.location.host&&e.addEventListener("click",function(){var a=e.getAttribute("data-md-action")||"follow";ga("send","event","outbound",a,e.href)})}),document.forms.search){var query=document.forms.search.query;query.addEventListener("blur",function(){if(this.value){var e=document.location.pathname;ga("send","pageview",e+"?q="+this.value)}})}</script>
+      
+    
+  </body>
+</html>
